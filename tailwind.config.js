@@ -2,9 +2,10 @@
 module.exports = {
   content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
   theme: {
-    extend: {},
-    colors: {
-      'cliptab-blue': '#2A72E7',
+    extend: {
+      colors: {
+        'cliptab-blue': '#2A72E7',
+      },
     },
   },
   plugins: [],
