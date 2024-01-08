@@ -1,7 +1,7 @@
 import React from 'react';
 
 function alarmpage() {
-  return <div>alarmpageㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㄱㄱㄱㄱㄱㄱ</div>;
+  return <div>alarmpage</div>;
 }
 
 export default alarmpage;
