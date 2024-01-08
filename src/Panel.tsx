@@ -32,6 +32,7 @@ export default function Panel({
   }
 
   const pages = [
+    { component: StartPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
     { component: AlarmPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
     { component: SettingPage, image: 'https://i.ibb.co/H7LLFLr/Icon-2.png' },
   ];
@@ -45,7 +46,7 @@ export default function Panel({
       className="absolute top-0 right-0 bottom-0 z-max bg-[#ffffff] ease-in-out duration-300 overflow-hidden"
     >
       {/* 오른쪽에 고정된 메뉴바 섹션 */}
-      <div className="absolute top-0 right-0 bottom-0 w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 z-20 bg-gray-300">
+      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1">
         {pages.map(({ component, image }, index) => (
           <Button
             key={index}
@@ -56,7 +57,7 @@ export default function Panel({
             }}
             className="py-2"
           >
-            <img src={image} alt={`Button ${index + 1}`} className="w-10 h-10 object-cover" />
+            <img src={image} alt={`Button ${index + 1}`} className="w-5 h-5 object-cover" />
           </Button>
         ))}
       </div>
@@ -67,7 +68,6 @@ export default function Panel({
           <div style={{ width: '100%', height: '100%' }}>{React.createElement(pages[tabIndex].component)}</div>
         )}
       </div>
-
       <div className="absolute bottom-0 right-0 w-[50px] z-10 flex justify-center items-center p-1">
         <Button active={enabled} onClick={() => openPanel()}>
           <span>
