@@ -2,7 +2,9 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { APP_COLLAPSE_WIDTH, APP_EXTEND_WIDTH, URLS } from './const';
 import classNames from 'classnames';
 import Button from './components/Button';
-import BookmarkPage from './pages/BookmarkPage';
+import StartPage from './pages/start';
+import SettingPage from './pages/setting/settingpage';
+import AlarmPage from './pages/alarm/alarmpage';
 
 export default function Panel({
   onWidthChange,
@@ -29,7 +31,10 @@ export default function Panel({
     handleOnToggle(newValue);
   }
 
-  const pages = [BookmarkPage];
+  const pages = [
+    { component: AlarmPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
+    { component: SettingPage, image: 'https://i.ibb.co/H7LLFLr/Icon-2.png' },
+  ];
 
   return (
     <div
@@ -39,25 +44,31 @@ export default function Panel({
       }}
       className="absolute top-0 right-0 bottom-0 z-max bg-[#ffffff] ease-in-out duration-300 overflow-hidden"
     >
-      {enabled ? (
-        <div className="absolute w-full h-full">{React.createElement(pages[tabIndex])}</div>
-      ) : (
-        <div className="absolute h-full flex border-none flex-col ease-linear w-[50px] space-y-3 p-1">
-          {pages.map((Component, index) => (
-            <Button
-              active={index === tabIndex}
-              onClick={() => {
-                setTabIndex(index);
-                openPanel(true);
-              }}
-              className="py-2"
-            >
-              bt1
-            </Button>
-          ))}
-        </div>
-      )}
-      <div className="absolute bottom-0 left-0 w-[50px] z-10 flex justify-center items-center p-1">
+      {/* 오른쪽에 고정된 메뉴바 섹션 */}
+      <div className="absolute top-0 right-0 bottom-0 w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 z-20 bg-gray-300">
+        {pages.map(({ component, image }, index) => (
+          <Button
+            key={index}
+            active={index === tabIndex}
+            onClick={() => {
+              setTabIndex(index);
+              openPanel(true);
+            }}
+            className="py-2"
+          >
+            <img src={image} alt={`Button ${index + 1}`} className="w-10 h-10 object-cover" />
+          </Button>
+        ))}
+      </div>
+
+      {/* 콘텐츠 섹션: enabled 상태에 따라 표시 */}
+      <div style={{ display: 'flex', flexGrow: 1, paddingRight: '50px' }}>
+        {enabled && (
+          <div style={{ width: '100%', height: '100%' }}>{React.createElement(pages[tabIndex].component)}</div>
+        )}
+      </div>
+
+      <div className="absolute bottom-0 right-0 w-[50px] z-10 flex justify-center items-center p-1">
         <Button active={enabled} onClick={() => openPanel()}>
           <span>
             <svg
