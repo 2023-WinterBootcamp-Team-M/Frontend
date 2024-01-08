@@ -34,7 +34,7 @@ export default function Panel({
 
   const pages = [
     { component: StartPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
-    { component: ClipBoardPage, image: 'https://i.ibb.co/bPj17JY/Icon-1.png' },
+    { component: ClipBoardPage, image: 'https://i.ibb.co/8zswCqT/Icon.png' },
     { component: AlarmPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
     { component: SettingPage, image: 'https://i.ibb.co/H7LLFLr/Icon-2.png' },
   ];
