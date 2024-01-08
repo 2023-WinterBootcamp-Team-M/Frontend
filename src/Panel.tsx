@@ -26,12 +26,12 @@ export default function Panel({ onWidthChange, initialEnabled }: { onWidthChange
   const pages = [StartPage];
 
   return (
-    <div
+    <div          //사이드바 최상위 div
       style={{
         width: sidePanelWidth - 5,
         boxShadow: '0px 0px 5px #0000009e',
       }}
-      className="absolute top-0 right-0 bottom-0 z-max bg-[#F5F8FA] ease-in-out duration-300 overflow-hidden"
+      className="absolute top-0 right-0 bottom-0 z-max bg-[#ffffff] ease-in-out duration-300 overflow-hidden"
     >
     {enabled ? (
         <div className="absolute w-full h-full">
