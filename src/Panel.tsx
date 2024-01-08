@@ -2,10 +2,19 @@ import React, { ReactElement, useEffect, useState } from 'react';
 import { APP_COLLAPSE_WIDTH, APP_EXTEND_WIDTH, URLS } from './const';
 import classNames from 'classnames';
 import Button from './components/Button';
+import StartPage from './pages/start';
+import SettingPage from './pages/setting/settingpage';
+import AlarmPage from './pages/alarm/alarmpage';
 
-export default function Panel({ onWidthChange, initialEnabled }: { onWidthChange: (value: number) => void, initialEnabled: boolean }): ReactElement {
+export default function Panel({
+  onWidthChange,
+  initialEnabled,
+}: {
+  onWidthChange: (value: number) => void;
+  initialEnabled: boolean;
+}): ReactElement {
   const [enabled, setEnabled] = useState(initialEnabled);
-  const [sidePanelWidth, setSidePanelWidth] = useState(enabled ? APP_EXTEND_WIDTH: APP_COLLAPSE_WIDTH);
+  const [sidePanelWidth, setSidePanelWidth] = useState(enabled ? APP_EXTEND_WIDTH : APP_COLLAPSE_WIDTH);
   const [tabIndex, setTabIndex] = useState(0);
 
   function handleOnToggle(enabled: boolean) {
@@ -13,7 +22,7 @@ export default function Panel({ onWidthChange, initialEnabled }: { onWidthChange
     setSidePanelWidth(value);
     onWidthChange(value);
 
-    window['chrome'].storage?.local.set({enabled});
+    window['chrome'].storage?.local.set({ enabled });
   }
 
   function openPanel(force?: boolean) {
@@ -22,41 +31,44 @@ export default function Panel({ onWidthChange, initialEnabled }: { onWidthChange
     handleOnToggle(newValue);
   }
 
+  const pages = [
+    { component: AlarmPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
+    { component: SettingPage, image: 'https://i.ibb.co/H7LLFLr/Icon-2.png' },
+  ];
+
   return (
     <div
       style={{
         width: sidePanelWidth - 5,
         boxShadow: '0px 0px 5px #0000009e',
       }}
-      className="absolute top-0 right-0 bottom-0 z-max bg-[#F5F8FA] ease-in-out duration-300 overflow-hidden"
+      className="absolute top-0 right-0 bottom-0 z-max bg-[#ffffff] ease-in-out duration-300 overflow-hidden"
     >
-      <iframe
-        className={classNames('absolute w-full h-full border-none ease-linear overflow-hidden', {
-          'opacity-0': !enabled,
-          '-z-10': !enabled,
-        })}
-        title={URLS[tabIndex].name}
-        src={URLS[tabIndex].url}
-      />
-      <div
-        className={classNames('absolute h-full flex border-none flex-col ease-linear w-[50px] space-y-3 p-1', {
-          'opacity-0': enabled,
-          '-z-10': enabled,
-        })}
-      >
-        {URLS.map(({ name, image }, _index) => {
-          function onMenuClick(index: number) {
-            setTabIndex(index);
-            openPanel(true);
-          }
-          return (
-            <Button active={_index === tabIndex} onClick={() => onMenuClick(_index)} className="py-2">
-              <img src={image} className="w-full" />
-            </Button>
-          );
-        })}
+      {/* 오른쪽에 고정된 메뉴바 섹션 */}
+      <div className="absolute top-0 right-0 bottom-0 w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 z-20">
+        {pages.map(({ component, image }, index) => (
+          <Button
+            key={index}
+            active={index === tabIndex}
+            onClick={() => {
+              setTabIndex(index);
+              openPanel(true);
+            }}
+            className="py-2"
+          >
+            <img src={image} alt={`Button ${index + 1}`} className="w-12 h-12 object-cover" />
+          </Button>
+        ))}
       </div>
-      <div className="absolute bottom-0 left-0 w-[50px] z-10 flex justify-center items-center p-1">
+
+      {/* 콘텐츠 섹션: enabled 상태에 따라 표시 */}
+      <div style={{ display: 'flex', flexGrow: 1, paddingRight: '50px' }}>
+        {enabled && (
+          <div style={{ width: '100%', height: '100%' }}>{React.createElement(pages[tabIndex].component)}</div>
+        )}
+      </div>
+
+      <div className="absolute bottom-0 right-0 w-[50px] z-10 flex justify-center items-center p-1">
         <Button active={enabled} onClick={() => openPanel()}>
           <span>
             <svg
