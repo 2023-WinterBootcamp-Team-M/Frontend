@@ -77,15 +77,24 @@ export default function SettingPage() {
   };
 
   return (
-    <div className={`flex flex-col items-center h-screen ${isDarkTheme ? 'dark' : ''}`}>
+    <div className={`flex flex-col items-center h-screen px-5 ${isDarkTheme ? 'dark' : ''}`}>
       <img src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt="logo_icon" className="mt-10 mb-10 w-28 h-auto" />
+      <div className='w-full bg-white rounded-[15px] shadow flex flex-row itmes-center mb-4 py-4 px-2'>
+        <img 
+        className='size-11 rounded-full mx-4 my-1'
+        src='https://i.ibb.co/RpBHbh3/8-2.png'/>
+        <div className='flex flex-col'>
+        <p className='w-full font-semibold my-1'>임동민</p>
+        <p className='w-full text-gray-500 text-sm'>dongmin11566@gmail.com</p>
+        </div>
+      </div>
       <div
-        className={`flex flex-col justify-start items-center w-[90%] h-[28rem] ${
+        className={`flex flex-col justify-start items-center w-full h-[28rem] ${
           isDarkTheme ? 'bg-gray-800' : 'bg-white'
         } rounded-[20px] shadow-xl border-2 border-blue-600 mb-4`}
       >
         <div className="text-center mt-8 mb-8">
-          <div className="text-gray-500 text-xl font-semibold mb-16">환경 설정</div>
+          <div className="text-gray-500 text-2xl font-semibold mb-16">환경 설정</div>
           <SettingItem iconSrc={icons.summary} onClick={() => handleItemClick('summary')}>
             요약 설정
           </SettingItem>
