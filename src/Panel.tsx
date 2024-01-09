@@ -5,6 +5,7 @@ import Button from './components/Button';
 import StartPage from './pages/start';
 import SettingPage from './pages/setting/settingpage';
 import AlarmPage from './pages/alarm/alarmpage';
+import BookmarkPage from './pages/bookmark/BookmarkPage';
 import ClipBoardPage from './pages/clipboard/clipboardpage';
 
 export default function Panel({
@@ -33,6 +34,7 @@ export default function Panel({
   }
 
   const pages = [
+    { component: BookmarkPage, image: 'https://i.ibb.co/8gdLCZt/Vector.png' },
     { component: StartPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
     { component: ClipBoardPage, image: 'https://i.ibb.co/8zswCqT/Icon.png' },
     { component: AlarmPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
