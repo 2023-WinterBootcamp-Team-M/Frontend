@@ -48,7 +48,7 @@ export default function Panel({
       className="absolute top-0 right-0 bottom-0 z-max bg-[#ffffff] ease-in-out duration-300 overflow-hidden"
     >
       {/* 오른쪽에 고정된 메뉴바 섹션 */}
-      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1">
+      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 bg-gray-300">
         {pages.map(({ component, image }, index) => (
           <Button
             key={index}

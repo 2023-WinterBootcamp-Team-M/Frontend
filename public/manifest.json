@@ -17,6 +17,6 @@
       "js": ["dist/index.6099912e.js"]
     }
   ],
-  "permissions": ["storage", "scripting", "tabs", "activeTab"],
+  "permissions": ["bookmarks", "storage", "scripting", "tabs", "activeTab"],
   "icons": {}
 }
