@@ -50,7 +50,7 @@ export default function Panel({
       className="absolute top-0 right-0 bottom-0 z-max bg-[#ffffff] ease-in-out duration-300 overflow-hidden"
     >
       {/* 오른쪽에 고정된 메뉴바 섹션 */}
-      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 bg-gray-300">
+      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 bg-gray-200">
         {pages.map(({ component, image }, index) => (
           <Button
             key={index}
@@ -59,7 +59,7 @@ export default function Panel({
               setTabIndex(index);
               openPanel(true);
             }}
-            className="py-2"
+            className="py-2 flex justify-center items-center"
           >
             <img src={image} alt={`Button ${index + 1}`} className="w-5 h-5 object-cover" />
           </Button>

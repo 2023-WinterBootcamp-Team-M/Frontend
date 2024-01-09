@@ -14,7 +14,7 @@ export default function Button({ children, active, onClick, label, className }: 
     <button
       className={classNames(
         'px-2 rounded py-1 ease-linear hover:bg-gray-600 hover:text-white',
-        { 'bg-gray-600 text-white': active, 'text-gray-800': !active },
+        { 'bg-white shadow-inner text-white': active, 'text-gray-800': !active },
         className
       )}
       onClick={onClick}
