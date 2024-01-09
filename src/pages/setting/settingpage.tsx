@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-// SettingItem 컴포넌트 prop 타입 정의
 type SettingItemProps = {
   children: React.ReactNode;
   onClick?: () => void;
@@ -16,18 +15,45 @@ function SettingItem({ children, onClick, iconSrc }: SettingItemProps) {
   );
 }
 
+function Dropdown({ onSelect, options }) {
+  return (
+    <div className="flex flex-col bg-gray-100 shadow-md rounded-md mt-2">
+      {options.map((option, index) => (
+        <div key={index} onClick={() => onSelect(option)} className="px-4 py-2 hover:bg-blue-200 cursor-pointer">
+          {option}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Divider() {
-  return <hr className="w-[80%] mb-4 mt-4 border-gray-300" />;
+  return <hr className="w-[180%] -ml-16 mb-4 mt-4 border-gray-300" />;
 }
 
 export default function SettingPage() {
+  const [currentDropdown, setCurrentDropdown] = React.useState(null);
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+
+  const handleItemClick = (itemName) => {
+    setCurrentDropdown(currentDropdown === itemName ? null : itemName);
+  };
+
+  const handleDropdownSelect = (option) => {
+    console.log(`${option} 선택됨`);
+    setCurrentDropdown(null);
+  };
+
+  const dropdownOptions = {
+    summary: ['3줄 요약', '6줄 요약'],
+    changeStartPage: ['북마크 페이지', '클립보드 페이지'],
+    bookmarkNotif: ['20일', '30일', '50일'],
+  };
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
   };
 
-  // 각 설정 항목 및 테마에 대한 아이콘 URL
   const icons = {
     summary: 'https://i.ibb.co/s1tpM8f/free-icon-open-book-167755.png',
     changeStartPage: 'https://i.ibb.co/R6kYBpq/free-icon-page-layout-4548040.png',
@@ -42,15 +68,30 @@ export default function SettingPage() {
       <div className="flex flex-col justify-start items-center w-[90%] h-[28rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-600 mb-4">
         <div className="text-center mt-8 mb-8">
           <div className="text-gray-500 text-xl font-semibold mb-16">환경 설정</div>
-          <SettingItem iconSrc={icons.summary}>요약 설정</SettingItem>
+          <SettingItem iconSrc={icons.summary} onClick={() => handleItemClick('summary')}>
+            요약 설정
+          </SettingItem>
+          {currentDropdown === 'summary' && (
+            <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.summary} />
+          )}
           <Divider />
-          <SettingItem iconSrc={icons.changeStartPage}>시작 페이지 변경</SettingItem>
+          <SettingItem iconSrc={icons.changeStartPage} onClick={() => handleItemClick('changeStartPage')}>
+            시작 페이지 변경
+          </SettingItem>
+          {currentDropdown === 'changeStartPage' && (
+            <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.changeStartPage} />
+          )}
           <Divider />
           <SettingItem onClick={toggleTheme} iconSrc={isDarkTheme ? icons.lightTheme : icons.darkTheme}>
             {isDarkTheme ? '밝은 테마' : '어두운 테마'}
           </SettingItem>
           <Divider />
-          <SettingItem iconSrc={icons.bookmarkNotif}>북마크 알림 주기</SettingItem>
+          <SettingItem iconSrc={icons.bookmarkNotif} onClick={() => handleItemClick('bookmarkNotif')}>
+            북마크 알림 주기
+          </SettingItem>
+          {currentDropdown === 'bookmarkNotif' && (
+            <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.bookmarkNotif} />
+          )}
         </div>
       </div>
     </div>
