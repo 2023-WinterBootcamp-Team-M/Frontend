@@ -9,10 +9,15 @@
     "start": "parcel --dist-dir ./public/dist",
     "prebuild": "yarn style && (rm -rf ./public/dist || true) && (rimraf ./public/dist || true)",
     "build": "yarn style && (rm -rf ./public/dist || true) && (rimraf ./public/dist || true) && parcel build --dist-dir ./public/dist --no-content-hash",
-    "style": "npx tailwindcss -i ./src/input.css -o ./src/tailwindcss-output.css",
+    "style": "npx tailwindcss -i ./src/input.css",
     "style:watch": "yarn style -- --watch"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.8",
+    "@mui/icons-material": "^5.15.3",
+    "@mui/material": "^5.15.3",
     "classnames": "^2.3.1",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
