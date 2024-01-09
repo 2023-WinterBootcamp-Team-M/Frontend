@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ThemeToggle from './darktheme';
 
 type SettingItemProps = {
   children: React.ReactNode;
@@ -52,6 +53,19 @@ export default function SettingPage() {
 
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
+
+    const htmlEl = document.querySelector('html');
+    if (!htmlEl) return;
+
+    const enabledDarkMode = htmlEl.classList.contains('dark');
+    if (isDarkTheme) {
+      // 다크모드인 경우(html 태그의 className에 dark가 있을때)
+      // -> className에서 dark를 제거
+      htmlEl.classList.remove('dark');
+    } else {
+      // 다크모드가 아닌 경우, className에서 dark를 추가
+      htmlEl.classList.add('dark');
+    }
   };
 
   const icons = {
@@ -63,9 +77,13 @@ export default function SettingPage() {
   };
 
   return (
-    <div className="flex flex-col items-center h-screen">
+    <div className={`flex flex-col items-center h-screen ${isDarkTheme ? 'dark' : ''}`}>
       <img src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt="logo_icon" className="mt-10 mb-10 w-28 h-auto" />
-      <div className="flex flex-col justify-start items-center w-[90%] h-[28rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-600 mb-4">
+      <div
+        className={`flex flex-col justify-start items-center w-[90%] h-[28rem] ${
+          isDarkTheme ? 'bg-gray-800' : 'bg-white'
+        } rounded-[20px] shadow-xl border-2 border-blue-600 mb-4`}
+      >
         <div className="text-center mt-8 mb-8">
           <div className="text-gray-500 text-xl font-semibold mb-16">환경 설정</div>
           <SettingItem iconSrc={icons.summary} onClick={() => handleItemClick('summary')}>
@@ -82,9 +100,7 @@ export default function SettingPage() {
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.changeStartPage} />
           )}
           <Divider />
-          <SettingItem onClick={toggleTheme} iconSrc={isDarkTheme ? icons.lightTheme : icons.darkTheme}>
-            {isDarkTheme ? '밝은 테마' : '어두운 테마'}
-          </SettingItem>
+          <ThemeToggle />
           <Divider />
           <SettingItem iconSrc={icons.bookmarkNotif} onClick={() => handleItemClick('bookmarkNotif')}>
             북마크 알림 주기
