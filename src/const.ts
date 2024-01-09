@@ -2,27 +2,27 @@ export const URLS = [
   {
     name: 'Vince Amaziong',
     url: '//vince-amazing.com',
-    image: '//vince-amazing.com/assets/avatar.png'
+    image: 'https://i.ibb.co/8gdLCZt/Vector.png',
   },
   {
-    name: 'Wikipedia',
-    url: '//wikipedia.com/',
-    image: '//upload.wikimedia.org/wikipedia/commons/thumb/7/75/Wikipedia_mobile_app_logo.png/64px-Wikipedia_mobile_app_logo.png'
+    name: 'Icon',
+    url: '//icon.org/',
+    image: 'https://i.ibb.co/rxGGmcq/Icon.png',
   },
   {
-    name: 'Gitlab',
-    url: '//gitlab.com',
-    image: '//about.gitlab.com/images/press/press-kit-icon.svg'
+    name: 'Notification',
+    url: '//notification.org',
+    image: 'https://i.ibb.co/qD5MBCw/notifications.png',
   },
   {
-    name: 'React',
-    url: '//reactjs.org/',
-    image: '//upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg'
+    name: 'Uer',
+    url: '//user.org/',
+    image: 'https://i.ibb.co/v4B6Q1W/user.png',
   },
   {
-    name: 'Parcel',
-    url: '//parceljs.org/',
-    image: '//parceljs.org/avatar.733335a8.avif'
+    name: 'Build',
+    url: '//build.org/',
+    image: 'https://i.ibb.co/L009L0G/build.png',
   },
 ] as const;
 
