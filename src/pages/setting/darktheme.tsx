@@ -22,7 +22,7 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggleTheme} className="flex items-center text-gray-700 cursor-pointer mt-4 text-[1.2rem]">
+    <button onClick={toggleTheme} className="w-[48%] flex flex-col justify-evenly items-center text-gray-700 cursor-pointer text-[1.2rem] rounded-xl mb-2 shadow-md shadow-[#77A5FF]">
       <img
         src={isDarkTheme ? Icons.lightTheme : Icons.darkTheme}
         alt="Theme Icon"

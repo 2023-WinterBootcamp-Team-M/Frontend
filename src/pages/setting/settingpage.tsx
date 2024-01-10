@@ -9,8 +9,8 @@ type SettingItemProps = {
 
 function SettingItem({ children, onClick, iconSrc }: SettingItemProps) {
   return (
-    <div onClick={onClick} className="flex items-center text-gray-700 cursor-pointer mt-4 text-[1.2rem]">
-      <img src={iconSrc} alt="Icon" className="mr-2" style={{ width: '20px', height: '20px' }} />
+    <div onClick={onClick} className="w-[48%] justify-evenly flex flex-col mb-2 items-center text-gray-700 cursor-pointer text-[1.2rem] rounded-xl shadow-md shadow-[#77A5FF]">
+      <img src={iconSrc} alt="Icon" className="" style={{ width: '20px', height: '20px' }} />
       {children}
     </div>
   );
@@ -29,7 +29,7 @@ function Dropdown({ onSelect, options }) {
 }
 
 function Divider() {
-  return <hr className="w-[180%] -ml-16 mb-4 mt-4 border-gray-300" />;
+  return <hr className="w-[100%] mb-4 mt-4 border-gray-300" />;
 }
 
 export default function SettingPage() {
@@ -79,7 +79,8 @@ export default function SettingPage() {
   return (
     <div className={`flex flex-col items-center h-screen px-5 ${isDarkTheme ? 'dark' : ''}`}>
       <img src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt="logo_icon" className="mt-10 mb-10 w-28 h-auto" />
-      <div className='w-full bg-white rounded-[15px] shadow flex flex-row itmes-center mb-4 py-4 px-2'>
+      <p className='text-gray-500 self-start py-2'>My Account</p>
+      <div className='w-full bg-white rounded-[15px] shadow-lg shadow-[#77A5FF] flex flex-row itmes-center mb-12 py-4 px-2'>
         <img 
         className='size-11 rounded-full mx-4 my-1'
         src='https://i.ibb.co/RpBHbh3/8-2.png'/>
@@ -88,29 +89,26 @@ export default function SettingPage() {
         <p className='w-full text-gray-500 text-sm'>dongmin11566@gmail.com</p>
         </div>
       </div>
+      <p className='text-gray-500 self-start py-2'>Settings</p>
       <div
-        className={`flex flex-col justify-start items-center w-full h-[28rem] ${
+        className={`flex w-full h-[30rem] ${
           isDarkTheme ? 'bg-gray-800' : 'bg-white'
-        } rounded-[20px] shadow-xl border-2 border-blue-600 mb-4`}
+        }`}
       >
-        <div className="text-center mt-8 mb-8">
-          <div className="text-gray-500 text-2xl font-semibold mb-16">환경 설정</div>
+        <div className="flex flex-row text-center flex-wrap justify-between">
           <SettingItem iconSrc={icons.summary} onClick={() => handleItemClick('summary')}>
             요약 설정
           </SettingItem>
           {currentDropdown === 'summary' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.summary} />
           )}
-          <Divider />
           <SettingItem iconSrc={icons.changeStartPage} onClick={() => handleItemClick('changeStartPage')}>
             시작 페이지 변경
           </SettingItem>
           {currentDropdown === 'changeStartPage' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.changeStartPage} />
           )}
-          <Divider />
           <ThemeToggle />
-          <Divider />
           <SettingItem iconSrc={icons.bookmarkNotif} onClick={() => handleItemClick('bookmarkNotif')}>
             북마크 알림 주기
           </SettingItem>
