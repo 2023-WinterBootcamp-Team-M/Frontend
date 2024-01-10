@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ToolTip from '../../components/ToolTip';
 
 interface BookmarkFolder {
   id: number;
@@ -100,7 +101,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ title }) => {
               {bookmarks.map((bookmark) => (
                 <li key={bookmark.id} className="flex items-center">
                   <img className="w-4 h-4 mr-2" src={bookmark.imageUrl} alt="Bookmark Icon" />
-                  <a href={bookmark.url}>{bookmark.title}</a>
+                  <ToolTip title={bookmark.summary}>
+                    <a href={bookmark.url}>{bookmark.title}</a>
+                  </ToolTip>
                 </li>
               ))}
             </ul>
