@@ -10,14 +10,14 @@ type Notification = {
 };
 
 const NotificationItem = ({ notification }) => {
-  const [buttonImage, setButtonImage] = useState('https://i.ibb.co/3mJ0h0Q/Group-1000002294.png');
+  const [buttonImage, setButtonImage] = useState('https://i.ibb.co/c11TV3y/Group-1000002294.png');
 
   return (
     <div className="relative w-[90%] h-44 mb-4 p-4 rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-col justify-between">
       <button
         className="absolute -top-2 -right-2"
-        onMouseEnter={() => setButtonImage('https://i.ibb.co/VTtVL17/Group-1000002293.png')}
-        onMouseLeave={() => setButtonImage('https://i.ibb.co/3mJ0h0Q/Group-1000002294.png')}
+        onMouseEnter={() => setButtonImage('https://i.ibb.co/rss1tFV/Group-1000002293.png')}
+        onMouseLeave={() => setButtonImage('https://i.ibb.co/c11TV3y/Group-1000002294.png')}
       >
         <img src={buttonImage} alt="close_btn" className="w-7 h-7" />
       </button>
