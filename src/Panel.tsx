@@ -34,11 +34,11 @@ export default function Panel({
   }
 
   const pages = [
-    { component: BookmarkPage, image: 'https://i.ibb.co/8gdLCZt/Vector.png' },
-    { component: StartPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
+    { component: StartPage, image: 'https://i.ibb.co/NLhT9rM/icon4-1-2-1.png' },
+    { component: BookmarkPage, image: 'https://i.ibb.co/1r871hN/bookmark.png' },
     { component: ClipBoardPage, image: 'https://i.ibb.co/8zswCqT/Icon.png' },
-    { component: AlarmPage, image: 'https://i.ibb.co/wBJrCvH/Icon.png' },
-    { component: SettingPage, image: 'https://i.ibb.co/H7LLFLr/Icon-2.png' },
+    { component: AlarmPage, image: 'https://i.ibb.co/7rCxDb9/notifications-1.png' },
+    { component: SettingPage, image: 'https://i.ibb.co/th2mHGg/build-2.png' },
   ];
 
   return (
@@ -50,7 +50,7 @@ export default function Panel({
       className="absolute top-0 right-0 bottom-0 z-max bg-[#ffffff] ease-in-out duration-300 overflow-hidden"
     >
       {/* 오른쪽에 고정된 메뉴바 섹션 */}
-      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 bg-gray-300">
+      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 bg-gray-200">
         {pages.map(({ component, image }, index) => (
           <Button
             key={index}
@@ -59,9 +59,9 @@ export default function Panel({
               setTabIndex(index);
               openPanel(true);
             }}
-            className="py-2"
+            className="py-2 flex justify-center items-center"
           >
-            <img src={image} alt={`Button ${index + 1}`} className="w-5 h-5 object-cover" />
+            <img src={image} alt={`Button ${index + 1}`} className="w-7 h-7 object-cover" />
           </Button>
         ))}
       </div>

@@ -22,13 +22,13 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggleTheme} className="flex items-center text-gray-700 cursor-pointer mt-4 text-[1.2rem]">
+    <button onClick={toggleTheme} className="w-[48%] flex flex-col justify-evenly items-center cursor-pointer text-[1.2rem] rounded-xl mb-4 shadow-md shadow-[#77A5FF] bg-white text-sm font-semibold text-cliptab-blue">
       <img
         src={isDarkTheme ? Icons.lightTheme : Icons.darkTheme}
         alt="Theme Icon"
         style={{ width: '20px', height: '20px', marginRight: '8px' }}
       />
-      {isDarkTheme ? '밝은 테마' : '어두운 테마'}
+      {isDarkTheme ? '어두운 테마' : '밝은 테마'}
     </button>
   );
 };
