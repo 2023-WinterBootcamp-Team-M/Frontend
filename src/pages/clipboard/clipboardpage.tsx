@@ -15,7 +15,7 @@ export default function ClipBoardPage(){
     <p className='text-gray-500 self-start py-2'>이미지 추출</p>
     <div className='w-full h-[9rem] rounded-[20px] shadow-xl mb-4 bg-white border-2 border-cliptab-blue'>
         <div className='flex flex-row items-center justify-between'>
-        <p className='ml-4'>url 입력</p>
+        <p className='ml-4 text-sm font-medium'>url 입력</p>
         <img 
         className='size-8 mr-4'
         src='https://i.ibb.co/NLhT9rM/icon4-1-2-1.png'/>
