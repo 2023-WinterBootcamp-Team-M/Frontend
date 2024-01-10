@@ -13,12 +13,21 @@ export default function ClipBoardPage(){
     src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
     alt="clip_tab_logo"/>
     <p className='text-gray-500 self-start py-2'>이미지 추출</p>
-    <div className='w-full h-[9rem] rounded-[20px] shadow-xl mb-4 bg-white border-2 border-cliptab-blue'>
+    <div className='w-full h-[10rem] rounded-[20px] shadow-xl mb-4 bg-white border-2 border-cliptab-blue'>
         <div className='flex flex-row items-center justify-between'>
-        <p className='ml-4 text-sm font-medium'>url 입력</p>
         <img 
-        className='size-8 mr-4'
+        className='size-8 ml-4'
         src='https://i.ibb.co/NLhT9rM/icon4-1-2-1.png'/>
+        <div className='flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 mt-2 mb-1 cursor-pointer'>
+        <img 
+        className='size-6'
+        src="https://i.ibb.co/kH4Xjbj/bookmark-4.png" 
+        alt="bookmark-4"/>
+        <img
+        className='size-3'
+        src="https://i.ibb.co/0rJCLSp/arrow-down-simple.png" 
+        alt="arrow-down-simple"/>
+        </div>
         </div>
         <form>
         <input 
@@ -29,7 +38,7 @@ export default function ClipBoardPage(){
         </form>
     </div>
     <p className='text-gray-500 self-start py-2'>Clip Board</p>
-    <div className='w-full h-[60%] rounded-[20px] shadow-xl py-2 px-2 bg-gradient-to-t from-cliptab-blue to-[#00CCFF]'>
+    <div className='w-full h-[60%] rounded-[20px] shadow-xl py-2 px-2 bg-white border-2 border-cliptab-blue'>
         <ul className='flex flex-wrap items-center justify-center h-[90%]'>
             <li className='w-1/2 flex justify-center items-center'>
                 <div className='relative'>
