@@ -12,6 +12,10 @@ type Notification = {
 const NotificationItem = ({ notification }) => {
   const [buttonImage, setButtonImage] = useState('https://i.ibb.co/c11TV3y/Group-1000002294.png');
 
+  const handleRedirect = () => {
+    window.location.href = notification.url;
+  };
+
   return (
     <div className="relative w-[90%] h-44 mb-4 p-4 rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-col justify-between">
       <button
@@ -25,7 +29,12 @@ const NotificationItem = ({ notification }) => {
       <div className="flex items-center">
         <img src={notification.image} alt={notification.name} className="w-10 h-10 rounded-xl ml-4 mr-4" />
         <div>
-          <a href={notification.url} target="_blank" rel="noreferrer" className="text-gray-700 text-sm leading-none">
+          <a
+            href={notification.url}
+            target="_blank"
+            rel="noreferrer"
+            className="text-gray-600 text-sm leading-none underline"
+          >
             {notification.url.length > 30 ? `${notification.url.slice(0, 30)}...` : notification.url}
           </a>
           <div className="text-xs mt-1">
@@ -36,8 +45,10 @@ const NotificationItem = ({ notification }) => {
       </div>
 
       <div className="flex justify-between mt-3">
-        <button className="ml-8 w-24 h-7 bg-gray-300 rounded-md">접속</button>
-        <button className="mr-8 w-24 h-7 bg-red-600 text-white rounded-md">삭제</button>
+        <button onClick={handleRedirect} className="ml-8 w-24 h-7 bg-gray-300 hover:bg-gray-500 rounded-md">
+          접속
+        </button>
+        <button className="mr-8 w-24 h-7 bg-red-600 hover:bg-red-400 text-white rounded-md">삭제</button>
       </div>
     </div>
   );
