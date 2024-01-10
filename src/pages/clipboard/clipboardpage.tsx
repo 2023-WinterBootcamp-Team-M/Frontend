@@ -14,7 +14,12 @@ export default function ClipBoardPage(){
     alt="clip_tab_logo"/>
     <p className='text-gray-500 self-start py-2'>이미지 추출</p>
     <div className='w-full h-[9rem] rounded-[20px] shadow-xl mb-4 bg-white border-2 border-cliptab-blue'>
-        <p className='w-fit ml-4 mt-2 px-2 rounded-sm text-sm'>url 입력</p>
+        <div className='flex flex-row items-center justify-between'>
+        <p className='ml-4'>url 입력</p>
+        <img 
+        className='size-8 mr-4'
+        src='https://i.ibb.co/NLhT9rM/icon4-1-2-1.png'/>
+        </div>
         <form>
         <input 
         className='w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500'
