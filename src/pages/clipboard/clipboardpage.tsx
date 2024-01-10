@@ -48,6 +48,11 @@ export default function ClipBoardPage(){
                     <path fillRule='evenodd' d='M13.293 6.293a1 1 0 011.414 1.414L11.414 11l3.293 3.293a1 1 0 01-1.414 1.414L10 12.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 11 5.293 7.707a1 1 0 111.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 0z' clipRule='evenodd' />
                 </svg>
             </div>
+            <div className='absolute top-1 left-1 bg-white rounded-full p-1 cursor-pointer hover:bg-gray-200'>
+                <svg xmlns="http://www.w3.org/2000/svg" className='h-4 w-4' viewBox="0 0 16 16" fill="none">
+                <path d="M8 2.66669V10.6667M8 10.6667L10 8.66669M8 10.6667L6 8.66669M3.33334 13.3334H12.6667" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
             </div>
             </li>
             <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 shadow-md border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
