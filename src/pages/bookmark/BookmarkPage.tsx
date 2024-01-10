@@ -56,7 +56,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ title }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <img className="mt-10 mb-10 w-28 h-auto mb-2" src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt={title} />
+      <img className="mt-10 w-28 h-auto mb-2" src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt={title} />
       <div className="text-gray-500 self-start text-xl">
         <h2 className="ml-4">북마크</h2>
       </div>

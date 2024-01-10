@@ -20,7 +20,7 @@ export default function ClipBoardPage(){
         className='w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500'
         type='text'
         placeholder='이미지를 추출할 페이지의 url을 입력하세요'/>
-        <button className='bg-blue-500 rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>이미지 클립</button>
+        <button className=' bg-cliptab-blue rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>이미지 클립</button>
         </form>
     </div>
     <p className='text-gray-500 self-start py-2'>Clip Board</p>
@@ -44,7 +44,7 @@ export default function ClipBoardPage(){
             <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
             <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
         </ul>
-        <button className='bg-blue-500 rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>클립보드 비우기</button>
+        <button className=' bg-cliptab-blue rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>클립보드 비우기</button>
     </div>
     </div>)
 }
