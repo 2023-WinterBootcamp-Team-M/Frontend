@@ -11,6 +11,7 @@ interface Bookmark {
   title: string;
   url: string;
   imageUrl: string;
+  summary: string;
 }
 
 interface BookmarkPageProps {
@@ -28,9 +29,27 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ title }) => {
   ];
 
   const bookmarks: Bookmark[] = [
-    { id: 1, title: 'Bookmark 1', url: '', imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png' },
-    { id: 2, title: 'Bookmark 2', url: '', imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png' },
-    { id: 3, title: 'Bookmark 3', url: '', imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png' },
+    {
+      id: 1,
+      title: 'Bookmark 1',
+      url: 'https://www.google.com/',
+      imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png',
+      summary: 'summary1',
+    },
+    {
+      id: 2,
+      title: 'Bookmark 2',
+      url: 'https://www.naver.com/',
+      imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png',
+      summary: 'summary2',
+    },
+    {
+      id: 3,
+      title: 'Bookmark 3',
+      url: 'https://www.daum.net/',
+      imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png',
+      summary: 'summary3',
+    },
   ];
 
   const handleFolderClick = (folder: BookmarkFolder) => {
