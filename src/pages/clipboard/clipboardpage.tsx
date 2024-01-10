@@ -25,15 +25,15 @@ export default function ClipBoardPage(){
         className='w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500'
         type='text'
         placeholder='이미지를 추출할 페이지의 url을 입력하세요'/>
-        <button className=' bg-cliptab-blue rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>이미지 클립</button>
+        <button className=' bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>이미지 클립</button>
         </form>
     </div>
     <p className='text-gray-500 self-start py-2'>Clip Board</p>
-    <div className='w-full h-[60%] rounded-[20px] shadow-xl py-2 px-2 bg-white border-2 border-cliptab-blue'>
+    <div className='w-full h-[60%] rounded-[20px] shadow-xl py-2 px-2 bg-gradient-to-t from-cliptab-blue to-[#00CCFF]'>
         <ul className='flex flex-wrap items-center justify-center h-[90%]'>
             <li className='w-1/2 flex justify-center items-center'>
                 <div className='relative'>
-                <img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/>
+                <img className='rounded-md shadow-md size-28 border-2 border-cliptab-blue' src='https://i.ibb.co/RpBHbh3/8-2.png'/>
                 <div className='absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer'>
                 <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor'>
                     <path fillRule='evenodd' d='M13.293 6.293a1 1 0 011.414 1.414L11.414 11l3.293 3.293a1 1 0 01-1.414 1.414L10 12.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 11 5.293 7.707a1 1 0 111.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 0z' clipRule='evenodd' />
@@ -41,15 +41,15 @@ export default function ClipBoardPage(){
             </div>
             </div>
             </li>
-            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
-            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
-            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
-            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
-            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
-            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
-            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
+            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 shadow-md border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
+            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 shadow-md border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
+            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 shadow-md border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
+            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 shadow-md border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
+            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 shadow-md border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
+            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 shadow-md border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
+            <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 shadow-md border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
         </ul>
-        <button className=' bg-cliptab-blue rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>클립보드 비우기</button>
+        <button className=' bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>클립보드 비우기</button>
     </div>
     </div>)
 }
