@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'cliptab-blue': '#2A72E7',
+        'cliptab-blue': '#7cb3f7',
       },
     },
   },
