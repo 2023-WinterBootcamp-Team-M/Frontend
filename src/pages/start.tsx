@@ -4,6 +4,7 @@ interface StartPageProps {}
 
 export default function StartPage(props: StartPageProps) {
   const [SignUp, setSignUp] = React.useState<boolean>(false);
+  const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   const [passwordAgain, setPasswordAgain] = React.useState<string>('');
   const [isPasswordValid, setIsPasswordValid] = React.useState<boolean>(true);
@@ -16,6 +17,7 @@ export default function StartPage(props: StartPageProps) {
   const closeModal = () => {
     setSignUp(false);
     // 모달이 닫힐 때 초기화
+    setEmail('');
     setPassword('');
     setPasswordAgain('');
     setIsPasswordValid(true);
@@ -33,6 +35,11 @@ export default function StartPage(props: StartPageProps) {
     setIsPasswordValid(isLengthValid && isComplexityValid);
   };
 
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = event.target.value;
+    setEmail(newEmail);
+  };
+
   const handlePasswordAgainChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPasswordAgain = event.target.value;
     setPasswordAgain(newPasswordAgain);
@@ -45,11 +52,24 @@ export default function StartPage(props: StartPageProps) {
     // 폼 제출 로직 추가
     if (isPasswordValid && isPasswordMatching) {
       // 제출 성공
-      console.log('Submit successful!');
+      console.log('제출 성공!');
       closeModal(); // 모달을 성공적으로 제출 후 닫음
     } else {
       // 유효하지 않은 비밀번호 또는 불일치하는 경우 처리
-      console.error('Invalid password or passwords do not match!');
+      console.error('유효하지 않은 비밀번호 또는 비밀번호 불일치!');
+    }
+  };
+
+  const handleLogin = () => {
+    // 폼 제출 로직 추가
+    if (isPasswordValid && isPasswordMatching) {
+      // 제출 성공
+      console.log('로그인 성공!');
+
+      closeModal(); // 모달을 성공적으로 제출 후 닫음
+    } else {
+      // 유효하지 않은 비밀번호 또는 불일치하는 경우 처리
+      console.error('유효하지 않은 비밀번호 또는 비밀번호 불일치!');
     }
   };
 
@@ -58,7 +78,7 @@ export default function StartPage(props: StartPageProps) {
       <img src="https://i.ibb.co/mR6vRvf/clip-tab-2-removebg-preview.png" alt="logo_icon" className="h-auto" />
       <div className="flex items-center justify-center">
         <div
-          className={`mx-auto w-[90%] h-[15rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
+          className={`mx-auto w-[90%] h-[17rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
             SignUp ? 'hidden' : ''
           }`}
         >
@@ -66,7 +86,9 @@ export default function StartPage(props: StartPageProps) {
             <input
               className="w-[90%] h-11 mx-4 my-2 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
               type="text"
-              placeholder="아이디를 입력하세요"
+              placeholder="이메일을 입력하세요"
+              value={email}
+              onChange={handleEmailChange}
             />
             <input
               className={`w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500 ${
@@ -91,7 +113,7 @@ export default function StartPage(props: StartPageProps) {
               className={`bg-[#0096FB] rounded-md shadow-lg text-white px-4 py-1 mx-3 mt-8 w-[90%] h-11 ${
                 isPasswordValid && isPasswordMatching ? '' : 'cursor-not-allowed'
               }`}
-              onClick={isPasswordValid && isPasswordMatching ? handleSubmit : undefined}
+              onClick={isPasswordValid && isPasswordMatching ? handleLogin : undefined}
             >
               로그인
             </button>
@@ -118,6 +140,8 @@ export default function StartPage(props: StartPageProps) {
                   className="w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
                   type="email"
                   placeholder="Enter email"
+                  value={email}
+                  onChange={handleEmailChange}
                 />
                 <label htmlFor="Password" className="w-full text-gray-500 text-sm">
                   Password
@@ -136,7 +160,7 @@ export default function StartPage(props: StartPageProps) {
                     비밀번호는 8-20자 이내이며, 숫자, 영문자, 특수문자 중 2가지 이상을 포함해야 합니다.
                   </p>
                 )}
-                <label htmlFor="Password again" className="w-full text-gray-500 text-sm">
+                <label htmlFor="PasswordAgain" className="w-full text-gray-500 text-sm">
                   Password again
                 </label>
                 <input
