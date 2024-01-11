@@ -1,12 +1,12 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { APP_COLLAPSE_WIDTH, APP_EXTEND_WIDTH, URLS } from './const';
-import classNames from 'classnames';
+import { APP_COLLAPSE_WIDTH, APP_EXTEND_WIDTH } from './const';
 import Button from './components/Button';
 import StartPage from './pages/start';
 import SettingPage from './pages/setting/settingpage';
 import AlarmPage from './pages/alarm/alarmpage';
 import BookmarkPage from './pages/bookmark/BookmarkPage';
 import ClipBoardPage from './pages/clipboard/clipboardpage';
+
 
 export default function Panel({
   onWidthChange,
