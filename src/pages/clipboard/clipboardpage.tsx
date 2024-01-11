@@ -1,4 +1,5 @@
 import * as React from 'react';
+import ToolTip from '../../components/ToolTip';
 
 export default function ClipBoardPage(){
 
@@ -18,6 +19,7 @@ export default function ClipBoardPage(){
         <img 
         className='size-8 ml-4'
         src='https://i.ibb.co/NLhT9rM/icon4-1-2-1.png'/>
+        <ToolTip title='내 북마크 링크 가져오기'>
         <div className='flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 mt-2 mb-1 cursor-pointer'>
         <img 
         className='size-6'
@@ -28,6 +30,7 @@ export default function ClipBoardPage(){
         src="https://i.ibb.co/0rJCLSp/arrow-down-simple.png" 
         alt="arrow-down-simple"/>
         </div>
+        </ToolTip>
         </div>
         <form>
         <input 
@@ -43,16 +46,20 @@ export default function ClipBoardPage(){
             <li className='w-1/2 flex justify-center items-center'>
                 <div className='relative'>
                 <img className='rounded-md shadow-md size-28 border-2 border-cliptab-blue' src='https://i.ibb.co/RpBHbh3/8-2.png'/>
+                <ToolTip title='삭제'>
                 <div className='absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer'>
-                <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor'>
-                    <path fillRule='evenodd' d='M13.293 6.293a1 1 0 011.414 1.414L11.414 11l3.293 3.293a1 1 0 01-1.414 1.414L10 12.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 11 5.293 7.707a1 1 0 111.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 0z' clipRule='evenodd' />
-                </svg>
-            </div>
-            <div className='absolute top-1 left-1 bg-white rounded-full p-1 cursor-pointer hover:bg-gray-200'>
-                <svg xmlns="http://www.w3.org/2000/svg" className='h-4 w-4' viewBox="0 0 16 16" fill="none">
-                <path d="M8 2.66669V10.6667M8 10.6667L10 8.66669M8 10.6667L6 8.66669M3.33334 13.3334H12.6667" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+                    <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor'>
+                        <path fillRule='evenodd' d='M13.293 6.293a1 1 0 011.414 1.414L11.414 11l3.293 3.293a1 1 0 01-1.414 1.414L10 12.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 11 5.293 7.707a1 1 0 111.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 0z' clipRule='evenodd' />
+                    </svg>
+                </div>
+                </ToolTip>
+                <ToolTip title='저장'>
+                <div className='absolute top-1 left-1 bg-white rounded-full p-1 cursor-pointer hover:bg-gray-200'>
+                    <svg xmlns="http://www.w3.org/2000/svg" className='h-4 w-4' viewBox="0 0 16 16" fill="none">
+                        <path d="M8 2.66669V10.6667M8 10.6667L10 8.66669M8 10.6667L6 8.66669M3.33334 13.3334H12.6667" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                </ToolTip>
             </div>
             </li>
             <li className='w-1/2 flex justify-center items-center'><img className='rounded-md size-28 shadow-md border-2 border-cliptab-blue/80' src='https://i.ibb.co/RpBHbh3/8-2.png'/></li>
