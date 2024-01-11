@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ToolTip from '../../components/ToolTip';
+import DndContainer from '../../components/DragNDrop';
 
 interface BookmarkFolder {
   id: number;
@@ -22,35 +23,33 @@ interface BookmarkPageProps {
 const BookmarkPage: React.FC<BookmarkPageProps> = ({ title }) => {
   const [selectedFolder, setSelectedFolder] = useState<BookmarkFolder | null>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
+  const [bookmarks,setBookmarks] = useState<Bookmark[]>([{
+    id: 1,
+    title: 'Bookmark 1',
+    url: 'https://www.google.com/',
+    imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png',
+    summary: 'summary1',
+  },
+  {
+    id: 2,
+    title: 'Bookmark 2',
+    url: 'https://www.naver.com/',
+    imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png',
+    summary: 'summary2',
+  },
+  {
+    id: 3,
+    title: 'Bookmark 3',
+    url: 'https://www.daum.net/',
+    imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png',
+    summary: 'summary3',
+  },]);
+
 
   const bookmarkFolders: BookmarkFolder[] = [
     { id: 1, title: 'Bookmark_folder 1', url: '' },
     { id: 2, title: 'Bookmark_folder 2', url: '' },
     { id: 3, title: 'Bookmark_folder 3', url: '' },
-  ];
-
-  const bookmarks: Bookmark[] = [
-    {
-      id: 1,
-      title: 'Bookmark 1',
-      url: 'https://www.google.com/',
-      imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png',
-      summary: 'summary1',
-    },
-    {
-      id: 2,
-      title: 'Bookmark 2',
-      url: 'https://www.naver.com/',
-      imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png',
-      summary: 'summary2',
-    },
-    {
-      id: 3,
-      title: 'Bookmark 3',
-      url: 'https://www.daum.net/',
-      imageUrl: 'https://i.ibb.co/X58LMLL/icon1.png',
-      summary: 'summary3',
-    },
   ];
 
   const handleFolderClick = (folder: BookmarkFolder) => {
@@ -92,21 +91,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ title }) => {
           ))}
         </ul>
         {selectedFolder && (
-          <div
-            ref={popoverRef}
-            className="mx-auto mt-[-1rem] w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl border-2 mb-4"
-            role="tooltip"
-          >
-            <ul className="text-sm p-5 leading-10">
-              {bookmarks.map((bookmark) => (
-                <li key={bookmark.id} className="flex items-center">
-                  <img className="w-4 h-4 mr-2" src={bookmark.imageUrl} alt="Bookmark Icon" />
-                  <ToolTip title={bookmark.summary}>
-                    <a href={bookmark.url}>{bookmark.title}</a>
-                  </ToolTip>
-                </li>
-              ))}
-            </ul>
+          <div className=' w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4'>
+          <DndContainer post={bookmarks} setPost={setBookmarks}/>
           </div>
         )}
       </div>

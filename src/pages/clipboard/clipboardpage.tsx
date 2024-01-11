@@ -3,6 +3,7 @@ import ToolTip from '../../components/ToolTip';
 
 export default function ClipBoardPage(){
 
+    const [clipImages,setClipImages] = React.useState<string[]>([]);
     //선택한 이미지 삭제 함수
     const deleteImage = (e:React.MouseEvent<HTMLDivElement>, id:number) => {
         e.preventDefault();
