@@ -29,7 +29,7 @@ const DndContainer = ({post,setPost}:any)=>{
                                     {...provided.dragHandleProps}
                                     ref={provided.innerRef}
                                     >
-                                    {/* 원하는컴포넌트 */}
+                                    {/* 원하는 컴포넌트 */}
                                     <div
                                         ref={popoverRef}
                                         className="mx-auto w-[90%] h-fit bg-cliptab-blue rounded-md shadow-xl mb-2 px-2 py-1"
@@ -44,6 +44,7 @@ const DndContainer = ({post,setPost}:any)=>{
                                   </li>        
                                     }
                                     </div>
+                                    {/* 원하는 컴포넌트 */}
                                     </div>
                                 );
                                 }}
