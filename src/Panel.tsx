@@ -6,8 +6,8 @@ import AlarmPage from './pages/alarm/alarmpage';
 import BookmarkPage from './pages/bookmark/BookmarkPage';
 import ClipBoardPage from './pages/clipboard/clipboardpage';
 
-export const APP_EXTEND_WIDTH = 405;
-export const APP_COLLAPSE_WIDTH = 55;
+const APP_EXTEND_WIDTH = 405;
+const APP_COLLAPSE_WIDTH = 55;
 export default function Panel({
   onWidthChange,
   initialEnabled,
