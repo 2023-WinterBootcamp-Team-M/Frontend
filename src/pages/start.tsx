@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 
 interface StartPageProps {}
 
@@ -23,6 +24,24 @@ export default function StartPage(props: StartPageProps) {
     setIsPasswordValid(true);
     setIsPasswordMatching(true);
   };
+
+  const createUsers = async ()=> {
+    try{
+
+    const jsonForm = {
+      "name" : "name",
+      "email" : "email@gmail.com"
+    }
+    const response = await axios.post("http://localhost:8000/api/v1/Users", jsonForm,{
+      headers: {
+          'Content-Type' : 'application/json'
+      }
+  });
+    console.log(response.data);
+  } catch (error) {
+    console.error(error.message);
+  }
+  }
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = event.target.value;
@@ -72,6 +91,7 @@ export default function StartPage(props: StartPageProps) {
       console.error('유효하지 않은 비밀번호 또는 비밀번호 불일치!');
     }
   };
+
 
   return (
     <div className="flex flex-col items-center justify-start h-screen">

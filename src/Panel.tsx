@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { APP_COLLAPSE_WIDTH, APP_EXTEND_WIDTH } from './const';
 import Button from './components/Button';
 import StartPage from './pages/start';
 import SettingPage from './pages/setting/settingpage';
@@ -7,7 +6,8 @@ import AlarmPage from './pages/alarm/alarmpage';
 import BookmarkPage from './pages/bookmark/BookmarkPage';
 import ClipBoardPage from './pages/clipboard/clipboardpage';
 
-
+const APP_EXTEND_WIDTH = 405;
+const APP_COLLAPSE_WIDTH = 55;
 export default function Panel({
   onWidthChange,
   initialEnabled,
