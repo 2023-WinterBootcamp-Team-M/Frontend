@@ -82,7 +82,10 @@ export default function ClipBoardPage(){
         value={link}/>
         <button //이미지 클립 버튼
         className=' bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11' 
-        onClick={(event)=>CreateClipboard(event,userId,setClipBoardId,setClipImages,link)}>이미지 클립</button>
+        onClick={(event)=>{
+            CreateClipboard(event,userId,setClipBoardId,setClipImages,link);
+            setLink('');
+        }}>이미지 클립</button>
         </form>
     </div>
     <p className='text-gray-500 self-start py-2'>Clip Board</p>
