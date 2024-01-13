@@ -2,7 +2,7 @@ import axios from "axios";
 import { saveAs } from "file-saver";
   
 //클립보드 생성
-export async function CreateClipboard(event,userId:number,setClipImages,link:string) {
+export async function CreateClipboard(event,userId:number,setClipboardId,setClipImages,link:string) {
     event.preventDefault();
     const clipform = {"user_id":userId, "url": link};
     const response = await axios.post(`http://localhost:8000/api/v1/clipboard`,clipform,{
@@ -11,6 +11,7 @@ export async function CreateClipboard(event,userId:number,setClipImages,link:str
         }
     });
     console.log(response.data);
+    setClipboardId(response.data.id);
     setClipImages(response.data.images_list);
 }
 //클립보드 리스트 조회
@@ -26,9 +27,10 @@ export async function DeleteImage(event,clipboardId:number, pictureId:number){
     console.log(response.data);
 }
 //클립보드 이미지 전체 삭제
-export async function DeleteAllImages(event,clipboardId:number){
+export async function DeleteAllImages(event,clipboardId:number,setClipImages){
     event.preventDefault();
     const response = await axios.delete(`http://localhost:8000/api/v1/clipboard/${clipboardId}/images`);
+    setClipImages(response.data.images_list);
     console.log(response.data);
 }
 //클립보드 이미지 다운로드

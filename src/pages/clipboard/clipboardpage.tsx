@@ -15,7 +15,7 @@ export default function ClipBoardPage(){
     //input창에 입력한 텍스트 link로 업데이트
     const handleInputChange = (event) => {
         setLink(event.target.value);
-        console.log(link);
+        console.log(clipImages);
     }
 
     const handleIntersection = (entries) => {
@@ -42,10 +42,10 @@ export default function ClipBoardPage(){
           }
         };
       }, [containerRef]);
-      const allItems = clipImages; // 모든 이미지를 가져오기
+      const allItems = clipImages||[]; // 모든 이미지를 가져오기
       const currentItems = allItems.slice(0, loadedPage * itemsPerPage);
 
-
+      
     return (
     <div className='flex flex-col items-center px-5 h-screen'>
     <img //로고 이미지
@@ -82,7 +82,7 @@ export default function ClipBoardPage(){
         value={link}/>
         <button //이미지 클립 버튼
         className=' bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11' 
-        onClick={(event)=>CreateClipboard(event,userId,setClipImages,link)}>이미지 클립</button>
+        onClick={(event)=>CreateClipboard(event,userId,setClipBoardId,setClipImages,link)}>이미지 클립</button>
         </form>
     </div>
     <p className='text-gray-500 self-start py-2'>Clip Board</p>
@@ -113,7 +113,7 @@ export default function ClipBoardPage(){
             ))}
         </ul>
     </div>
-    <button onClick={(event)=>DeleteAllImages(event,clipboardId)}
+    <button onClick={(event)=>DeleteAllImages(event,clipboardId,setClipImages)}
         className=' bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>클립보드 비우기</button>
     </div>)
 }
