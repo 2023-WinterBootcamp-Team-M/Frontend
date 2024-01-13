@@ -1,22 +1,20 @@
 import * as React from 'react';
 import ToolTip from '../../components/ToolTip';
-import axios from 'axios';
-import { DownloadImage, DeleteImage, DeleteAllImages } from './ClipboardAPI';
+import { DownloadImage, DeleteImage, DeleteAllImages, CreateClipboard } from './ClipboardAPI';
 
 export default function ClipBoardPage(){
 
+    const [userId,setUserId] = React.useState<number>(1);
     const [clipImages,setClipImages] = React.useState<string[]|number[]>(['https://i.ibb.co/RpBHbh3/8-2.png','https://i.ibb.co/RpBHbh3/8-2.png','https://i.ibb.co/RpBHbh3/8-2.png','https://i.ibb.co/RpBHbh3/8-2.png','https://i.ibb.co/RpBHbh3/8-2.png','https://i.ibb.co/RpBHbh3/8-2.png','https://i.ibb.co/RpBHbh3/8-2.png','https://i.ibb.co/RpBHbh3/8-2.png']);
     const [clipboardId,setClipBoardId] = React.useState<number>(1);
-
-    //클립보드 리스트 조회 함수
-    const getClipBoardList = async () => {
-        const resopnse = axios.get(`/api/v1/clipboard/${clipboardId}`);
+    const [link,setLink] = React.useState<string>('');
+    
+    //input창에 입력한 텍스트 link로 업데이트
+    const handleInputChange = (event) => {
+        event.preventDefault();
+        setLink(event.target.value);
     }
 
-    //선택한 이미지 삭제 함수
-    const deleteImage = (e:React.MouseEvent<HTMLDivElement>, id:number) => {
-        e.preventDefault();
-    }
 
     return (
     <div className='flex flex-col items-center px-5 h-screen'>
@@ -38,7 +36,7 @@ export default function ClipBoardPage(){
         alt="bookmark-4"/>
         <img
         className='size-3'
-        src="https://i.ibb.co/0rJCLSp/arrow-down-simple.png" 
+        src="https://i.ibb.co/0rJCLSp/arrow-down-simple.png"
         alt="arrow-down-simple"/>
         </div>
         </ToolTip>
@@ -47,8 +45,10 @@ export default function ClipBoardPage(){
         <input 
         className='w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500'
         type='text'
-        placeholder='이미지를 추출할 페이지의 url을 입력하세요'/>
-        <button className=' bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>이미지 클립</button>
+        placeholder='이미지를 추출할 페이지의 url을 입력하세요'
+        onChange={handleInputChange}
+        value={link}/>
+        <button className=' bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11' onClick={(event)=>CreateClipboard(event,userId,clipboardId,link)}>이미지 클립</button>
         </form>
     </div>
     <p className='text-gray-500 self-start py-2'>Clip Board</p>
