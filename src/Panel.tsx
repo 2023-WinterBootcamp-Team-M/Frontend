@@ -6,8 +6,8 @@ import AlarmPage from './pages/alarm/alarmpage';
 import BookmarkPage from './pages/bookmark/BookmarkPage';
 import ClipBoardPage from './pages/clipboard/clipboardpage';
 
-const APP_EXTEND_WIDTH = 405;
-const APP_COLLAPSE_WIDTH = 55;
+export const APP_EXTEND_WIDTH = 405;
+export const APP_COLLAPSE_WIDTH = 55;
 export default function Panel({
   onWidthChange,
   initialEnabled,
@@ -72,29 +72,18 @@ export default function Panel({
           <div style={{ width: '100%', height: '100%' }}>{React.createElement(pages[tabIndex].component)}</div>
         )}
       </div>
+
       <div className="absolute bottom-0 right-0 w-[50px] z-10 flex justify-center items-center p-1">
-        <Button active={enabled} onClick={() => openPanel()}>
+        <button className="mb-1" onClick={() => openPanel()}>
           <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d={
-                  enabled
-                    ? 'M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25'
-                    : 'M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15'
-                }
-              />
-            </svg>
+            {enabled ? (
+              <img src="https://i.ibb.co/hcVyZ3w/full-screen-exit.png" alt="Open Panel" className="w-6 h-6" />
+            ) : (
+              // 패널이 닫혀 있을 때
+              <img src="https://i.ibb.co/GQM9zPg/full-screen.png" alt="Close Panel" className="w-6 h-6" />
+            )}
           </span>
-        </Button>
+        </button>
       </div>
     </div>
   );
