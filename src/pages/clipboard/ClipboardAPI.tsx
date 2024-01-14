@@ -23,10 +23,9 @@ export async function GetClipboardList(event,clipboardId:number) {
 //클립보드 이미지 개별삭제
 export async function DeleteImage(event,clipboardId, pictureId,setClipImages){
     event.preventDefault();
-    console.log(clipboardId,pictureId);
     const response = await axios.delete(`http://localhost:8000/api/v1/clipboard/${clipboardId}/${pictureId}`);
     console.log(response.data);
-    setClipImages(response.data.images_list);
+    setClipImages((prevImages) => prevImages.filter((image) => image.id !== pictureId));
 }
 //클립보드 이미지 전체 삭제
 export async function DeleteAllImages(event,clipboardId,setClipImages){

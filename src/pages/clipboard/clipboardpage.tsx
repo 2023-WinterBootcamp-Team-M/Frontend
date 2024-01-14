@@ -45,7 +45,9 @@ export default function ClipBoardPage(){
       const allItems = clipImages||[]; // 모든 이미지를 가져오기
       const currentItems = allItems.slice(0, loadedPage * itemsPerPage);
 
-      
+    React.useEffect(()=>{
+
+    },[clipImages]);
     return (
     <div className='flex flex-col items-center px-5 h-screen'>
     <img //로고 이미지
