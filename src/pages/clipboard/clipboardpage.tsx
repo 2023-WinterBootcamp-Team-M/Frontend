@@ -6,7 +6,7 @@ export default function ClipBoardPage(){
 
     const [userId,setUserId] = React.useState<number>(1);
     const [clipImages,setClipImages] = React.useState<string[]|number[]>([]);
-    const [clipboardId,setClipBoardId] = React.useState<number>(1);
+    const [clipboardId,setClipBoardId] = React.useState<string>();
     const [link,setLink] = React.useState<string>('');
     const [loadedPage, setLoadedPage] = React.useState(1);
     const itemsPerPage = 8;
@@ -98,7 +98,7 @@ export default function ClipBoardPage(){
                 <div className='relative'>
                 <img className='rounded-md shadow-md size-28 border-2 border-cliptab-blue' src={e.img_url}/>
                 <ToolTip title='삭제'>
-                <div className='absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer' onClick={(event)=>DeleteImage(event,e.clipboardId,e.pictureId)}>
+                <div className='absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer' onClick={(event)=>DeleteImage(event,clipboardId,e.id,setClipImages)}>
                     <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor'>
                         <path fillRule='evenodd' d='M13.293 6.293a1 1 0 011.414 1.414L11.414 11l3.293 3.293a1 1 0 01-1.414 1.414L10 12.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 11 5.293 7.707a1 1 0 111.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 0z' clipRule='evenodd' />
                     </svg>
