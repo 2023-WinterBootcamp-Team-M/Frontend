@@ -15,7 +15,7 @@ export async function CreateClipboard(event,userId:number,setClipboardId,setClip
     setClipImages(response.data.images_list);
 }
 //클립보드 리스트 조회
-export async function GetClipboardList(event,clipboardId:number) {
+export async function GetClipboardList(event,clipboardId) {
     event.preventDefault();
     const response = await axios.get(`http://localhost:8000/api/v1/clipboard/${clipboardId}`);
     console.log(response.data);
