@@ -88,10 +88,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     try {
       await axios.delete(`http://localhost:8000/api/v1/folders/${folder_id}`);
       console.log(`Deleting folder: ${folder_id}`);
-      // 폴더 삭제 후 bookmarkFolders를 업데이트
+
       setBookmarkFolders((prevFolders) => prevFolders.filter((folder) => folder.id !== folder_id));
 
-      // 삭제된 폴더가 선택된 폴더인 경우, selectedFolder를 초기화
       if (selectedFolder && selectedFolder.id === folder_id) {
         setSelectedFolder(null);
       }
@@ -114,9 +113,24 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const handleFolderCreateSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const user_id = 1;
-    await handleFolderCreate(user_id, folderName);
-    setFolderName('');
-    setIsFormVisible(false);
+
+    try {
+      const jsonData = { name: folderName, user_id: user_id };
+      const response = await axios.post(`http://localhost:8000/api/v1/folders`, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
+      setBookmarkFolders((prevFolders) => [...prevFolders, response.data]);
+
+      // 폼 입력을 지우고 폼을 숨김
+      setFolderName('');
+      setIsFormVisible(false);
+    } catch (error) {
+      console.error('폴더 생성 오류:', error);
+    }
   };
 
   return (
