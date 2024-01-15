@@ -77,10 +77,28 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.error('Error fetching folders:', err);
     }
   };
+
   useEffect(() => {
     const user_id = 1;
     handleFolderFetch(user_id);
   }, []);
+
+  // 폴더와 종속된 북마크 삭제 로직
+  const handleFolderDelete = async (folder_id: number) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/v1/folders/${folder_id}`);
+      console.log(`Deleting folder: ${folder_id}`);
+      // 폴더 삭제 후 bookmarkFolders를 업데이트
+      setBookmarkFolders((prevFolders) => prevFolders.filter((folder) => folder.id !== folder_id));
+
+      // 삭제된 폴더가 선택된 폴더인 경우, selectedFolder를 초기화
+      if (selectedFolder && selectedFolder.id === folder_id) {
+        setSelectedFolder(null);
+      }
+    } catch (error) {
+      console.error('폴더 삭제 오류:', error);
+    }
+  };
 
   const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
     if (selectedFolder) {
@@ -144,11 +162,17 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           {bookmarkFolders.map((folder) => (
             <li key={folder.id} className="flex items-center mb-2">
               <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
+
               <a href="#" onClick={() => handleFolderClick(folder)}>
                 {folder.name}
               </a>
               <button className="ml-5 text-blue-700 hover:text-red-700 focus:outline-none">수정</button>
-              <button className="ml-5 text-red-700 hover:text-red-700 focus:outline-none">삭제</button>
+              <button
+                onClick={() => handleFolderDelete(folder.id)}
+                className="ml-5 text-red-700 hover:text-red-700 focus:outline-none"
+              >
+                삭제
+              </button>
             </li>
           ))}
         </ul>
