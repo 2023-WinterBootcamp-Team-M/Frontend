@@ -29,6 +29,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [bookmarkFolders, setBookmarkFolders] = useState<BookmarkFolder[]>([]);
   const [folderName, setFolderName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
 
   const handleFolderClick = (folder: BookmarkFolder) => {
     if (selectedFolder && selectedFolder.id === folder.id) {
@@ -99,6 +100,30 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
+  // 폴더 이름 수정 로직
+  const handleFolderEditSubmit = async (event: React.FormEvent, folderId: number) => {
+    event.preventDefault();
+
+    try {
+      const jsonData = { name: folderName };
+      const response = await axios.patch(`http://localhost:8000/api/v1/folders/${folderId}`, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // 수정된 이름으로 상태에서 폴더를 업데이트
+      setBookmarkFolders((prevFolders) =>
+        prevFolders.map((folder) => (folder.id === folderId ? { ...folder, name: response.data.name } : folder))
+      );
+
+      // 편집 상태를 초기화
+      setEditingFolderId(null);
+    } catch (error) {
+      console.error('폴더 편집 오류:', error);
+    }
+  };
+
   const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
     if (selectedFolder) {
       const updatedFolder = { ...selectedFolder, bookmarks: newBookmarks };
@@ -108,6 +133,11 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
   const handleFolderCreateClick = () => {
     setIsFormVisible(true);
+  };
+
+  const handleFolderEditClick = (folderId: number) => {
+    setEditingFolderId(folderId);
+    setFolderName(bookmarkFolders.find((folder) => folder.id === folderId)?.name || '');
   };
 
   const handleFolderCreateSubmit = async (event: React.FormEvent) => {
@@ -176,17 +206,38 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           {bookmarkFolders.map((folder) => (
             <li key={folder.id} className="flex items-center mb-2">
               <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
+              {editingFolderId === folder.id ? (
+                <form
+                  onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
+                  className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+                >
+                  <input
+                    type="text"
+                    value={folderName}
+                    onChange={(e) => setFolderName(e.target.value)}
+                    onBlur={() => setEditingFolderId(null)}
+                  />
+                </form>
+              ) : (
+                <>
+                  <a href="#" onClick={() => handleFolderClick(folder)}>
+                    {folder.name}
+                  </a>
 
-              <a href="#" onClick={() => handleFolderClick(folder)}>
-                {folder.name}
-              </a>
-              <button className="ml-5 text-blue-700 hover:text-red-700 focus:outline-none">수정</button>
-              <button
-                onClick={() => handleFolderDelete(folder.id)}
-                className="ml-5 text-red-700 hover:text-red-700 focus:outline-none"
-              >
-                삭제
-              </button>
+                  <button
+                    onClick={() => handleFolderEditClick(folder.id)}
+                    className="ml-5 text-blue-700 hover:text-red-700 focus:outline-none"
+                  >
+                    수정
+                  </button>
+                  <button
+                    onClick={() => handleFolderDelete(folder.id)}
+                    className="ml-5 text-red-700 hover:text-red-700 focus:outline-none"
+                  >
+                    삭제
+                  </button>
+                </>
+              )}
             </li>
           ))}
         </ul>
