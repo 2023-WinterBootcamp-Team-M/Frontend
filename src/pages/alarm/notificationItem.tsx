@@ -17,7 +17,7 @@ const NotificationItem = ({ notification }) => {
   };
 
   return (
-    <div className="relative w-[90%] h-44 mb-4 p-4 rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-col justify-between">
+    <div className="relative w-full h-max mb-4 p-4 rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-col justify-between">
       <button
         className="absolute -top-2 -right-2"
         onMouseEnter={() => setButtonImage('https://i.ibb.co/rss1tFV/Group-1000002293.png')}

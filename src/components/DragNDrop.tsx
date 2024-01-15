@@ -63,6 +63,7 @@ const DndContainer = ({ post, setPost }: any) => {
                         }
                       </div>
                       {/* 원하는 컴포넌트 */}
+
                     </div>
                   );
                 }}
