@@ -7,7 +7,6 @@ export default function StartPage() {
   const [SignUp, setSignUp] = React.useState<boolean>(false);
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
-  const [passwordAgain, setPasswordAgain] = React.useState<string>('');
   const [isPasswordValid, setIsPasswordValid] = React.useState<boolean>(true);
   const [isPasswordMatching, setIsPasswordMatching] = React.useState<boolean>(true);
 
@@ -19,37 +18,35 @@ export default function StartPage() {
     setIsSignUpOpen(false);
   };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
-
     // 비밀번호 유효성 검사
     const isLengthValid = newPassword.length >= 8 && newPassword.length <= 20;
     const isComplexityValid =
-      /[0-9]/.test(newPassword) && /[a-zA-Z]/.test(newPassword) && /[!@#$%^&*(),.?":{}|<>]/.test(newPassword); // 특수문자 추가 가능
+      /[0-9]/.test(newPassword) && /[a-zA-Z]/.test(newPassword) && /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
     setIsPasswordValid(isLengthValid && isComplexityValid);
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = event.target.value;
-    setEmail(newEmail);
+    setEmail(event.target.value);
   };
 
-  const handlePasswordAgainChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newPasswordAgain = event.target.value;
-    setPasswordAgain(newPasswordAgain);
-
-    // 비밀번호 재입력과의 일치 여부 검사
-    setIsPasswordMatching(newPasswordAgain === password);
-  };
-
-  const handleLogin = () => {
-    // 폼 제출 로직 추가
-    if (isPasswordValid && isPasswordMatching) {
-      closeSignUpModal(); // 모달을 성공적으로 제출 후 닫음
+  const handleLogin = async () => {
+    if (isPasswordValid) {
+      try {
+        const response = await axios.post('http://localhost:8000/api/v1/signin', {
+          email: email,
+          password: password,
+        });
+        console.log('로그인 성공:', response.data);
+        // 성공 처리 로직 (예: 페이지 리디렉션)
+      } catch (error) {
+        console.error('로그인 실패:', error.response ? error.response.data : error.message);
+        // 실패 처리 로직
+      }
     } else {
-      // 유효하지 않은 비밀번호 또는 불일치하는 경우 처리
-      console.error('유효하지 않은 비밀번호 또는 비밀번호 불일치!');
+      console.error('유효하지 않은 비밀번호!');
     }
   };
 
