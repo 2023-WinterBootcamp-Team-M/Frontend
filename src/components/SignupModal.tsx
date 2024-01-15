@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useRef } from 'react';
 
 export default function SignUpModal({ isOpen, onClose }) {
@@ -31,8 +32,23 @@ export default function SignUpModal({ isOpen, onClose }) {
     setIsPasswordMatching(newPasswordAgain === password);
   };
 
+  const handleSignUp = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/api/v1/signup', {
+        user_name: name,
+        email: email,
+        password: password,
+      });
+      console.log('회원가입 성공:', response.data);
+      onClose();
+    } catch (error) {
+      console.error('회원가입 실패:', error.response ? error.response.data : error.message);
+    }
+  };
+
   const handleSubmit = () => {
     if (isPasswordValid && isPasswordMatching) {
+      handleSignUp();
       onClose();
     } else {
       console.error('유효하지 않은 비밀번호 또는 비밀번호 불일치!');
