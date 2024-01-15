@@ -131,18 +131,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ title }) => {
               <a href="#" onClick={() => handleFolderClick(folder)}>
                 {folder.title}
               </a>
-              <button
-                onClick={() => handleFolderEdit(folder.id)}
-                className="ml-5 text-blue-700 hover:text-red-700 focus:outline-none"
-              >
-                수정
-              </button>
-              <button
-                onClick={() => handleFolderDelete(folder.id)}
-                className="ml-5 text-red-700 hover:text-red-700 focus:outline-none"
-              >
-                삭제
-              </button>
+              <button className="ml-5 text-blue-700 hover:text-red-700 focus:outline-none">수정</button>
+              <button className="ml-5 text-red-700 hover:text-red-700 focus:outline-none">삭제</button>
             </li>
           ))}
         </ul>
