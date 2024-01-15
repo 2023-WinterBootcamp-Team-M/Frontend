@@ -1,12 +1,12 @@
 import * as React from 'react';
 import ToolTip from '../../components/ToolTip';
-import { DownloadImage, DeleteImage, DeleteAllImages, CreateClipboard } from './ClipboardAPI';
+import { DownloadImage, DeleteImage, DeleteAllImages, CreateClipboard, GetClipboardList } from './ClipboardAPI';
 
 export default function ClipBoardPage(){
 
     const [userId,setUserId] = React.useState<number>(1);
     const [clipImages,setClipImages] = React.useState<string[]|number[]>([]);
-    const [clipboardId,setClipBoardId] = React.useState<string>();
+    const [clipboardId,setClipBoardId] = React.useState();
     const [link,setLink] = React.useState<string>('');
     const [loadedPage, setLoadedPage] = React.useState(1);
     const itemsPerPage = 8;
@@ -96,11 +96,14 @@ export default function ClipBoardPage(){
     className='w-full h-[60%] rounded-[20px] shadow-xl py-2 px-2 bg-white border-2 border-cliptab-blue'>
         <ul className='flex flex-wrap items-center justify-center h-[90%]'>
             {currentItems.map((e)=>(
-                <li className='w-1/2 flex justify-center items-center'>
+                <li key={e.id} className='w-1/2 flex justify-center items-center'>
                 <div className='relative'>
                 <img className='rounded-md shadow-md size-28 border-2 border-cliptab-blue' src={e.img_url}/>
                 <ToolTip title='삭제'>
-                <div className='absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer' onClick={(event)=>DeleteImage(event,clipboardId,e.id,setClipImages)}>
+                <div className='absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer' 
+                onClick={(event)=>{
+                  DeleteImage(event,clipboardId,e.id,setClipImages);
+                  GetClipboardList(event,clipboardId)}}>
                     <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor'>
                         <path fillRule='evenodd' d='M13.293 6.293a1 1 0 011.414 1.414L11.414 11l3.293 3.293a1 1 0 01-1.414 1.414L10 12.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 11 5.293 7.707a1 1 0 111.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 0z' clipRule='evenodd' />
                     </svg>
@@ -109,7 +112,7 @@ export default function ClipBoardPage(){
                 <ToolTip title='저장'>
                 <div className='absolute top-1 left-1 bg-white rounded-full p-1 cursor-pointer hover:bg-gray-200' onClick={(event)=>DownloadImage(event,e.img_url)}>
                     <svg xmlns="http://www.w3.org/2000/svg" className='h-4 w-4' viewBox="0 0 16 16" fill="none">
-                        <path d="M8 2.66669V10.6667M8 10.6667L10 8.66669M8 10.6667L6 8.66669M3.33334 13.3334H12.6667" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 2.66669V10.6667M8 10.6667L10 8.66669M8 10.6667L6 8.66669M3.33334 13.3334H12.6667" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </div>
                 </ToolTip>
