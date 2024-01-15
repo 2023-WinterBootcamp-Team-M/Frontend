@@ -21,13 +21,14 @@ export async function GetClipboardList(event,clipboardId:number) {
     console.log(response.data);
 }
 //클립보드 이미지 개별삭제
-export async function DeleteImage(event,clipboardId:number, pictureId:number){
+export async function DeleteImage(event,clipboardId, pictureId,setClipImages){
     event.preventDefault();
     const response = await axios.delete(`http://localhost:8000/api/v1/clipboard/${clipboardId}/${pictureId}`);
     console.log(response.data);
+    setClipImages((prevImages) => prevImages.filter((image) => image.id !== pictureId));
 }
 //클립보드 이미지 전체 삭제
-export async function DeleteAllImages(event,clipboardId:number,setClipImages){
+export async function DeleteAllImages(event,clipboardId,setClipImages){
     event.preventDefault();
     const response = await axios.delete(`http://localhost:8000/api/v1/clipboard/${clipboardId}/images`);
     setClipImages(response.data.images_list);
