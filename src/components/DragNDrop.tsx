@@ -15,13 +15,15 @@ const DndContainer = ({ post, setPost }: any) => {
     setPost(items);
   };
 
+  // 북마크 삭제
   const handleBookmarkDelete = async (bookmarkId: number) => {
-    await axios.delete(`http://localhost:8000/api/v1/bookmarks/{folder_id}/{bookmark_id}`);
+    await axios.delete(`http://localhost:8000/api/v1/bookmarks/folder_id/{bookmark_id}`);
     console.log(`Deleting bookmark: ${bookmarkId}`);
   };
 
-  const handleBookmarkEdit = (bookmarkId: number) => {
-    // 북마크 수정 로직
+  // 북마크 수정
+  const handleBookmarkEdit = async (bookmarkId: number) => {
+    await axios.patch(`http://localhost:8000/api/v1/folders/{folder_id}`);
     console.log(`Editing bookmark: ${bookmarkId}`);
   };
 
@@ -30,7 +32,7 @@ const DndContainer = ({ post, setPost }: any) => {
       <Droppable droppableId="cardlists">
         {(provided) => (
           <div className="cardlits" {...provided.droppableProps} ref={provided.innerRef}>
-            {post.map((e: any, i: number) => (
+            {post?.map((e: any, i: number) => (
               <Draggable draggableId={`test-${e.id}`} index={i} key={`test-${e.id}`}>
                 {(provided, snapshot) => {
                   return (
@@ -63,7 +65,6 @@ const DndContainer = ({ post, setPost }: any) => {
                         }
                       </div>
                       {/* 원하는 컴포넌트 */}
-
                     </div>
                   );
                 }}
