@@ -1,6 +1,9 @@
 import * as React from 'react';
 import axios from 'axios';
 import SignUpModal from './../components/SignupModal';
+import { userIdStore } from '../store/store';
+
+
 
 export default function StartPage() {
   const [isSignUpOpen, setIsSignUpOpen] = React.useState(false);
@@ -9,6 +12,12 @@ export default function StartPage() {
   const [password, setPassword] = React.useState<string>('');
   const [isPasswordValid, setIsPasswordValid] = React.useState<boolean>(true);
   const [isPasswordMatching, setIsPasswordMatching] = React.useState<boolean>(true);
+  const { userId, setUserId } = userIdStore();
+
+  React.useEffect(() => {
+    // userId 값이 변경될 때마다 실행될 코드
+    console.log('userId 업데이트:', userId);
+  }, [userId]); // userId 값이 변경될 때만 useEffect 실행
 
   const openSignUpModal = () => {
     setIsSignUpOpen(true);
@@ -39,6 +48,7 @@ export default function StartPage() {
           email: email,
           password: password,
         });
+        await setUserId(response.data.id);
         console.log('로그인 성공:', response.data);
         // 성공 처리 로직 (예: 페이지 리디렉션)
       } catch (error) {
