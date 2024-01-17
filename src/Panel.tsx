@@ -5,7 +5,6 @@ import SettingPage from './pages/setting/settingpage';
 import AlarmPage from './pages/alarm/alarmpage';
 import BookmarkPage from './pages/bookmark/BookmarkPage';
 import ClipBoardPage from './pages/clipboard/clipboardpage';
-
 export const APP_EXTEND_WIDTH = 405;
 export const APP_COLLAPSE_WIDTH = 55;
 export default function Panel({
@@ -18,21 +17,17 @@ export default function Panel({
   const [enabled, setEnabled] = useState(initialEnabled);
   const [sidePanelWidth, setSidePanelWidth] = useState(enabled ? APP_EXTEND_WIDTH : APP_COLLAPSE_WIDTH);
   const [tabIndex, setTabIndex] = useState(0);
-
   function handleOnToggle(enabled: boolean) {
     const value = enabled ? APP_EXTEND_WIDTH : APP_COLLAPSE_WIDTH;
     setSidePanelWidth(value);
     onWidthChange(value);
-
     window['chrome'].storage?.local.set({ enabled });
   }
-
   function openPanel(force?: boolean) {
     const newValue = force || !enabled;
     setEnabled(newValue);
     handleOnToggle(newValue);
   }
-
   const pages = [
     { component: StartPage, image: 'https://i.ibb.co/NLhT9rM/icon4-1-2-1.png' },
     { component: BookmarkPage, image: 'https://i.ibb.co/1r871hN/bookmark.png' },
@@ -43,6 +38,7 @@ export default function Panel({
 
   return (
     <div
+      id="themeDiv"
       style={{
         width: sidePanelWidth - 5,
         boxShadow: '0px 0px 5px #0000009e',
@@ -67,12 +63,11 @@ export default function Panel({
       </div>
 
       {/* 콘텐츠 섹션: enabled 상태에 따라 표시 */}
-      <div style={{ display: 'flex', flexGrow: 1, paddingRight: '50px' }}>
+      <div id="contentDiv" style={{ display: 'flex', flexGrow: 1, paddingRight: '50px' }}>
         {enabled && (
           <div style={{ width: '100%', height: '100%' }}>{React.createElement(pages[tabIndex].component)}</div>
         )}
       </div>
-
       <div className="absolute bottom-0 right-0 w-[50px] z-10 flex justify-center items-center p-1">
         <button className="mb-1" onClick={() => openPanel()}>
           <span>
