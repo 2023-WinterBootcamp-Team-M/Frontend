@@ -9,5 +9,5 @@
 }
 
 #contentDiv.dark {
-  @apply dark:text-white dark:bg-slate-700;
+  @apply dark:text-white dark:bg-slate-600;
 }

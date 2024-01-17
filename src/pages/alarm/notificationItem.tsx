@@ -17,7 +17,7 @@ const NotificationItem = ({ notification }) => {
   };
 
   return (
-    <div className="relative w-full h-max mb-4 p-4 rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-col justify-between">
+    <div className="relative w-full h-max mb-4 p-4 bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-col justify-between">
       <button
         className="absolute -top-2 -right-2"
         onMouseEnter={() => setButtonImage('https://i.ibb.co/rss1tFV/Group-1000002293.png')}
@@ -37,7 +37,7 @@ const NotificationItem = ({ notification }) => {
           >
             {notification.url.length > 30 ? `${notification.url.slice(0, 30)}...` : notification.url}
           </a>
-          <div className="text-xs mt-1">
+          <div className="text-xs mt-1 text-gray-950">
             <div>미접속 {notification.daysSinceLastVisit}일이 경과했습니다.</div>
             <div>북마크를 삭제하시겠습니까?</div>
           </div>
