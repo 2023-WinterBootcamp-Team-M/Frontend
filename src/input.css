@@ -4,6 +4,10 @@
   @tailwind utilities;
 }
 
-body {
-  @apply text-black dark:text-white dark:bg-slate-800;
+#contentDiv {
+  @apply text-black;
+}
+
+#contentDiv.dark {
+  @apply dark:text-white dark:bg-slate-700;
 }

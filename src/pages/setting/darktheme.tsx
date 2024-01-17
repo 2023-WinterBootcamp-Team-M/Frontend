@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ThemeToggle = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
-
-    const htmlEl = document.querySelector('html');
-    if (!htmlEl) return;
+  useEffect(() => {
+    const themeDiv = document.getElementById('themeDiv');
+    const contentDiv = document.getElementById('contentDiv');
+    if (!themeDiv) return;
 
     if (isDarkTheme) {
-      htmlEl.classList.remove('dark');
+      themeDiv.classList.add('dark');
+      contentDiv?.classList.add('dark');
     } else {
-      htmlEl.classList.add('dark');
+      themeDiv.classList.remove('dark');
+
+      contentDiv?.classList.remove('dark');
     }
+  }, [isDarkTheme]);
+
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
   };
 
   const Icons = {
@@ -22,7 +28,10 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggleTheme} className="w-[48%] flex flex-col justify-evenly items-center cursor-pointer text-[1.2rem] rounded-xl mb-4 shadow-md shadow-[#77A5FF] bg-white text-sm font-semibold text-cliptab-blue">
+    <button
+      onClick={toggleTheme}
+      className="w-[48%] flex flex-col justify-evenly items-center cursor-pointer text-[1.2rem] rounded-xl mb-4 shadow-md shadow-[#77A5FF] bg-white text-sm font-semibold text-cliptab-blue"
+    >
       <img
         src={isDarkTheme ? Icons.lightTheme : Icons.darkTheme}
         alt="Theme Icon"

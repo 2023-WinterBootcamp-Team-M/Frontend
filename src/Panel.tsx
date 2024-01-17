@@ -43,6 +43,7 @@ export default function Panel({
 
   return (
     <div
+      id="themeDiv"
       style={{
         width: sidePanelWidth - 5,
         boxShadow: '0px 0px 5px #0000009e',
@@ -67,7 +68,7 @@ export default function Panel({
       </div>
 
       {/* 콘텐츠 섹션: enabled 상태에 따라 표시 */}
-      <div style={{ display: 'flex', flexGrow: 1, paddingRight: '50px' }}>
+      <div id="contentDiv" style={{ display: 'flex', flexGrow: 1, paddingRight: '50px' }}>
         {enabled && (
           <div style={{ width: '100%', height: '100%' }}>{React.createElement(pages[tabIndex].component)}</div>
         )}

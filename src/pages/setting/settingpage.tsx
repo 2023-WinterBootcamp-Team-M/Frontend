@@ -9,11 +9,12 @@ type SettingItemProps = {
 
 function SettingItem({ children, onClick, iconSrc }: SettingItemProps) {
   return (
-    <div onClick={onClick} className="w-[48%] justify-evenly flex flex-col mb-4 px-2 items-center text-gray-700 cursor-pointer text-[1.2rem] rounded-xl shadow-md shadow-[#77A5FF] bg-white hover:bg-cliptab-blue">
+    <div
+      onClick={onClick}
+      className="w-[48%] justify-evenly flex flex-col mb-4 px-2 items-center text-gray-700 cursor-pointer text-[1.2rem] rounded-xl shadow-md shadow-[#77A5FF] bg-white hover:bg-cliptab-blue"
+    >
       <img src={iconSrc} alt="Icon" className="" style={{ width: '20px', height: '20px' }} />
-      <p className='text-sm text-cliptab-blue font-bold'>
-      {children}
-      </p>
+      <p className="text-sm text-cliptab-blue font-bold">{children}</p>
     </div>
   );
 }
@@ -81,22 +82,16 @@ export default function SettingPage() {
   return (
     <div className={`flex flex-col items-center h-screen px-5 ${isDarkTheme ? 'dark' : ''}`}>
       <img src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt="logo_icon" className="mt-10 mb-10 w-28 h-auto" />
-      <p className='text-gray-500 self-start py-2'>My Account</p>
-      <div className='w-full bg-white rounded-[15px] shadow-md shadow-[#77A5FF] flex flex-row itmes-center mb-12 py-4 px-2'>
-        <img 
-        className='size-11 rounded-full mx-4 my-1'
-        src='https://i.ibb.co/RpBHbh3/8-2.png'/>
-        <div className='flex flex-col'>
-        <p className='w-full font-semibold my-1'>임동민</p>
-        <p className='w-full text-gray-500 text-sm'>dongmin11566@gmail.com</p>
+      <p className="text-gray-500 self-start py-2">My Account</p>
+      <div className="w-full bg-white rounded-[15px] shadow-md shadow-[#77A5FF] flex flex-row itmes-center mb-12 py-4 px-2">
+        <img className="size-11 rounded-full mx-4 my-1" src="https://i.ibb.co/RpBHbh3/8-2.png" />
+        <div className="flex flex-col">
+          <p className="w-full text-gray-950 font-semibold my-1">임동민</p>
+          <p className="w-full text-gray-500 text-sm">dongmin11566@gmail.com</p>
         </div>
       </div>
-      <p className='text-gray-500 self-start py-3'>Settings</p>
-      <div
-        className={`flex w-full h-[31rem] ${
-          isDarkTheme ? 'bg-gray-800' : 'bg-transparent'
-        }`}
-      >
+      <p className="text-gray-500 self-start py-3">Settings</p>
+      <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-gray-800' : 'bg-transparent'}`}>
         <div className="flex flex-row text-center flex-wrap justify-between">
           <SettingItem iconSrc={icons.summary} onClick={() => handleItemClick('summary')}>
             요약 설정
