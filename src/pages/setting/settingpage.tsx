@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ThemeToggle from './darktheme';
-import { userIdStore } from '../../store/store';
+import { optStore, userIdStore } from '../../store/store';
 import { GetSetting, PutSetting } from './SettingAPI';
 type SettingItemProps = {
   children: React.ReactNode;
@@ -37,10 +37,11 @@ export default function SettingPage() {
   const [currentDropdown, setCurrentDropdown] = React.useState(null);
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
   const {userId} = userIdStore();
-
+  const { opt_sum, opt_start, opt_theme, opt_alarm, toggleOptSum, toggleOptStart, toggleOptTheme, toggleOptAlarm } = optStore();
   React.useEffect(()=>{
     GetSetting(userId);
   },[userId]);
+  
 
   const handleItemClick = (itemName) => {
     setCurrentDropdown(currentDropdown === itemName ? null : itemName);
@@ -93,20 +94,33 @@ export default function SettingPage() {
           iconSrc={icons.summary} 
           onClick={() => {
             // handleItemClick('summary')
-            PutSetting(userId,1,1,1,1)}}>
+            toggleOptSum();
+            PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)}}>
             요약 설정
           </SettingItem>
           {currentDropdown === 'summary' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.summary} />
           )}
-          <SettingItem iconSrc={icons.changeStartPage} onClick={() => handleItemClick('changeStartPage')}>
+          <SettingItem 
+          iconSrc={icons.changeStartPage} 
+          onClick={() => {
+          //handleItemClick('changeStartPage')
+            toggleOptStart();
+            PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
+          }}>
             시작 페이지 변경
           </SettingItem>
           {currentDropdown === 'changeStartPage' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.changeStartPage} />
           )}
           <ThemeToggle />
-          <SettingItem iconSrc={icons.bookmarkNotif} onClick={() => handleItemClick('bookmarkNotif')}>
+          <SettingItem 
+          iconSrc={icons.bookmarkNotif} 
+          onClick={() => {
+            //handleItemClick('bookmarkNotif')
+            toggleOptAlarm();
+            PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
+          }}>
             북마크 알림 주기
           </SettingItem>
           {currentDropdown === 'bookmarkNotif' && (
