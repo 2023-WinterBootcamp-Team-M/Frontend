@@ -12,7 +12,7 @@ export default function StartPage() {
   const [password, setPassword] = React.useState<string>('');
   const [isPasswordValid, setIsPasswordValid] = React.useState<boolean>(true);
   const [isPasswordMatching, setIsPasswordMatching] = React.useState<boolean>(true);
-  const { userId, setUserId,setUserName,setUserEmail } = userIdStore();
+  const { userId, setUserId,setUserName,setUserEmail, setUserPassword } = userIdStore();
 
   React.useEffect(() => {
     // userId 값이 변경될 때마다 실행될 코드
@@ -30,6 +30,7 @@ export default function StartPage() {
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
+    setUserPassword(newPassword);
     // 비밀번호 유효성 검사
     const isLengthValid = newPassword.length >= 8 && newPassword.length <= 20;
     const isComplexityValid =
@@ -108,7 +109,6 @@ export default function StartPage() {
             </button>
           </div>
         </div>
-
         <SignUpModal isOpen={isSignUpOpen} onClose={closeSignUpModal} />
       </div>
     </div>

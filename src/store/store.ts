@@ -2,11 +2,13 @@ import {create} from "zustand";
 
 interface UserIdState {
     userId: number | null;
-    userName: string | null;
-    userEmail: string | null;
+    userName: string | undefined;
+    userEmail: string | undefined;
+    userPassword : string |undefined;
     setUserId: (newState: number) => Promise<void>;
-    setUserName: (newState: string) => Promise<void>;
-    setUserEmail: (newState: string) => Promise<void>;
+    setUserName: (newState: string|undefined) => Promise<void>;
+    setUserEmail: (newState: string|undefined) => Promise<void>;
+    setUserPassword: (newState: string|undefined) => Promise<void>;
 }
 
 interface OptStoreState {
@@ -26,8 +28,9 @@ interface OptStoreActions {
 //유저 아이디
 export const userIdStore = create<UserIdState>((set)=>({
     userId: null,
-    userName: null,
-    userEmail: null,
+    userName: undefined,
+    userEmail: undefined,
+    userPassword: undefined,
     setUserId: async (newState) => {
         set({ userId : newState})
     },
@@ -36,6 +39,9 @@ export const userIdStore = create<UserIdState>((set)=>({
     },
     setUserEmail: async (newState) => {
         set({ userEmail : newState})
+    },
+    setUserPassword: async (newState) => {
+        set({ userPassword : newState})
     },
 }));
 

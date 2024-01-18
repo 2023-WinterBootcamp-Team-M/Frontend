@@ -1,64 +1,57 @@
 import axios from 'axios';
 import React, { useEffect, useRef } from 'react';
+import { userIdStore } from '../store/store';
+import { PutProfile } from '../pages/setting/SettingAPI';
 
-export default function SignUpModal({ isOpen, onClose }) {
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [passwordAgain, setPasswordAgain] = React.useState('');
-  const [isPasswordValid, setIsPasswordValid] = React.useState(true);
-  const [isPasswordMatching, setIsPasswordMatching] = React.useState(true);
+export default function ChangeProfileModal({ isOpen, onClose }) {
+    const { userName, userEmail,userPassword,setUserName,setUserEmail,setUserPassword } = userIdStore();
+    const [name, setName] = React.useState(userName);
+    const [email, setEmail] = React.useState(userEmail);
+    const [password, setPassword] = React.useState(userPassword);
+    const [passwordAgain, setPasswordAgain] = React.useState('');
+    const [isPasswordValid, setIsPasswordValid] = React.useState(true);
+    const [isPasswordMatching, setIsPasswordMatching] = React.useState(true);
+    
+    const handleNameChange = (event) => {
+        setName(event.target.value);
+    };
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
-  };
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
+    const handlePasswordChange = (event) => {
+        const newPassword = event.target.value;
+        setPassword(newPassword);
+        const isLengthValid = newPassword.length >= 8 && newPassword.length <= 20;
+        const isComplexityValid =
+        /[0-9]/.test(newPassword) && /[a-zA-Z]/.test(newPassword) && /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
+        setIsPasswordValid(isLengthValid && isComplexityValid);
+    };
 
-  const handlePasswordChange = (event) => {
-    const newPassword = event.target.value;
-    setPassword(newPassword);
-    const isLengthValid = newPassword.length >= 8 && newPassword.length <= 20;
-    const isComplexityValid =
-      /[0-9]/.test(newPassword) && /[a-zA-Z]/.test(newPassword) && /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
-    setIsPasswordValid(isLengthValid && isComplexityValid);
-  };
+    const handlePasswordAgainChange = (event) => {
+        const newPasswordAgain = event.target.value;
+        setPasswordAgain(newPasswordAgain);
+        setIsPasswordMatching(newPasswordAgain === password);
+    };
 
-  const handlePasswordAgainChange = (event) => {
-    const newPasswordAgain = event.target.value;
-    setPasswordAgain(newPasswordAgain);
-    setIsPasswordMatching(newPasswordAgain === password);
-  };
-
-  const handleSignUp = async () => {
-    try {
-      const response = await axios.post('http://localhost:8000/api/v1/sign-up', {
-        user_name: name,
-        email: email,
-        password: password,
-      });
-      console.log('회원가입 성공:', response.data);
-      onClose();
-    } catch (error) {
-      console.error('회원가입 실패:', error.response ? error.response.data : error.message);
-    }
-  };
-
-  const handleSubmit = () => {
-    if (isPasswordValid && isPasswordMatching) {
-      handleSignUp();
-      onClose();
-    } else {
-      console.error('유효하지 않은 비밀번호 또는 비밀번호 불일치!');
-    }
-  };
+    const handleSubmit = () => {
+        if (isPasswordValid && isPasswordMatching) {
+        PutProfile(email,password,name);
+        setUserEmail(email);
+        setUserName(name);
+        setUserPassword(password);
+        onClose();
+        } else {
+        console.error('유효하지 않은 비밀번호 또는 비밀번호 불일치!');
+        }
+    };
 
   return (
     isOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
         <div className="mx-auto w-[50%] h-[30rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4">
+            <p>회원 정보 수정</p>
           <form>
             <div>
               <div className="w-full text-gray-500 text-sm">Name</div>
@@ -121,7 +114,7 @@ export default function SignUpModal({ isOpen, onClose }) {
               className="bg-[#0096FB] rounded-md shadow-lg text-white px-4 py-1 mx-4 mt-4 w-[90%] h-11 ${isPasswordValid && isPasswordMatching ? '' : 'cursor-not-allowed'}"
               onClick={handleSubmit}
             >
-              Submit
+              회원 정보 수정하기
             </button>
           </form>
         </div>
