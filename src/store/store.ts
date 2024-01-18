@@ -2,7 +2,11 @@ import {create} from "zustand";
 
 interface UserIdState {
     userId: number | null;
+    userName: string | null;
+    userEmail: string | null;
     setUserId: (newState: number) => Promise<void>;
+    setUserName: (newState: string) => Promise<void>;
+    setUserEmail: (newState: string) => Promise<void>;
 }
 
 interface OptStoreState {
@@ -22,9 +26,17 @@ interface OptStoreActions {
 //유저 아이디
 export const userIdStore = create<UserIdState>((set)=>({
     userId: null,
+    userName: null,
+    userEmail: null,
     setUserId: async (newState) => {
-    await set({ userId : newState})
-  },
+        set({ userId : newState})
+    },
+    setUserName: async (newState) => {
+        set({ userName : newState})
+    },
+    setUserEmail: async (newState) => {
+        set({ userEmail : newState})
+    },
 }));
 
 //설정

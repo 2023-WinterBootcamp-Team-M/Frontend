@@ -36,8 +36,10 @@ function Divider() {
 export default function SettingPage() {
   const [currentDropdown, setCurrentDropdown] = React.useState(null);
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-  const {userId} = userIdStore();
+  const { userId,userName,userEmail} = userIdStore();
   const { opt_sum, opt_start, opt_theme, opt_alarm, toggleOptSum, toggleOptStart, toggleOptTheme, toggleOptAlarm } = optStore();
+
+  
   React.useEffect(()=>{
     GetSetting(userId);
   },[userId,opt_sum, opt_start, opt_theme, opt_alarm]);
@@ -83,8 +85,8 @@ export default function SettingPage() {
       <div className="w-full bg-white rounded-[15px] shadow-md shadow-[#77A5FF] flex flex-row itmes-center mb-12 py-4 px-2">
         <img className="size-11 rounded-full mx-4 my-1" src="https://i.ibb.co/RpBHbh3/8-2.png" />
         <div className="flex flex-col">
-          <p className="w-full text-gray-950 font-semibold my-1">임동민</p>
-          <p className="w-full text-gray-500 text-sm">dongmin11566@gmail.com</p>
+          <p className="w-full text-gray-950 font-semibold my-1">{userName}</p>
+          <p className="w-full text-gray-500 text-sm">{userEmail}</p>
         </div>
       </div>
       <p className="text-gray-500 self-start py-3">Settings</p>
