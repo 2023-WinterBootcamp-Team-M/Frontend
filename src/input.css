@@ -11,3 +11,24 @@
 #contentDiv.dark {
   @apply dark:text-white dark:bg-slate-700;
 }
+
+/* 팡파레 애니메이션 키 프레임 */
+@keyframes pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 팡파레 애니메이션 적용 클래스 */
+.pop-effect {
+  animation: pop 0.5s ease-out;
+}

@@ -58,7 +58,7 @@ export default function SignUpModal({ isOpen, onClose }) {
   return (
     isOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-        <div className="mx-auto w-[50%] h-[30rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4">
+        <div className="mx-auto w-[50%] h-max bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4">
           <form>
             <div>
               <div className="w-full text-gray-500 text-sm">Name</div>
@@ -71,9 +71,7 @@ export default function SignUpModal({ isOpen, onClose }) {
               />
             </div>
             <div>
-              <label htmlFor="Email" className="w-full text-gray-500 text-sm">
-                Email
-              </label>
+              <div className="w-full text-gray-500 text-sm">Email</div>
               <input
                 className="w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
                 type="email"
@@ -83,9 +81,7 @@ export default function SignUpModal({ isOpen, onClose }) {
               />
             </div>
             <div>
-              <label htmlFor="Password" className="w-full text-gray-500 text-sm">
-                Password
-              </label>
+              <div className="w-full text-gray-500 text-sm">Password</div>
               <input
                 className={`w-[90%] h-11 mx-4 my-2 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500 ${
                   !isPasswordValid ? 'border-red-500' : ''
