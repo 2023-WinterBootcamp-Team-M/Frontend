@@ -48,6 +48,10 @@ const SignInModal = ({ onLoginSuccess }) => {
   return (
     <div className="modal-container flex items-center justify-center">
       <div className="mx-auto w-[90%] h-max bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4">
+        <img //작은 로고
+          className="size-8 ml-5 mt-2"
+          src="https://i.ibb.co/NLhT9rM/icon4-1-2-1.png"
+        />
         <input
           className="w-[90%] h-11 mx-4 my-2 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
           type="email"
@@ -73,7 +77,7 @@ const SignInModal = ({ onLoginSuccess }) => {
         <div className="w-full text-gray-500 text-xs text-right px-5 py-1 mt-1">
           <button>아이디</button>/<button>비밀번호 찾기</button> | <button onClick={openSignUpModal}>회원가입</button>
           <button
-            className={`bg-[#0096FB] rounded-md shadow-lg text-white px-4 py-1 mx-3 mt-8 mb-3 w-[90%] h-11 ${
+            className={`bg-[#0096FB] rounded-md shadow-lg text-white px-4 py-1 mx-3 mt-4 mb-3 w-[90%] h-11 ${
               isPasswordValid && isPasswordMatching ? '' : 'cursor-not-allowed'
             }`}
             onClick={isPasswordValid && isPasswordMatching ? handleLogin : undefined}
