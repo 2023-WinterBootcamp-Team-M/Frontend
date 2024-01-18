@@ -99,7 +99,7 @@ export default function SettingPage() {
             toggleOptSum();
             PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)}}>
             요약 설정
-            <p>{opt_sum ? '3줄 요약' : '6줄 요약'}</p>
+            <p className={` ${opt_sum ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>{opt_sum ? '3줄 요약' : '6줄 요약'}</p>
           </SettingItem>
           {currentDropdown === 'summary' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.summary} />
@@ -112,7 +112,7 @@ export default function SettingPage() {
             PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
           }}>
             시작 페이지 변경
-            <p>{opt_start ? '북마크' : '이미지 클립'}</p>
+            <p className={` ${opt_start ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>{opt_start ? '북마크' : '이미지 클립'}</p>
           </SettingItem>
           {currentDropdown === 'changeStartPage' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.changeStartPage} />
@@ -126,7 +126,7 @@ export default function SettingPage() {
             PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
           }}>
             북마크 알림 주기
-            <p>{opt_alarm ? '15일' : '30일'}</p>
+            <p className={` ${opt_alarm ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>{opt_alarm ? '15일' : '30일'}</p>
           </SettingItem>
           {currentDropdown === 'bookmarkNotif' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.bookmarkNotif} />
