@@ -44,7 +44,7 @@ export default function StartPage() {
   const handleLogin = async () => {
     if (isPasswordValid) {
       try {
-        const response = await axios.post('http://localhost:8000/api/v1/signin', {
+        const response = await axios.post('http://localhost:8000/api/v1/sign-in', {
           email: email,
           password: password,
         });
