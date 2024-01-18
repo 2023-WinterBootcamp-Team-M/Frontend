@@ -16,9 +16,18 @@ const DndContainer = ({ post, setPost }: any) => {
   };
 
   // 북마크 삭제
-  const handleBookmarkDelete = async (bookmarkId: number) => {
-    await axios.delete(`http://localhost:8000/api/v1/bookmarks/folder_id/{bookmark_id}`);
-    console.log(`Deleting bookmark: ${bookmarkId}`);
+  const handleBookmarkDelete = async (bookmark_id: number) => {
+    const folder_id = 1;
+
+    try {
+      await axios.delete(`http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_id}`);
+      // 성공적으로 삭제된 북마크를 UI에서 즉시 제거합니다.
+      setPost((prevPost: any) => prevPost.filter((bookmark: any) => bookmark.id !== bookmark_id));
+
+      // 삭제 요청을 보냅니다.
+    } catch (error) {
+      console.error('북마크 삭제 중 오류 발생:', error);
+    }
   };
 
   // 북마크 수정

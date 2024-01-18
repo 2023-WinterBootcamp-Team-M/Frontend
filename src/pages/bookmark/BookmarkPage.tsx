@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ToolTip from '../../components/ToolTip';
 import DndContainer from '../../components/DragNDrop';
 import axios from 'axios';
 
@@ -31,6 +30,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isBookmarkFormVisible, setIsBookmarkFormVisible] = useState(false);
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
+  const [bookmarkName, setBookmarkName] = useState('');
+  const [bookmarkUrl, setBookmarkUrl] = useState('');
 
   const handleFolderClick = (folder: BookmarkFolder) => {
     if (selectedFolder && selectedFolder.id === folder.id) {
@@ -126,19 +127,53 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   };
 
   // 북마크 생성
-  const handleBookmarkCreate = async (folderId: number, bookmarkIcon, bookmarkName, bookmarkUrl: string) => {
+  const handleBookmarkCreateSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
     try {
-      const jsonData = { name: bookmarkName, folderId: folderId, icon: bookmarkIcon, url: bookmarkUrl };
+      const folder_id = 1;
+
+      if (!folder_id) {
+        console.error('Please select a folder.');
+        return;
+      }
+
+      const jsonData = {
+        name: bookmarkName,
+        url: bookmarkUrl,
+        folder_id: folder_id,
+      };
+      console.log(bookmarkName, bookmarkUrl, folder_id);
       const response = await axios.post(`http://localhost:8000/api/v1/bookmarks`, jsonData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response.data);
+      await handleBookmarkFetch(folder_id);
+      setBookmarkName('');
+      setBookmarkUrl('');
+      setIsBookmarkFormVisible(false);
     } catch (error) {
       console.error('북마크 생성 중 오류 발생:', error);
     }
   };
+
+  // 북마크 조회
+  const handleBookmarkFetch = async (folder_id: number) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
+      const userBookmarks = response.data;
+      console.log(response.data);
+      setBookmarks(userBookmarks);
+    } catch (err) {
+      console.error('Error fetching folders:', err);
+    }
+  };
+
+  useEffect(() => {
+    const folder_id = 1;
+    handleBookmarkFetch(folder_id);
+  }, []);
 
   const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
     if (selectedFolder) {
@@ -171,7 +206,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           onClick={handleFolderCreateClick}
           className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
         >
-          생성
+          폴더 생성
         </button>
         <button
           onClick={handleBookmarkCreateClick}
@@ -207,15 +242,25 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
       {isBookmarkFormVisible && (
         <form
-          onSubmit={handleFolderCreateSubmit}
+          onSubmit={handleBookmarkCreateSubmit}
           className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
         >
           <label className="text-sm">
-            url 입력:
+            북마크 이름:
             <input
               type="text"
-              value={folderName}
-              onChange={(e) => setFolderName(e.target.value)}
+              value={bookmarkName}
+              onChange={(e) => setBookmarkName(e.target.value)}
+              placeholder="북마크 이름을 입력하세요"
+              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+            />
+          </label>
+          <label className="text-sm">
+            url:
+            <input
+              type="text"
+              value={bookmarkUrl}
+              onChange={(e) => setBookmarkUrl(e.target.value)}
               placeholder="url을 입력하세요"
               className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
             />
@@ -276,25 +321,19 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         </ul>
         {selectedFolder && (
           <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
-            <DndContainer post={selectedFolder.bookmarks} setPost={updateSelectedFolderBookmarks}>
+            <DndContainer post={bookmarks} setPost={setBookmarks}>
               <div>삭제</div>
+              {bookmarks.map((bookmark) => (
+                <li key={bookmark.id} className="flex items-center">
+                  <img className="w-4 h-4 mr-2" src="https://i.ibb.co/d6KTNk1/Bookmark.png" alt="Bookmark Icon" />
+                  <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
+                    {bookmark.name}
+                  </a>
+                </li>
+              ))}
             </DndContainer>
           </div>
         )}
-      </div>
-      <div className="text-gray-500 self-start text-xl flex items-center">
-        <h2 className="ml-4">북마크 편집</h2>
-        <img className="ml-2  w-4 h-4" src="https://i.ibb.co/Bj1DmqY/add-square.png" alt="Add Icon" />
-      </div>
-      <div className="mx-auto mt-4 w-[90%] h-[9rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4">
-        <ul className="text-sm p-5 leading-8 m-0">
-          {bookmarks.map((bookmark) => (
-            <li key={bookmark.id} className="flex items-center">
-              <img className="w-4 h-4 mr-2" src={bookmark.imageUrl} alt="Bookmark Icon" />
-              <a href={bookmark.url}>{bookmark.name}</a>
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );
