@@ -1,4 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
+import { pageStore } from './store/store';
 import Button from './components/Button';
 import StartPage from './pages/start';
 import SettingPage from './pages/setting/settingpage';
@@ -14,6 +15,7 @@ export default function Panel({
   onWidthChange: (value: number) => void;
   initialEnabled: boolean;
 }): ReactElement {
+  const pageIndex = pageStore((state) => state.pageIndex);
   const [enabled, setEnabled] = useState(initialEnabled);
   const [sidePanelWidth, setSidePanelWidth] = useState(enabled ? APP_EXTEND_WIDTH : APP_COLLAPSE_WIDTH);
   const [tabIndex, setTabIndex] = useState(0);
@@ -23,17 +25,26 @@ export default function Panel({
     onWidthChange(value);
     window['chrome'].storage?.local.set({ enabled });
   }
+
+  useEffect(() => {
+    setEnabled(true);
+    setSidePanelWidth(APP_EXTEND_WIDTH);
+    onWidthChange(APP_EXTEND_WIDTH);
+    // 페이지 인덱스에 따라 적절한 페이지를 렌더링하기 위해 tabIndex 업데이트
+    setTabIndex(pageIndex);
+  }, [pageIndex, onWidthChange]);
+
   function openPanel(force?: boolean) {
     const newValue = force || !enabled;
     setEnabled(newValue);
     handleOnToggle(newValue);
   }
   const pages = [
-    { component: StartPage, image: 'https://i.ibb.co/NLhT9rM/icon4-1-2-1.png' },
-    { component: BookmarkPage, image: 'https://i.ibb.co/1r871hN/bookmark.png' },
-    { component: ClipBoardPage, image: 'https://i.ibb.co/8zswCqT/Icon.png' },
-    { component: AlarmPage, image: 'https://i.ibb.co/7rCxDb9/notifications-1.png' },
-    { component: SettingPage, image: 'https://i.ibb.co/th2mHGg/build-2.png' },
+    { number: 1, component: StartPage, image: 'https://i.ibb.co/NLhT9rM/icon4-1-2-1.png' },
+    { number: 2, component: BookmarkPage, image: 'https://i.ibb.co/1r871hN/bookmark.png' },
+    { number: 3, component: ClipBoardPage, image: 'https://i.ibb.co/8zswCqT/Icon.png' },
+    { number: 4, component: AlarmPage, image: 'https://i.ibb.co/7rCxDb9/notifications-1.png' },
+    { number: 5, component: SettingPage, image: 'https://i.ibb.co/th2mHGg/build-2.png' },
   ];
 
   return (
@@ -47,7 +58,7 @@ export default function Panel({
     >
       {/* 오른쪽에 고정된 메뉴바 섹션 */}
       <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 bg-gray-200">
-        {pages.map(({ component, image }, index) => (
+        {pages.map(({ number, image }, index) => (
           <Button
             key={index}
             active={index === tabIndex}
@@ -57,7 +68,7 @@ export default function Panel({
             }}
             className="py-2 flex justify-center items-center"
           >
-            <img src={image} alt={`Button ${index + 1}`} className="w-7 h-7 object-cover" />
+            <img src={image} alt={`Button ${number}`} className="w-7 h-7 object-cover" />
           </Button>
         ))}
       </div>
