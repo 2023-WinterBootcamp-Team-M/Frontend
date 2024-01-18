@@ -6,9 +6,9 @@ interface UserIdState {
     userEmail: string | undefined;
     userPassword : string |undefined;
     setUserId: (newState: number) => Promise<void>;
-    setUserName: (newState: string) => Promise<void>;
-    setUserEmail: (newState: string) => Promise<void>;
-    setUserPassword: (newState: string) => Promise<void>;
+    setUserName: (newState: string|undefined) => Promise<void>;
+    setUserEmail: (newState: string|undefined) => Promise<void>;
+    setUserPassword: (newState: string|undefined) => Promise<void>;
 }
 
 interface OptStoreState {

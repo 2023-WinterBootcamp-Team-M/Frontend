@@ -4,7 +4,7 @@ import { userIdStore } from '../store/store';
 import { PutProfile } from '../pages/setting/SettingAPI';
 
 export default function ChangeProfileModal({ isOpen, onClose }) {
-    const { userName, userEmail,userPassword } = userIdStore();
+    const { userName, userEmail,userPassword,setUserName,setUserEmail,setUserPassword } = userIdStore();
     const [name, setName] = React.useState(userName);
     const [email, setEmail] = React.useState(userEmail);
     const [password, setPassword] = React.useState(userPassword);
@@ -38,6 +38,9 @@ export default function ChangeProfileModal({ isOpen, onClose }) {
     const handleSubmit = () => {
         if (isPasswordValid && isPasswordMatching) {
         PutProfile(email,password,name);
+        setUserEmail(email);
+        setUserName(name);
+        setUserPassword(password);
         onClose();
         } else {
         console.error('유효하지 않은 비밀번호 또는 비밀번호 불일치!');

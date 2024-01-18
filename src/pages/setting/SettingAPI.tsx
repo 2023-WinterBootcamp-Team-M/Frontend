@@ -1,4 +1,5 @@
 import axios from "axios";
+import { userIdStore } from "../../store/store";
 
 export async function GetSetting(user_id:number|null){
     try {
@@ -30,6 +31,7 @@ export async function PutSetting (user_id:number|null,opt_sum:number,opt_start:n
 }
 
 export async function PutProfile(updatedEmail,updatedPassword,updatedName) {
+    
     try {
         const jsonForm = {
             "email": updatedEmail,
@@ -41,6 +43,7 @@ export async function PutProfile(updatedEmail,updatedPassword,updatedName) {
                 'Content-Type' : 'application/json'
             }
         });
+        
         console.log('유저 정보 수정:',response.data);
     } catch(error) {
         console.error('유저 정보 수정 실패',error.message);
