@@ -39,7 +39,7 @@ export default function SettingPage() {
   const { userId,userName,userEmail} = userIdStore();
   const { opt_sum, opt_start, opt_theme, opt_alarm, toggleOptSum, toggleOptStart, toggleOptTheme, toggleOptAlarm } = optStore();
 
-  
+  //유저아이디 or 설정 정보가 업데이트 될때마다 설정정보 조회
   React.useEffect(()=>{
     GetSetting(userId);
   },[userId,opt_sum, opt_start, opt_theme, opt_alarm]);
