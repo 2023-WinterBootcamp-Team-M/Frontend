@@ -18,7 +18,7 @@ export default function StartPage() {
   const handleStartClick = () => {
     setPageIndex(1); // 북마크 페이지 탭 인덱스
     console.log('1번 페이지로 이동');
-    setEnabled(true); // 패널을 활성화 상태로 설정
+    setEnabled(true); // 패널 활성화 상태
   };
 
   return (
@@ -27,9 +27,14 @@ export default function StartPage() {
       {!userId ? (
         <SignInModal onLoginSuccess={handleLoginSuccess} />
       ) : (
-        <div className="">
-          <div>{userName}님 접속을 환영합니다!</div>
-          <button onClick={handleStartClick}>시작하기</button>
+        <div className="flex flex-col items-center justify-center h-screen animate-pop">
+          <div className="text-lg mb-4 -mt-44">{userName}님 접속을 환영합니다!</div>
+          <button
+            onClick={handleStartClick}
+            className="bg-[#0096FB] hover:bg-[#0078d4] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11 cursor-pointer"
+          >
+            시작하기
+          </button>
         </div>
       )}
     </div>
