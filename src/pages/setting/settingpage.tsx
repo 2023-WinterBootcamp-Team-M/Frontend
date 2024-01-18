@@ -1,5 +1,7 @@
 import * as React from 'react';
 import ThemeToggle from './darktheme';
+import { userIdStore } from '../../store/store';
+import { GetSetting, PutSetting } from './SettingAPI';
 type SettingItemProps = {
   children: React.ReactNode;
   onClick?: () => void;
@@ -34,6 +36,12 @@ function Divider() {
 export default function SettingPage() {
   const [currentDropdown, setCurrentDropdown] = React.useState(null);
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+  const {userId} = userIdStore();
+
+  React.useEffect(()=>{
+    GetSetting(userId);
+  },[userId]);
+
   const handleItemClick = (itemName) => {
     setCurrentDropdown(currentDropdown === itemName ? null : itemName);
   };
@@ -81,7 +89,11 @@ export default function SettingPage() {
       <p className="text-gray-500 self-start py-3">Settings</p>
       <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-gray-800' : 'bg-transparent'}`}>
         <div className="flex flex-row text-center flex-wrap justify-between">
-          <SettingItem iconSrc={icons.summary} onClick={() => handleItemClick('summary')}>
+          <SettingItem 
+          iconSrc={icons.summary} 
+          onClick={() => {
+            // handleItemClick('summary')
+            PutSetting(userId,1,1,1,1)}}>
             요약 설정
           </SettingItem>
           {currentDropdown === 'summary' && (
