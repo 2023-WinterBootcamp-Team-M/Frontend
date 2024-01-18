@@ -34,7 +34,7 @@ export default function SignUpModal({ isOpen, onClose }) {
 
   const handleSignUp = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/sign-up', {
+      const response = await axios.post('http://localhost:8000/api/v1/signup', {
         user_name: name,
         email: email,
         password: password,
