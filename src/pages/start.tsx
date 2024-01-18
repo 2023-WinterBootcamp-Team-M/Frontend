@@ -20,6 +20,7 @@ export default function StartPage() {
     setPageIndex(1); // 북마크 페이지 탭 인덱스
     console.log('1번 페이지로 이동');
     setEnabled(true); // 패널 활성화 상태
+
   };
 
   return (
@@ -37,6 +38,7 @@ export default function StartPage() {
             시작하기
           </button>
         </div>
+
       )}
     </div>
   );

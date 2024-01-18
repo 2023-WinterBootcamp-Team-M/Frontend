@@ -1,12 +1,15 @@
 import { create } from 'zustand';
 
 interface UserIdState {
-  userId: number | null;
-  userName: string | null;
-  userEmail: string | null;
-  setUserId: (newState: number) => Promise<void>;
-  setUserName: (newState: string) => Promise<void>;
-  setUserEmail: (newState: string) => Promise<void>;
+
+    userId: number | null;
+    userName: string | undefined;
+    userEmail: string | undefined;
+    userPassword : string |undefined;
+    setUserId: (newState: number) => Promise<void>;
+    setUserName: (newState: string|undefined) => Promise<void>;
+    setUserEmail: (newState: string|undefined) => Promise<void>;
+    setUserPassword: (newState: string|undefined) => Promise<void>;
 }
 
 interface OptStoreState {
@@ -28,20 +31,23 @@ interface PageState {
   setPageIndex: (newPageIndex: number) => void;
 }
 
-//유저 아이디
-export const userIdStore = create<UserIdState>((set) => ({
-  userId: null,
-  userName: null,
-  userEmail: null,
-  setUserId: async (newState) => {
-    set({ userId: newState });
-  },
-  setUserName: async (newState) => {
-    set({ userName: newState });
-  },
-  setUserEmail: async (newState) => {
-    set({ userEmail: newState });
-  },
+export const userIdStore = create<UserIdState>((set)=>({
+    userId: null,
+    userName: undefined,
+    userEmail: undefined,
+    userPassword: undefined,
+    setUserId: async (newState) => {
+        set({ userId : newState})
+    },
+    setUserName: async (newState) => {
+        set({ userName : newState})
+    },
+    setUserEmail: async (newState) => {
+        set({ userEmail : newState})
+    },
+    setUserPassword: async (newState) => {
+        set({ userPassword : newState})
+    },
 }));
 
 //설정
