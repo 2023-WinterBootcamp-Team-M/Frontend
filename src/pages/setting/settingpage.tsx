@@ -110,6 +110,7 @@ export default function SettingPage() {
             PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
           }}>
             시작 페이지 변경
+            <p>{opt_start ? '북마크' : '이미지 클립'}</p>
           </SettingItem>
           {currentDropdown === 'changeStartPage' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.changeStartPage} />
@@ -123,6 +124,7 @@ export default function SettingPage() {
             PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
           }}>
             북마크 알림 주기
+            <p>{opt_alarm ? '15일' : '30일'}</p>
           </SettingItem>
           {currentDropdown === 'bookmarkNotif' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.bookmarkNotif} />
