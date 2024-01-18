@@ -40,7 +40,7 @@ export default function SettingPage() {
   const { opt_sum, opt_start, opt_theme, opt_alarm, toggleOptSum, toggleOptStart, toggleOptTheme, toggleOptAlarm } = optStore();
   React.useEffect(()=>{
     GetSetting(userId);
-  },[userId]);
+  },[userId,opt_sum, opt_start, opt_theme, opt_alarm]);
   
 
   const handleItemClick = (itemName) => {
@@ -97,6 +97,7 @@ export default function SettingPage() {
             toggleOptSum();
             PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)}}>
             요약 설정
+            <p>{opt_sum ? '3줄 요약' : '6줄 요약'}</p>
           </SettingItem>
           {currentDropdown === 'summary' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.summary} />
