@@ -28,3 +28,21 @@ export async function PutSetting (user_id:number|null,opt_sum:number,opt_start:n
         console.error('설정 조회 실패:',error.message);
     }
 }
+
+export async function PutProfile(updatedEmail,updatedPassword,updatedName) {
+    try {
+        const jsonForm = {
+            "email": updatedEmail,
+            "password": updatedPassword,
+            "user_name": updatedName
+        };
+        const response = await axios.put('http://localhost:8000/api/v1/profile',jsonForm,{
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+        });
+        console.log('유저 정보 수정:',response.data);
+    } catch(error) {
+        console.error('유저 정보 수정 실패',error.message);
+    }
+}
