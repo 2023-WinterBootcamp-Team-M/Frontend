@@ -174,6 +174,23 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
+  // 북마크 조회
+  const handleBookmarkFetch = async (folder_id: number) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
+      const userBookmarks = response.data;
+      console.log(response.data);
+      setBookmarks(userBookmarks);
+    } catch (err) {
+      console.error('Error fetching folders:', err);
+    }
+  };
+
+  useEffect(() => {
+    const folder_id = 1;
+    handleBookmarkFetch(folder_id);
+  }, []);
+
   const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
     if (selectedFolder) {
       const updatedFolder = { ...selectedFolder, bookmarks: newBookmarks };
@@ -214,7 +231,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           onClick={handleFolderCreateClick}
           className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
         >
-          폴더 생성
+          폴더 폴더 생성
         </button>
         <button
           onClick={handleBookmarkCreateClick}
