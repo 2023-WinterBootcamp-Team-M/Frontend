@@ -12,7 +12,7 @@ export default function StartPage() {
   const [password, setPassword] = React.useState<string>('');
   const [isPasswordValid, setIsPasswordValid] = React.useState<boolean>(true);
   const [isPasswordMatching, setIsPasswordMatching] = React.useState<boolean>(true);
-  const { userId, setUserId } = userIdStore();
+  const { userId, setUserId,setUserName,setUserEmail } = userIdStore();
 
   React.useEffect(() => {
     // userId 값이 변경될 때마다 실행될 코드
@@ -40,7 +40,7 @@ export default function StartPage() {
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
-
+  //로그인 함수
   const handleLogin = async () => {
     if (isPasswordValid) {
       try {
@@ -48,7 +48,9 @@ export default function StartPage() {
           email: email,
           password: password,
         });
-        await setUserId(response.data.id);
+        setUserId(response.data.id);
+        setUserName(response.data.name);
+        setUserEmail(response.data.email);
         console.log('로그인 성공:', response.data);
         // 성공 처리 로직 (예: 페이지 리디렉션)
       } catch (error) {

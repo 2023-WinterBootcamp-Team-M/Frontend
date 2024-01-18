@@ -1,5 +1,7 @@
 import * as React from 'react';
 import ThemeToggle from './darktheme';
+import { optStore, userIdStore } from '../../store/store';
+import { GetSetting, PutSetting } from './SettingAPI';
 type SettingItemProps = {
   children: React.ReactNode;
   onClick?: () => void;
@@ -34,6 +36,15 @@ function Divider() {
 export default function SettingPage() {
   const [currentDropdown, setCurrentDropdown] = React.useState(null);
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+  const { userId,userName,userEmail} = userIdStore();
+  const { opt_sum, opt_start, opt_theme, opt_alarm, toggleOptSum, toggleOptStart, toggleOptTheme, toggleOptAlarm } = optStore();
+
+  //유저아이디 or 설정 정보가 업데이트 될때마다 설정정보 조회
+  React.useEffect(()=>{
+    GetSetting(userId);
+  },[userId,opt_sum, opt_start, opt_theme, opt_alarm]);
+  
+
   const handleItemClick = (itemName) => {
     setCurrentDropdown(currentDropdown === itemName ? null : itemName);
   };
@@ -74,28 +85,48 @@ export default function SettingPage() {
       <div className="w-full bg-white rounded-[15px] shadow-md shadow-[#77A5FF] flex flex-row itmes-center mb-12 py-4 px-2">
         <img className="size-11 rounded-full mx-4 my-1" src="https://i.ibb.co/RpBHbh3/8-2.png" />
         <div className="flex flex-col">
-          <p className="w-full text-gray-950 font-semibold my-1">임동민</p>
-          <p className="w-full text-gray-500 text-sm">dongmin11566@gmail.com</p>
+          <p className="w-full text-gray-950 font-semibold my-1">{userName}</p>
+          <p className="w-full text-gray-500 text-sm">{userEmail}</p>
         </div>
       </div>
       <p className="text-gray-500 self-start py-3">Settings</p>
       <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-gray-800' : 'bg-transparent'}`}>
         <div className="flex flex-row text-center flex-wrap justify-between">
-          <SettingItem iconSrc={icons.summary} onClick={() => handleItemClick('summary')}>
+          <SettingItem 
+          iconSrc={icons.summary} 
+          onClick={() => {
+            // handleItemClick('summary')
+            toggleOptSum();
+            PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)}}>
             요약 설정
+            <p>{opt_sum ? '3줄 요약' : '6줄 요약'}</p>
           </SettingItem>
           {currentDropdown === 'summary' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.summary} />
           )}
-          <SettingItem iconSrc={icons.changeStartPage} onClick={() => handleItemClick('changeStartPage')}>
+          <SettingItem 
+          iconSrc={icons.changeStartPage} 
+          onClick={() => {
+          //handleItemClick('changeStartPage')
+            toggleOptStart();
+            PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
+          }}>
             시작 페이지 변경
+            <p>{opt_start ? '북마크' : '이미지 클립'}</p>
           </SettingItem>
           {currentDropdown === 'changeStartPage' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.changeStartPage} />
           )}
           <ThemeToggle />
-          <SettingItem iconSrc={icons.bookmarkNotif} onClick={() => handleItemClick('bookmarkNotif')}>
+          <SettingItem 
+          iconSrc={icons.bookmarkNotif} 
+          onClick={() => {
+            //handleItemClick('bookmarkNotif')
+            toggleOptAlarm();
+            PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
+          }}>
             북마크 알림 주기
+            <p>{opt_alarm ? '15일' : '30일'}</p>
           </SettingItem>
           {currentDropdown === 'bookmarkNotif' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.bookmarkNotif} />

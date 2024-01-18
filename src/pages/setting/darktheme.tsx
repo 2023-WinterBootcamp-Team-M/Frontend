@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { optStore, userIdStore } from '../../store/store';
+import { GetSetting, PutSetting } from './SettingAPI';
 
 const ThemeToggle = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
-
+  const { opt_theme,opt_alarm,opt_start,opt_sum, toggleOptTheme } = optStore();
+  const { userId } = userIdStore();
   useEffect(() => {
     const themeDiv = document.getElementById('themeDiv');
     const contentDiv = document.getElementById('contentDiv');
     if (!themeDiv) return;
 
-    if (isDarkTheme) {
+    if (opt_theme) {
       themeDiv.classList.add('dark');
       contentDiv?.classList.add('dark');
     } else {
@@ -16,10 +18,10 @@ const ThemeToggle = () => {
 
       contentDiv?.classList.remove('dark');
     }
-  }, [isDarkTheme]);
+  }, [opt_theme]);
 
   const toggleTheme = () => {
-    setIsDarkTheme(!isDarkTheme);
+    toggleOptTheme();
   };
 
   const Icons = {
@@ -29,15 +31,18 @@ const ThemeToggle = () => {
 
   return (
     <button
-      onClick={toggleTheme}
+      onClick={()=>{
+        toggleTheme();
+        PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm);
+      }}
       className="w-[48%] flex flex-col justify-evenly items-center cursor-pointer text-[1.2rem] rounded-xl mb-4 shadow-md shadow-[#77A5FF] bg-white text-sm font-semibold text-cliptab-blue"
     >
       <img
-        src={isDarkTheme ? Icons.lightTheme : Icons.darkTheme}
+        src={opt_theme? Icons.lightTheme : Icons.darkTheme}
         alt="Theme Icon"
         style={{ width: '20px', height: '20px', marginRight: '8px' }}
       />
-      {isDarkTheme ? '어두운 테마' : '밝은 테마'}
+      {opt_theme ? '어두운 테마' : '밝은 테마'}
     </button>
   );
 };
