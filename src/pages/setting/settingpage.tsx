@@ -2,6 +2,7 @@ import * as React from 'react';
 import ThemeToggle from './darktheme';
 import { optStore, userIdStore } from '../../store/store';
 import { GetSetting, PutSetting } from './SettingAPI';
+import ChangeProfileModal from '../../components/ChangeProfileModal';
 type SettingItemProps = {
   children: React.ReactNode;
   onClick?: () => void;
@@ -38,6 +39,7 @@ export default function SettingPage() {
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
   const { userId,userName,userEmail} = userIdStore();
   const { opt_sum, opt_start, opt_theme, opt_alarm, toggleOptSum, toggleOptStart, toggleOptTheme, toggleOptAlarm } = optStore();
+  const [ isChangeProfileOpen, setIsChangeProfileOpen ] = React.useState(false);
 
   //유저아이디 or 설정 정보가 업데이트 될때마다 설정정보 조회
   React.useEffect(()=>{
@@ -71,6 +73,15 @@ export default function SettingPage() {
       htmlEl.classList.add('dark');
     }
   };
+
+  const openChangeProfileModal = () => {
+    setIsChangeProfileOpen(true);
+  };
+  
+  const closeChangeProfileModal = () => {
+    setIsChangeProfileOpen(false);
+  };
+
   const icons = {
     summary: 'https://i.ibb.co/s1tpM8f/free-icon-open-book-167755.png',
     changeStartPage: 'https://i.ibb.co/R6kYBpq/free-icon-page-layout-4548040.png',
@@ -88,6 +99,12 @@ export default function SettingPage() {
           <p className="w-full text-gray-950 font-semibold my-1">{userName}</p>
           <p className="w-full text-gray-500 text-sm">{userEmail}</p>
         </div>
+        <button
+        onClick={()=>{
+          openChangeProfileModal();
+
+        }}
+        >수정버튼</button>
       </div>
       <p className="text-gray-500 self-start py-3">Settings</p>
       <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-gray-800' : 'bg-transparent'}`}>
@@ -132,6 +149,7 @@ export default function SettingPage() {
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.bookmarkNotif} />
           )}
         </div>
+        <ChangeProfileModal isOpen={isChangeProfileOpen} onClose={closeChangeProfileModal} />
       </div>
     </div>
   );
