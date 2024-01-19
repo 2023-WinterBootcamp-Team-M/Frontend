@@ -26,6 +26,11 @@ const SignInModal = ({ onLoginSuccess }) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
     setIsPasswordValid(newPassword.length >= 8 && newPassword.length <= 20);
+
+    if (newPassword.length === 0) {
+      setIsPasswordValid(true);
+      return;
+    }
   };
 
   const handleLogin = async () => {
