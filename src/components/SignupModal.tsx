@@ -49,8 +49,8 @@ export default function SignUpModal({ isOpen, onClose }) {
   const handlePasswordAgainChange = (event) => {
     const newPasswordAgain = event.target.value;
     setPasswordAgain(newPasswordAgain);
-    setIsPasswordMatching(newPasswordAgain === password);
 
+    setIsPasswordMatching(newPasswordAgain === password);
     if (newPasswordAgain.length === 0) {
       setIsPasswordValid(true);
       return;
@@ -82,14 +82,18 @@ export default function SignUpModal({ isOpen, onClose }) {
 
   return (
     isOpen && (
-      <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+      <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-60">
         <div
           ref={modalRef}
           className="mx-auto w-[25rem] h-max bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
         >
+          <div className="flex items-center justify-center">
+            <img className=" w-28 h-auto mb-2" src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt={name} />
+          </div>
+
           <form>
             <div>
-              <div className="w-full text-gray-500 text-sm mt-1">이름</div>
+              <div className="w-full text-gray-500 text-sm mt-1 ml-4">이름</div>
               <input
                 className="w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
                 type="name"
@@ -99,7 +103,7 @@ export default function SignUpModal({ isOpen, onClose }) {
               />
             </div>
             <div>
-              <div className="w-full text-gray-500 text-sm mt-1">이메일</div>
+              <div className="w-full text-gray-500 text-sm mt-1 ml-4">이메일</div>
               <input
                 className="w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
                 type="email"
@@ -109,7 +113,7 @@ export default function SignUpModal({ isOpen, onClose }) {
               />
             </div>
             <div>
-              <div className="w-full text-gray-500 text-sm mt-1">비밀번호</div>
+              <div className="w-full text-gray-500 text-sm mt-1 ml-4">비밀번호</div>
               <input
                 className={`w-[90%] h-11 mx-4 my-2 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500 ${
                   !isPasswordValid ? 'border-red-500' : ''
@@ -126,7 +130,7 @@ export default function SignUpModal({ isOpen, onClose }) {
               </p>
             )}
             <div>
-              <label htmlFor="PasswordAgain" className="w-full text-gray-500 text-sm">
+              <label htmlFor="PasswordAgain" className="w-full text-gray-500 text-sm ml-4">
                 비밀번호 확인
               </label>
               <input
