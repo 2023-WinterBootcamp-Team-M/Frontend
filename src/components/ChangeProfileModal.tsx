@@ -69,6 +69,12 @@ export default function ChangeProfileModal({ isOpen, onClose }) {
           ref={modalRef}
           className="mx-auto w-[25rem] h-max bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
         >
+          <img
+            src="https://i.ibb.co/VYMtt0B/close.png"
+            alt="logo_icon"
+            className="w-6 h-6 absolute hover:cursor-pointer"
+            onClick={onClose}
+          />
           <div className="text-gray-600 text-xl text-center mb-3">회원 정보 수정</div>
           <form>
             <div>

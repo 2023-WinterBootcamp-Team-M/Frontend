@@ -87,6 +87,12 @@ export default function SignUpModal({ isOpen, onClose }) {
           ref={modalRef}
           className="mx-auto w-[25rem] h-max bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
         >
+          <img
+            src="https://i.ibb.co/VYMtt0B/close.png"
+            alt="logo_icon"
+            className="w-6 h-6 absolute hover:cursor-pointer"
+            onClick={onClose}
+          />
           <div className="flex items-center justify-center">
             <img className=" w-28 h-auto mb-2" src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt={name} />
           </div>

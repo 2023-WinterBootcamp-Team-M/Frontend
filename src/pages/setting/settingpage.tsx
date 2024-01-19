@@ -31,9 +31,7 @@ function Dropdown({ onSelect, options }) {
     </div>
   );
 }
-function Divider() {
-  return <hr className="w-[100%] mb-4 mt-4 border-gray-300" />;
-}
+
 export default function SettingPage() {
   const [currentDropdown, setCurrentDropdown] = React.useState(null);
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
