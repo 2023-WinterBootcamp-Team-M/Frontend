@@ -32,3 +32,19 @@
 .pop-effect {
   animation: pop 0.5s ease-out;
 }
+
+/*스크롤바 스타일*/
+/* Webkit 기반 브라우저 (Chrome, Safari 등) */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #7cb3f7;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}

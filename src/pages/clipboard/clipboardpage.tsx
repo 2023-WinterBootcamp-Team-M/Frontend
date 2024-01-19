@@ -1,6 +1,7 @@
 import * as React from 'react';
 import ToolTip from '../../components/ToolTip';
 import { DownloadImage, DeleteImage, DeleteAllImages, CreateClipboard, GetClipboardList } from './ClipboardAPI';
+import Button from '@mui/material/Button';
 
 export default function ClipBoardPage(){
 
@@ -9,8 +10,8 @@ export default function ClipBoardPage(){
     const [clipboardId,setClipBoardId] = React.useState();
     const [link,setLink] = React.useState<string>('');
     const [loadedPage, setLoadedPage] = React.useState(1);
-    const itemsPerPage = 8;
-    const containerRef = React.useRef<HTMLDivElement>(null);
+    const itemsPerPage = 10;
+    const containerRef = React.useRef<HTMLUListElement>(null);
 
     //input창에 입력한 텍스트 link로 업데이트
     const handleInputChange = (event) => {
@@ -82,23 +83,25 @@ export default function ClipBoardPage(){
         placeholder='이미지를 추출할 페이지의 url을 입력하세요'
         onChange={handleInputChange}
         value={link}/>
-        <button //이미지 클립 버튼
-        className=' bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11' 
+        <Button //이미지 클립 버튼
+        variant='contained'
+        className='bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11 hover:opacity-90' 
         onClick={(event)=>{
             CreateClipboard(event,userId,setClipBoardId,setClipImages,link);
             setLink('');
-        }}>이미지 클립</button>
+        }}>이미지 클립</Button>
         </form>
     </div>
     <p className='text-gray-500 self-start py-2'>Clip Board</p>
     <div
-    ref={containerRef} style={{ overflowY: 'scroll', height: '500px' }}
-    className='w-full h-[60%] rounded-[20px] shadow-xl py-2 px-2 bg-white border-2 border-cliptab-blue'>
-        <ul className='flex flex-wrap items-center justify-center h-[90%]'>
+    className='w-full h-[55%] rounded-[20px] shadow-xl bg-white border-2 border-cliptab-blue px-1 py-3'>
+        <ul 
+        ref={containerRef} style={{ overflowY: 'auto'}}
+        className='flex flex-wrap items-center justify-center h-full'>
             {currentItems.map((e)=>(
-                <li key={e.id} className='w-1/2 flex justify-center items-center'>
+                <li key={e.id} className='w-1/2 flex justify-center items-center pb-2'>
                 <div className='relative'>
-                <img className='rounded-md shadow-md size-28 border-2 border-cliptab-blue' src={e.img_url}/>
+                <img className='rounded-md shadow-md size-32 border-2 border-cliptab-blue' src={e.img_url}/>
                 <ToolTip title='삭제'>
                 <div className='absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer' 
                 onClick={(event)=>{
@@ -121,7 +124,9 @@ export default function ClipBoardPage(){
             ))}
         </ul>
     </div>
-    <button onClick={(event)=>DeleteAllImages(event,clipboardId,setClipImages)}
-        className=' bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11'>클립보드 비우기</button>
+    <Button
+      variant='contained'
+      onClick={(event)=>DeleteAllImages(event,clipboardId,setClipImages)}
+      className=' bg-[#0096FB] rounded-md shadow-lg text-white px-auto py-auto my-auto mx-auto w-[90%] h-11 hover:opacity-90'>클립보드 비우기</Button>
     </div>)
 }
