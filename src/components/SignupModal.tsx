@@ -126,7 +126,7 @@ export default function SignUpModal({ isOpen, onClose }) {
             </div>
             {!isPasswordValid && (
               <p className="text-red-500 text-xs mx-4 my-1">
-                비밀번호는 8-20자여야 하고 숫자, 알파벳, 특수문자 중 2개 이상을 포함해야 합니다.
+                비밀번호는 8-20자 이내이며, 숫자, 영문자, 특수문자 중 2가지 이상을 포함해야 합니다.
               </p>
             )}
             <div>

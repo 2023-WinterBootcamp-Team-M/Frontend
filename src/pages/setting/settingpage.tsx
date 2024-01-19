@@ -37,19 +37,16 @@ function Divider() {
 export default function SettingPage() {
   const [currentDropdown, setCurrentDropdown] = React.useState(null);
   const [isDarkTheme, setIsDarkTheme] = React.useState(false);
-  const { userId,userName,userEmail} = userIdStore();
-  const { opt_sum, opt_start, opt_theme, opt_alarm, toggleOptSum, toggleOptStart, toggleOptTheme, toggleOptAlarm } = optStore();
-  const [ isChangeProfileOpen, setIsChangeProfileOpen ] = React.useState(false);
+  const { userId, userName, userEmail } = userIdStore();
+  const { opt_sum, opt_start, opt_theme, opt_alarm, toggleOptSum, toggleOptStart, toggleOptTheme, toggleOptAlarm } =
+    optStore();
+  const [isChangeProfileOpen, setIsChangeProfileOpen] = React.useState(false);
 
   //유저아이디 or 설정 정보가 업데이트 될때마다 설정정보 조회
-  React.useEffect(()=>{
+  React.useEffect(() => {
     GetSetting(userId);
-  },[userId,opt_sum, opt_start, opt_theme, opt_alarm]);
-  
+  }, [userId, opt_sum, opt_start, opt_theme, opt_alarm]);
 
-  const handleItemClick = (itemName) => {
-    setCurrentDropdown(currentDropdown === itemName ? null : itemName);
-  };
   const handleDropdownSelect = (option) => {
     console.log(`${option} 선택됨`);
     setCurrentDropdown(null);
@@ -77,7 +74,7 @@ export default function SettingPage() {
   const openChangeProfileModal = () => {
     setIsChangeProfileOpen(true);
   };
-  
+
   const closeChangeProfileModal = () => {
     setIsChangeProfileOpen(false);
   };
@@ -100,50 +97,61 @@ export default function SettingPage() {
           <p className="w-full text-gray-500 text-sm">{userEmail}</p>
         </div>
         <button
-        onClick={()=>{
-          openChangeProfileModal();
-
-        }}
-        >수정버튼</button>
+          onClick={() => {
+            openChangeProfileModal();
+          }}
+        >
+          수정버튼
+        </button>
       </div>
       <p className="text-gray-500 self-start py-3">Settings</p>
       <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-gray-800' : 'bg-transparent'}`}>
         <div className="flex flex-row text-center flex-wrap justify-between">
-          <SettingItem 
-          iconSrc={icons.summary} 
-          onClick={() => {
-            // handleItemClick('summary')
-            toggleOptSum();
-            PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)}}>
+          <SettingItem
+            iconSrc={icons.summary}
+            onClick={() => {
+              // handleItemClick('summary')
+              toggleOptSum();
+              PutSetting(userId, opt_sum, opt_start, opt_theme, opt_alarm);
+            }}
+          >
             요약 설정
-            <p className={` ${opt_sum ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>{opt_sum ? '3줄 요약' : '6줄 요약'}</p>
+            <p className={` ${opt_sum ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>
+              {opt_sum ? '3줄 요약' : '6줄 요약'}
+            </p>
           </SettingItem>
           {currentDropdown === 'summary' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.summary} />
           )}
-          <SettingItem 
-          iconSrc={icons.changeStartPage} 
-          onClick={() => {
-          //handleItemClick('changeStartPage')
-            toggleOptStart();
-            PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
-          }}>
+          <SettingItem
+            iconSrc={icons.changeStartPage}
+            onClick={() => {
+              //handleItemClick('changeStartPage')
+              toggleOptStart();
+              PutSetting(userId, opt_sum, opt_start, opt_theme, opt_alarm);
+            }}
+          >
             시작 페이지 변경
-            <p className={` ${opt_start ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>{opt_start ? '북마크' : '이미지 클립'}</p>
+            <p className={` ${opt_start ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>
+              {opt_start ? '북마크' : '이미지 클립'}
+            </p>
           </SettingItem>
           {currentDropdown === 'changeStartPage' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.changeStartPage} />
           )}
           <ThemeToggle />
-          <SettingItem 
-          iconSrc={icons.bookmarkNotif} 
-          onClick={() => {
-            //handleItemClick('bookmarkNotif')
-            toggleOptAlarm();
-            PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm)
-          }}>
+          <SettingItem
+            iconSrc={icons.bookmarkNotif}
+            onClick={() => {
+              //handleItemClick('bookmarkNotif')
+              toggleOptAlarm();
+              PutSetting(userId, opt_sum, opt_start, opt_theme, opt_alarm);
+            }}
+          >
             북마크 알림 주기
-            <p className={` ${opt_alarm ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>{opt_alarm ? '15일' : '30일'}</p>
+            <p className={` ${opt_alarm ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>
+              {opt_alarm ? '15일' : '30일'}
+            </p>
           </SettingItem>
           {currentDropdown === 'bookmarkNotif' && (
             <Dropdown onSelect={handleDropdownSelect} options={dropdownOptions.bookmarkNotif} />
