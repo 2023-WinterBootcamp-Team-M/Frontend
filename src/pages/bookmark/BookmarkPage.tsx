@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ToolTip from '../../components/ToolTip';
 import DndContainer from '../../components/DragNDrop';
 import axios from 'axios';
+import { userIdStore } from '../../store/store';
 
 interface BookmarkFolder {
   id: number;
@@ -26,10 +27,14 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [selectedFolder, setSelectedFolder] = useState<BookmarkFolder | null>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [bookmarkName,setBookmarkName] = useState("");
+  const [bookmarkUrl,setBookmarkUrl] = useState("");
   const [bookmarkFolders, setBookmarkFolders] = useState<BookmarkFolder[]>([]);
   const [folderName, setFolderName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
+  const { userId } = userIdStore();
+  const [showBookmarkInput,setShowBookmarkInput] = useState(false);
 
   const handleFolderClick = (folder: BookmarkFolder) => {
     if (selectedFolder && selectedFolder.id === folder.id) {
@@ -52,23 +57,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     };
   }, []);
 
-  // 폴더 생성
-  const handleFolderCreate = async (user_id: number, folderName: string) => {
-    try {
-      const jsonData = { name: folderName, user_id: user_id };
-      const response = await axios.post(`http://localhost:8000/api/v1/folders`, jsonData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error creating folder:', error);
-    }
-  };
-
   // 유저의 폴더 조회
-  const handleFolderFetch = async (user_id: number) => {
+  const handleFolderFetch = async (user_id: number|null) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
       const userFolders = response.data;
@@ -80,8 +70,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   };
 
   useEffect(() => {
-    const user_id = 1;
-    handleFolderFetch(user_id);
+    handleFolderFetch(userId);
   }, []);
 
   // 폴더와 종속된 북마크 삭제 로직
@@ -123,6 +112,32 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.error('폴더 편집 오류:', error);
     }
   };
+  //북마크 생성
+  const createBookmark = async (event,folderId,bookmarkName,url) => {
+    event.preventDefault();
+
+    try {
+      const jsonData = { 
+        "folder_id": folderId,
+        "name": bookmarkName,
+        "url": url,
+      };
+      const response = await axios.post(`http://localhost:8000/api/v1/bookmarks`, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
+      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
+      console.log("북마크 생성 성공 :",response.data);
+      // 폼 입력을 지우고 폼을 숨김
+      // setFolderName('');
+      // setIsFormVisible(false);
+    } catch (error) {
+      console.error('북마크 생성 오류:', error);
+    }
+  }
 
   const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
     if (selectedFolder) {
@@ -139,10 +154,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     setEditingFolderId(folderId);
     setFolderName(bookmarkFolders.find((folder) => folder.id === folderId)?.name || '');
   };
-
-  const handleFolderCreateSubmit = async (event: React.FormEvent) => {
+  //폴더생성
+  const handleFolderCreateSubmit = async (event: React.FormEvent,user_id:number|null) => {
     event.preventDefault();
-    const user_id = 1;
 
     try {
       const jsonData = { name: folderName, user_id: user_id };
@@ -172,12 +186,13 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           onClick={handleFolderCreateClick}
           className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
         >
-          생성
+          북마크 폴더 생성
         </button>
       </div>
+      {/* 북마크 폴더생성 */}
       {isFormVisible && (
         <form
-          onSubmit={handleFolderCreateSubmit}
+          onSubmit={(event)=>handleFolderCreateSubmit(event,userId)}
           className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
         >
           <label className="text-sm">
@@ -220,9 +235,17 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                 </form>
               ) : (
                 <>
-                  <a href="#" onClick={() => handleFolderClick(folder)}>
+                  <p 
+                  className='cursor-pointer'
+                  onClick={() => handleFolderClick(folder)}>
                     {folder.name}
-                  </a>
+                  </p>
+
+                  <button
+                    onClick={()=> setShowBookmarkInput(!showBookmarkInput)}
+                  >
+                    북마크 추가
+                  </button>
 
                   <button
                     onClick={() => handleFolderEditClick(folder.id)}
@@ -238,6 +261,37 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                   </button>
                 </>
               )}
+              {showBookmarkInput && (
+              <form
+                onSubmit={(event)=>createBookmark(event,folder.id,bookmarkName,bookmarkUrl)}
+                className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
+              >
+                <label className="text-sm">
+                  북마크이름:
+                  <input
+                    type="text"
+                    value={bookmarkName}
+                    onChange={(e) => setBookmarkName(e.target.value)}
+                    className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+                  />
+                </label>
+                <label className="text-sm">
+                  북마크 링크
+                  <input
+                    type="text"
+                    value={bookmarkUrl}
+                    onChange={(e) => setBookmarkUrl(e.target.value)}
+                    className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+                  />
+                </label>
+                <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
+                  생성
+                </button>
+                <button type="reset" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
+                  취소
+                </button>
+              </form>
+            )}
             </li>
           ))}
         </ul>
