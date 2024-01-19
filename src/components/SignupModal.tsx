@@ -9,6 +9,21 @@ export default function SignUpModal({ isOpen, onClose }) {
   const [isPasswordValid, setIsPasswordValid] = React.useState(true);
   const [isPasswordMatching, setIsPasswordMatching] = React.useState(true);
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      onClose(); // 모달 바깥 클릭시 닫기 함수 호출
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
@@ -58,7 +73,10 @@ export default function SignUpModal({ isOpen, onClose }) {
   return (
     isOpen && (
       <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
-        <div className="mx-auto w-[50%] h-max bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4">
+        <div
+          ref={modalRef}
+          className="mx-auto w-[25rem] h-max bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
+        >
           <form>
             <div>
               <div className="w-full text-gray-500 text-sm">Name</div>
