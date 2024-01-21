@@ -44,6 +44,16 @@ const DndContainer = ({ post, setPost }: any) => {
     console.log(`Editing bookmark: ${bookmark_Id}`);
   };
 
+  //북마크 즐겨찾기 추가
+  const patchFavorite = async (bookmark_Id:number) => {
+    try {
+    const response = await axios.patch(`http://localhost:8000/api/v1/favorite/${bookmark_Id}`);
+    console.log('북마크 즐겨찾기 성공 :',response.data);
+    } catch (err) {
+      console.error('북마크 즐겨찾기 실패 :',err);
+    }
+  }
+
   return (
     <DragDropContext onDragEnd={handleChange}>
       <Droppable droppableId="cardlists">
@@ -66,6 +76,9 @@ const DndContainer = ({ post, setPost }: any) => {
                             <ToolTip title={e.short_summary}>
                               <a href={e.url}>{e.name}</a>
                             </ToolTip>
+                            <button onClick={()=>patchFavorite(e.id)}>
+                              즐겨찾기
+                            </button>
                             <button
                               onClick={() => handleBookmarkEdit(e,e.folder_id,e.id)}
                               className="ml-auto text-blue-700 hover:text-red-700 focus:outline-none"

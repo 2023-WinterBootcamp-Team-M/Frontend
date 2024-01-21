@@ -213,6 +213,18 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     handleBookmarkFetch(folder_id);
   }, []);
 
+  //북마크 즐겨찾기 조회
+  const fetchFavorite = async () => {
+    try {
+    const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
+    console.log('북마크 즐겨찾기 조회 성공 :',response.data);
+    } catch (err) {
+      console.error('북마크 즐겨찾기 조회 실패 :',err);
+    }
+  }
+
+  
+
   const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
     if (selectedFolder) {
       const updatedFolder = { ...selectedFolder, bookmarks: newBookmarks };
