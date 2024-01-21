@@ -36,6 +36,8 @@ interface Bookmark {
   folder_id:number,
   favorite:boolean,
   url:string
+  short_summary:string,
+  long_summary:string
 }
 interface BookmarkState {
   favoriteBookmarks: Bookmark[];
