@@ -36,9 +36,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [isBookmarkFormVisible, setIsBookmarkFormVisible] = useState(false);
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
-  const [showBookmarkInput, setShowBookmarkInput] = useState(false);
-  const [bookmarkName, setBookmarkName] = useState('');
-  const [bookmarkUrl, setBookmarkUrl] = useState('');
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
 
   //선택한 폴더 업데이트
@@ -75,16 +72,12 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       setBookmarks(response.data);
     } catch (err) {
       console.error(`${folder_id}북마크 조회 실패 :`, err);
-    } catch (err) {
-      console.error(`${folder_id}북마크 조회 실패 :`, err);
     }
   };
-  };
 
-  //폴더 생성
+  //폴더생성
   const handleFolderCreateSubmit = async (event: React.FormEvent, user_id: number | null) => {
     event.preventDefault();
-    const user_id = 1;
 
     try {
       const jsonData = { name: folderName, user_id: user_id };
@@ -94,36 +87,16 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         },
       });
 
+      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
       setBookmarkFolders((prevFolders) => [...prevFolders, response.data]);
+
+      // 폼 입력을 지우고 폼을 숨김
       setFolderName('');
       setIsFormVisible(false);
     } catch (error) {
       console.error('폴더 생성 오류:', error);
     }
   };
-
-  // 유저의 폴더 조회
-  const handleFolderFetch = async (user_id: number | null) => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
-      setBookmarkFolders(response.data);
-    } catch (err) {
-      console.error('Error fetching folders:', err);
-    }
-  };
-  //폴더 내부의 북마크 조회
-  const bookmarkFetch =async (folder_id:number) => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
-      console.log(`${folder_id} 폴더의 북마크 조회 성공:`,response.data);
-    } catch(err) {
-      console.error(`${folder_id}북마크 조회 실패 :`,err);
-    }
-  }
-
-  useEffect(() => {
-    handleFolderFetch(userId);
-  }, []);
 
   // 폴더 삭제
   const handleFolderDelete = async (folder_id: number) => {
@@ -201,35 +174,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  // 북마크 조회
-  const handleBookmarkFetch = async (folder_id: number) => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
-      const userBookmarks = response.data;
-      console.log(response.data);
-      setBookmarks(userBookmarks);
-    } catch (err) {
-      console.error('Error fetching folders:', err);
-    }
-  };
-
-  useEffect(() => {
-    const folder_id = 1;
-    handleBookmarkFetch(folder_id);
-  }, []);
-
-  //북마크 즐겨찾기 조회
-  const fetchFavorite = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
-      setFavoriteBookmarks(response.data);
-      console.log('favoritebookmark:', favoriteBookmarks);
-      console.log('북마크 즐겨찾기 조회 성공 :', response.data);
-    } catch (err) {
-      console.error('북마크 즐겨찾기 조회 실패 :', err);
-    }
-  };
-
   const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
     if (selectedFolder) {
       const updatedFolder = { ...selectedFolder, bookmarks: newBookmarks };
@@ -251,28 +195,15 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     setEditingFolderId(folderId);
     setFolderName(bookmarkFolders.find((folder) => folder.id === folderId)?.name || '');
   };
-  //폴더생성
-  const handleFolderCreateSubmit = async (event: React.FormEvent, user_id: number | null) => {
-    event.preventDefault();
 
-    try {
-      const jsonData = { name: folderName, user_id: user_id };
-      const response = await axios.post(`http://localhost:8000/api/v1/folders`, jsonData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
-      setBookmarkFolders((prevFolders) => [...prevFolders, response.data]);
-
-      // 폼 입력을 지우고 폼을 숨김
-      setFolderName('');
-      setIsFormVisible(false);
-    } catch (error) {
-      console.error('폴더 생성 오류:', error);
-    }
-  };
+  useEffect(() => {
+    handleFolderFetch(userId);
+    fetchFavorite();
+    document.addEventListener('mousedown', handlePopoverClick);
+    return () => {
+      document.removeEventListener('mousedown', handlePopoverClick);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col">
@@ -283,7 +214,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           onClick={handleFolderCreateClick}
           className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
         >
-          폴더 폴더 생성
+          폴더 생성
         </button>
         <button
           onClick={handleBookmarkCreateClick}
@@ -417,23 +348,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             </DndContainer>
           </div>
         )}
-      </div>
-      <div className="flex flex-col items-start mx-auto w-[90%]">
-        <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
-        <div className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min`}>
-          <ul className="text-sm leading-10 p-5">
-            {favoriteBookmarks.map((favorite)=>(
-              <li key={favorite.name} className="flex items-center">
-                <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
-                <ToolTip title={favorite.short_summary}>
-                  <a href={favorite.url} target="_blank" rel="noopener noreferrer">
-                    {favorite.name}
-                  </a>
-                  </ToolTip>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
       <div className="flex flex-col items-start mx-auto w-[90%]">
         <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
