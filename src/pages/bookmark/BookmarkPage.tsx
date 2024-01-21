@@ -140,10 +140,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const handleFolderEditSubmit = async (event: React.FormEvent, folder_id: number) => {
     event.preventDefault();
     try {
-      const jsonData = {
-        name: folderName,
-      };
-      const response = await axios.patch(`http://localhost:8000/api/v1/folders/${folder_id}`, jsonData, {
+      const jsonData = { name: folderName };
+      const response = await axios.patch(`http://localhost:8000/api/v1/folders/${folderId}`, jsonData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -349,7 +347,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
               <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
               {editingFolderId === folder.id ? (
                 <form
-                  onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
+                  onSubmit={(e) => handleFolderEditSubmit(e,folder.id)}
                   className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
                 >
                   <input
