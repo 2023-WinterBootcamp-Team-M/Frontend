@@ -52,14 +52,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handlePopoverClick);
-    return () => {
-      document.removeEventListener('mousedown', handlePopoverClick);
-    };
-  }, []);
-
-  // 유저의 폴더 조회
+  //유저의 폴더 조회
   const handleFolderFetch = async (user_id: number|null) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
@@ -68,6 +61,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.error('Error fetching folders:', err);
     }
   };
+
   //폴더 내부의 북마크 조회
   const bookmarkFetch =async (folder_id:number) => {
     try {
@@ -78,10 +72,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.error(`${folder_id}북마크 조회 실패 :`,err);
     }
   }
-
-  useEffect(() => {
-    handleFolderFetch(userId);
-  }, []);
 
   //폴더생성
   const handleFolderCreateSubmit = async (event: React.FormEvent,user_id:number|null) => {
@@ -141,6 +131,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.error('폴더 편집 오류:', error);
     }
   };
+  
   //북마크 생성
   const createBookmark = async (event,folderId,bookmarkName,url) => {
     event.preventDefault();
@@ -189,7 +180,14 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     setEditingFolderId(folderId);
     setFolderName(bookmarkFolders.find((folder) => folder.id === folderId)?.name || '');
   };
-  
+
+  useEffect(() => {
+    handleFolderFetch(userId);
+    document.addEventListener('mousedown', handlePopoverClick);
+    return () => {
+      document.removeEventListener('mousedown', handlePopoverClick);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col items-center">
