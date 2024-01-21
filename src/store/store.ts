@@ -30,6 +30,19 @@ interface PageState {
   pageIndex: number;
   setPageIndex: (newPageIndex: number) => void;
 }
+interface Bookmark {
+  name :string,
+  icon :string,
+  folder_id:number,
+  favorite:boolean,
+  url:string
+  short_summary:string,
+  long_summary:string
+}
+interface BookmarkState {
+  favoriteBookmarks: Bookmark[];
+  setFavoriteBookmarks: (newState: []) => Promise<void>;
+}
 
 export const userIdStore = create<UserIdState>((set)=>({
     userId: null,
@@ -67,3 +80,11 @@ export const pageStore = create<PageState>((set) => ({
   pageIndex: 0, // 초기 페이지 인덱스
   setPageIndex: (newPageIndex: number) => set({ pageIndex: newPageIndex }),
 }));
+
+//즐겨찾기 북마크
+export const favoriteStore = create<BookmarkState>((set)=> ({
+  favoriteBookmarks: [],
+  setFavoriteBookmarks:async (newState) => {
+    set({favoriteBookmarks : newState})
+  }
+}))
