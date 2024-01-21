@@ -16,8 +16,7 @@ const DndContainer = ({ post, setPost }: any) => {
   };
 
   // 북마크 삭제
-  const handleBookmarkDelete = async (bookmark_id: number) => {
-    const folder_id = 1;
+  const handleBookmarkDelete = async (bookmark_id: number, folder_id:number) => {
 
     try {
       await axios.delete(`http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_id}`);
@@ -54,9 +53,9 @@ const DndContainer = ({ post, setPost }: any) => {
                       >
                         {
                           <li key={e.id} className="flex items-center">
-                            <img className="w-4 h-4 mr-2" src={e.imageUrl} alt="Bookmark Icon" />
-                            <ToolTip title={e.summary}>
-                              <a href={e.url}>{e.title}</a>
+                            <img className="w-4 h-4 mr-2" src={e.icon} alt="Bookmark Icon" />
+                            <ToolTip title={e.short_summary}>
+                              <a href={e.url}>{e.name}</a>
                             </ToolTip>
                             <button
                               onClick={() => handleBookmarkEdit(e.id)}
@@ -65,7 +64,7 @@ const DndContainer = ({ post, setPost }: any) => {
                               수정
                             </button>
                             <button
-                              onClick={() => handleBookmarkDelete(e.id)}
+                              onClick={() => handleBookmarkDelete(e.id,e.folder_id)}
                               className="ml-auto text-red-700 hover:text-red-700 focus:outline-none"
                             >
                               삭제
