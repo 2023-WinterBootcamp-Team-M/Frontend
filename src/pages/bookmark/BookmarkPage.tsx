@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import DndContainer from '../../components/DragNDrop';
 import axios from 'axios';
-import { userIdStore } from '../../store/store';
+import { favoriteStore, userIdStore } from '../../store/store';
 
 interface BookmarkFolder {
   id: number;
@@ -35,6 +35,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [isBookmarkFormVisible, setIsBookmarkFormVisible] = useState(false);
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
+  const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
+
 
   //선택한 폴더 업데이트
   const handleFolderClick = (folder: BookmarkFolder) => {
@@ -164,6 +166,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const fetchFavorite = async () => {
     try {
     const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
+    setFavoriteBookmarks(response.data);
+    console.log('favoritebookmark:',favoriteBookmarks);
     console.log('북마크 즐겨찾기 조회 성공 :',response.data);
     } catch (err) {
       console.error('북마크 즐겨찾기 조회 실패 :',err);
@@ -194,8 +198,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     setFolderName(bookmarkFolders.find((folder) => folder.id === folderId)?.name || '');
   };
 
-  useEffect(() => {
+  useEffect( () => {
     handleFolderFetch(userId);
+    fetchFavorite();
     document.addEventListener('mousedown', handlePopoverClick);
     return () => {
       document.removeEventListener('mousedown', handlePopoverClick);
@@ -203,10 +208,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center">
-      <img className="mt-10 w-28 h-auto mb-2" src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt={name} />
-      <div className="text-gray-500 self-start text-xl flex items-center">
-        <h2 className="ml-4">북마크</h2>
+    <div className="flex flex-col">
+      <img className="mt-10 w-28 h-auto mb-2 mx-auto" src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt={name} />
+      <div className="text-gray-500 self-start text-xl flex w-[90%] mx-auto">
+        <h2 className="">북마크</h2>
         <button
           onClick={handleFolderCreateClick}
           className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
@@ -283,7 +288,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
       <div
         className={`mx-auto mt-4 w-[90%] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
-          selectedFolder ? 'h-max' : 'h-[12rem]'
+          selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
         <ul className="text-sm p-5 leading-10">
@@ -332,7 +337,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         </ul>
         {selectedFolder && (
           <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
-            <DndContainer post={bookmarks} setPost={setBookmarks}>
+            <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
               {bookmarks.map((bookmark) => (
                 <li key={bookmark.id} className="flex items-center">
                   <img className="w-4 h-4 mr-2" src={bookmark.icon} alt={`${bookmark.id}-icon`} />
@@ -344,6 +349,23 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             </DndContainer>
           </div>
         )}
+      </div>
+      <div className='flex flex-col items-start mx-auto w-[90%]'>
+        <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
+        <div
+        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min`}
+        >
+          <ul className="text-sm leading-10 p-5">
+            {favoriteBookmarks.map((favorite)=>(
+              <li key={favorite.name} className="flex items-center">
+                <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
+                  <a href={favorite.url} target="_blank" rel="noopener noreferrer">
+                    {favorite.name}
+                  </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

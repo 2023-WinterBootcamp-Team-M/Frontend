@@ -3,8 +3,10 @@ import React from 'react';
 import { useRef } from 'react';
 import ToolTip from './ToolTip';
 import axios from 'axios';
+import { favoriteStore } from '../store/store';
 
-const DndContainer = ({ post, setPost }: any) => {
+const DndContainer = ({ post, setPost,fetch }: any) => {
+  const { setFavoriteBookmarks } = favoriteStore();
   const popoverRef = useRef<HTMLDivElement>(null);
   //드래그가 끝났을 때 호출되어 드래그가 끝났을때의 결과 저장
   const handleChange = (result: any) => {
@@ -76,7 +78,10 @@ const DndContainer = ({ post, setPost }: any) => {
                             <ToolTip title={e.short_summary}>
                               <a href={e.url}>{e.name}</a>
                             </ToolTip>
-                            <button onClick={()=>patchFavorite(e.id)}>
+                            <button onClick={async ()=> {
+                              await patchFavorite(e.id);
+                              fetch();
+                            }}>
                               즐겨찾기
                             </button>
                             <button
