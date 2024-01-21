@@ -110,20 +110,21 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  // 폴더 수정(아직안됨)
-  const handleFolderEditSubmit = async (event: React.FormEvent, folderId: number) => {
+  // 폴더 이름 수정(아직안됨)
+  const handleFolderEditSubmit = async (event: React.FormEvent, folder_id: number) => {
     event.preventDefault();
-
     try {
-      const jsonData = { name: folderName };
-      const response = await axios.patch(`http://localhost:8000/api/v1/folders/${folderId}`, jsonData, {
+      const jsonData = { 
+        "name" : folderName,
+      };
+      const response = await axios.patch(`http://localhost:8000/api/v1/folders/${folder_id}`, jsonData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       setBookmarkFolders((prevFolders) =>
-        prevFolders.map((folder) => (folder.id === folderId ? { ...folder, name: response.data.name } : folder))
+        prevFolders.map((folder) => (folder.id === folder_id ? { ...folder, name: response.data.name } : folder))
       );
 
       setEditingFolderId(null);
@@ -131,7 +132,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.error('폴더 편집 오류:', error);
     }
   };
-  
+
   //북마크 생성
   const createBookmark = async (event,folderId,bookmarkName,url) => {
     event.preventDefault();
@@ -279,7 +280,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
               <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
               {editingFolderId === folder.id ? (
                 <form
-                  onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
+                  onSubmit={(e) => handleFolderEditSubmit(e,folder.id)}
                   className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
                 >
                   <input
