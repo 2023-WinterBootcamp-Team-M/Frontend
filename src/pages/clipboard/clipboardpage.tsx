@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { userIdStore } from '../../store/store';
 import ToolTip from '../../components/ToolTip';
 import { DownloadImage, DeleteImage, DeleteAllImages, CreateClipboard, GetClipboardList } from './ClipboardAPI';
 import Button from '@mui/material/Button';
@@ -6,7 +7,6 @@ import ClipBookmarkDropdown from '../../components/ClipBookmarkDropdown';
 import { useState } from 'react';
 
 export default function ClipBoardPage() {
-  const [userId, setUserId] = React.useState<number>(1);
   const [clipImages, setClipImages] = React.useState<string[] | number[]>([]);
   const [clipboardId, setClipBoardId] = React.useState();
   const [link, setLink] = React.useState<string>('');
@@ -14,6 +14,7 @@ export default function ClipBoardPage() {
   const itemsPerPage = 10;
   const containerRef = React.useRef<HTMLUListElement>(null);
   const [showBookmarks, setShowBookmarks] = useState(false);
+  const { userId } = userIdStore();
 
   //input창에 입력한 텍스트 link로 업데이트
   const handleInputChange = (event) => {
@@ -30,6 +31,15 @@ export default function ClipBoardPage() {
 
   const handleShowBookmarks = () => {
     setShowBookmarks(!showBookmarks);
+  };
+
+  // userId가 null이 아니면 클립보드 생성
+  const handleCreateClipboard = (event) => {
+    if (userId !== null) {
+      CreateClipboard(event, userId, setClipBoardId, setClipImages, link);
+    } else {
+      console.log('로그인이 필요합니다.');
+    }
   };
 
   React.useEffect(() => {
@@ -89,15 +99,12 @@ export default function ClipBoardPage() {
         <Button //이미지 클립 버튼
           variant="contained"
           className="bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-auto my-auto w-[90%] h-11 hover:opacity-90"
-          onClick={(event) => {
-            CreateClipboard(event, userId, setClipBoardId, setClipImages, link);
-            setLink('');
-          }}
+          onClick={handleCreateClipboard}
         >
           이미지 클립
         </Button>
       </div>
-      {showBookmarks && <ClipBookmarkDropdown />}
+      {showBookmarks && <ClipBookmarkDropdown userId={userId} />}
       <p className="text-gray-500 self-start py-2">Clip Board</p>
       <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white border-2 border-cliptab-blue px-1 pt-2 flex flex-col">
         <ul
