@@ -110,7 +110,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  // 폴더 이름 수정(아직안됨)
+  // 폴더 이름 수정(백엔드 수정필요)
   const handleFolderEditSubmit = async (event: React.FormEvent, folder_id: number) => {
     event.preventDefault();
     try {
@@ -159,6 +159,18 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.error('북마크 생성 오류:', error);
     }
   }
+
+  //북마크 즐겨찾기 조회
+  const fetchFavorite = async () => {
+    try {
+    const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
+    console.log('북마크 즐겨찾기 조회 성공 :',response.data);
+    } catch (err) {
+      console.error('북마크 즐겨찾기 조회 실패 :',err);
+    }
+  }
+
+  
 
   const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
     if (selectedFolder) {
