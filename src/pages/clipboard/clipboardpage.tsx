@@ -1,14 +1,18 @@
 import * as React from 'react';
+import { userIdStore } from '../../store/store';
 import ToolTip from '../../components/ToolTip';
 import { DownloadImage, DeleteImage, DeleteAllImages, CreateClipboard, GetClipboardList } from './ClipboardAPI';
 import Button from '@mui/material/Button';
+import ClipBookmarkDropdown from '../../components/ClipBookmarkDropdown';
+import { useState } from 'react';
 
 export default function ClipBoardPage() {
-  const [userId, setUserId] = React.useState<number>(1);
+  const { userId } = userIdStore();
   const [clipImages, setClipImages] = React.useState<string[] | number[]>([]);
   const [clipboardId, setClipBoardId] = React.useState();
   const [link, setLink] = React.useState<string>('');
   const [loadedPage, setLoadedPage] = React.useState(1);
+  const [showBookmarks, setShowBookmarks] = useState(false);
   const itemsPerPage = 10;
   const containerRef = React.useRef<HTMLUListElement>(null);
 
@@ -22,6 +26,19 @@ export default function ClipBoardPage() {
     const target = entries[0];
     if (target.isIntersecting) {
       setLoadedPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handleShowBookmarks = () => {
+    setShowBookmarks(!showBookmarks);
+  };
+
+  // userId가 존재할 때 CreateClipboard 실행
+  const handleCreateClipboard = (event) => {
+    if (userId !== null) {
+      CreateClipboard(event, userId, setClipBoardId, setClipImages, link);
+    } else {
+      console.log('로그인이 필요합니다.');
     }
   };
 
@@ -65,6 +82,7 @@ export default function ClipBoardPage() {
           <ToolTip title="내 북마크 링크 가져오기">
             <div //내 북마크 링크 가져오기 div
               className="flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 my-2 cursor-pointer"
+              onClick={handleShowBookmarks}
             >
               <img className="size-6" src="https://i.ibb.co/kH4Xjbj/bookmark-4.png" alt="bookmark-4" />
               <img className="size-3" src="https://i.ibb.co/0rJCLSp/arrow-down-simple.png" alt="arrow-down-simple" />
@@ -81,14 +99,12 @@ export default function ClipBoardPage() {
         <Button //이미지 클립 버튼
           variant="contained"
           className="bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-auto my-auto w-[90%] h-11 hover:opacity-90"
-          onClick={(event) => {
-            CreateClipboard(event, userId, setClipBoardId, setClipImages, link);
-            setLink('');
-          }}
+          onClick={handleCreateClipboard}
         >
           이미지 클립
         </Button>
       </div>
+      {showBookmarks && <ClipBookmarkDropdown userId={userId} />}
       <p className="text-gray-500 self-start py-2">Clip Board</p>
       <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white border-2 border-cliptab-blue px-1 pt-2 flex flex-col">
         <ul
