@@ -62,8 +62,29 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     };
   }, []);
 
-  // 폴더 생성
-  const handleFolderCreateSubmit = async (event: React.FormEvent) => {
+  // 유저의 폴더 조회
+  const handleFolderFetch = async (user_id: number|null) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
+      setBookmarkFolders(response.data);
+    } catch (err) {
+      console.error('Error fetching folders:', err);
+    }
+  };
+
+  //폴더 내부의 북마크 조회
+  const bookmarkFetch = async (folder_id: number) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
+      console.log(`${folder_id} 폴더의 북마크 조회 성공:`, response.data);
+      setBookmarks(response.data);
+    } catch (err) {
+      console.error(`${folder_id}북마크 조회 실패 :`, err);
+    }
+  };
+
+  //폴더생성
+  const handleFolderCreateSubmit = async (event: React.FormEvent, user_id: number | null) => {
     event.preventDefault();
     const user_id = 1;
 
@@ -92,6 +113,15 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.error('Error fetching folders:', err);
     }
   };
+  //폴더 내부의 북마크 조회
+  const bookmarkFetch =async (folder_id:number) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
+      console.log(`${folder_id} 폴더의 북마크 조회 성공:`,response.data);
+    } catch(err) {
+      console.error(`${folder_id}북마크 조회 실패 :`,err);
+    }
+  }
 
   useEffect(() => {
     handleFolderFetch(userId);
@@ -336,6 +366,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                 </form>
               ) : (
                 <>
+<<<<<<< HEAD
                   <p
                     className="cursor-pointer"
                     onClick={() => {
@@ -343,6 +374,14 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                       bookmarkFetch(folder.id);
                     }}
                   >
+=======
+                  <p 
+                  className='cursor-pointer'
+                  onClick={() => {
+                    handleFolderClick(folder);
+                    bookmarkFetch(folder.id);
+                  }}>
+>>>>>>> b9bb6e6 (feat : 북마크 내부의 폴더 조회)
                     {folder.name}
                   </p>
 
@@ -365,7 +404,11 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         </ul>
         {selectedFolder && (
           <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
+<<<<<<< HEAD
             <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
+=======
+            <DndContainer post={bookmarks} setPost={setBookmarks}>
+>>>>>>> b9bb6e6 (feat : 북마크 내부의 폴더 조회)
               {bookmarks.map((bookmark) => (
                 <li key={bookmark.id} className="flex items-center">
                   <img className="w-4 h-4 mr-2" src={bookmark.icon} alt={`${bookmark.id}-icon`} />
