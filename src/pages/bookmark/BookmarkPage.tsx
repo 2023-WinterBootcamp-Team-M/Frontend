@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ToolTip from '../../components/ToolTip';
 import DndContainer from '../../components/DragNDrop';
 import axios from 'axios';
 import { userIdStore } from '../../store/store';
@@ -32,9 +31,12 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [bookmarkFolders, setBookmarkFolders] = useState<BookmarkFolder[]>([]);
   const [folderName, setFolderName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isBookmarkFormVisible, setIsBookmarkFormVisible] = useState(false);
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
   const [showBookmarkInput,setShowBookmarkInput] = useState(false);
+  const [bookmarkName, setBookmarkName] = useState('');
+  const [bookmarkUrl, setBookmarkUrl] = useState('');
 
   const handleFolderClick = (folder: BookmarkFolder) => {
     if (selectedFolder && selectedFolder.id === folder.id) {
@@ -57,13 +59,32 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     };
   }, []);
 
+  // 폴더 생성
+  const handleFolderCreateSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const user_id = 1;
+
+    try {
+      const jsonData = { name: folderName, user_id: user_id };
+      const response = await axios.post(`http://localhost:8000/api/v1/folders`, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      setBookmarkFolders((prevFolders) => [...prevFolders, response.data]);
+      setFolderName('');
+      setIsFormVisible(false);
+    } catch (error) {
+      console.error('폴더 생성 오류:', error);
+    }
+  };
+
   // 유저의 폴더 조회
   const handleFolderFetch = async (user_id: number|null) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
-      const userFolders = response.data;
-      console.log(response.data);
-      setBookmarkFolders(userFolders);
+      setBookmarkFolders(response.data);
     } catch (err) {
       console.error('Error fetching folders:', err);
     }
@@ -73,12 +94,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     handleFolderFetch(userId);
   }, []);
 
-  // 폴더와 종속된 북마크 삭제 로직
+  // 폴더 삭제
   const handleFolderDelete = async (folder_id: number) => {
     try {
       await axios.delete(`http://localhost:8000/api/v1/folders/${folder_id}`);
-      console.log(`Deleting folder: ${folder_id}`);
-
       setBookmarkFolders((prevFolders) => prevFolders.filter((folder) => folder.id !== folder_id));
 
       if (selectedFolder && selectedFolder.id === folder_id) {
@@ -89,7 +108,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  // 폴더 이름 수정 로직
+  // 폴더 수정
   const handleFolderEditSubmit = async (event: React.FormEvent, folderId: number) => {
     event.preventDefault();
 
@@ -101,12 +120,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         },
       });
 
-      // 수정된 이름으로 상태에서 폴더를 업데이트
       setBookmarkFolders((prevFolders) =>
         prevFolders.map((folder) => (folder.id === folderId ? { ...folder, name: response.data.name } : folder))
       );
 
-      // 편집 상태를 초기화
       setEditingFolderId(null);
     } catch (error) {
       console.error('폴더 편집 오류:', error);
@@ -147,7 +164,13 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   };
 
   const handleFolderCreateClick = () => {
-    setIsFormVisible(true);
+    setIsFormVisible((prevIsFormVisible) => !prevIsFormVisible);
+    setFolderName('');
+  };
+
+  const handleBookmarkCreateClick = () => {
+    setIsBookmarkFormVisible((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
+    setFolderName('');
   };
 
   const handleFolderEditClick = (folderId: number) => {
@@ -186,7 +209,13 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           onClick={handleFolderCreateClick}
           className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
         >
-          북마크 폴더 생성
+          폴더 생성
+        </button>
+        <button
+          onClick={handleBookmarkCreateClick}
+          className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
+        >
+          북마크 생성
         </button>
       </div>
       {/* 북마크 폴더생성 */}
@@ -201,9 +230,11 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
               type="text"
               value={folderName}
               onChange={(e) => setFolderName(e.target.value)}
+              placeholder="폴더 이름을 입력하세요"
               className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
             />
           </label>
+
           <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
             생성
           </button>
@@ -212,6 +243,42 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </button>
         </form>
       )}
+
+      {isBookmarkFormVisible && (
+        <form
+          onSubmit={handleBookmarkCreateSubmit}
+          className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
+        >
+          <label className="text-sm">
+            북마크 이름:
+            <input
+              type="text"
+              value={bookmarkName}
+              onChange={(e) => setBookmarkName(e.target.value)}
+              placeholder="북마크 이름을 입력하세요"
+              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+            />
+          </label>
+          <label className="text-sm">
+            url:
+            <input
+              type="text"
+              value={bookmarkUrl}
+              onChange={(e) => setBookmarkUrl(e.target.value)}
+              placeholder="url을 입력하세요"
+              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+            />
+          </label>
+
+          <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
+            생성
+          </button>
+          <button type="reset" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
+            취소
+          </button>
+        </form>
+      )}
+
       <div
         className={`mx-auto mt-4 w-[90%] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
           selectedFolder ? 'h-max' : 'h-[12rem]'
@@ -297,28 +364,21 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         </ul>
         {selectedFolder && (
           <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
-            <DndContainer post={selectedFolder.bookmarks} setPost={updateSelectedFolderBookmarks}>
+            <DndContainer post={bookmarks} setPost={setBookmarks}>
               <div>삭제</div>
+              {bookmarks.map((bookmark) => (
+                <li key={bookmark.id} className="flex items-center">
+                  <img className="w-4 h-4 mr-2" src="https://i.ibb.co/d6KTNk1/Bookmark.png" alt="Bookmark Icon" />
+                  <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
+                    {bookmark.name}
+                  </a>
+                </li>
+              ))}
             </DndContainer>
           </div>
         )}
       </div>
-      <div className="text-gray-500 self-start text-xl flex items-center">
-        <h2 className="ml-4">북마크 편집</h2>
-        <img className="ml-2  w-4 h-4" src="https://i.ibb.co/Bj1DmqY/add-square.png" alt="Add Icon" />
-      </div>
-      <div className="mx-auto mt-4 w-[90%] h-[9rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4">
-        <ul className="text-sm p-5 leading-8 m-0">
-          {bookmarks.map((bookmark) => (
-            <li key={bookmark.id} className="flex items-center">
-              <img className="w-4 h-4 mr-2" src={bookmark.imageUrl} alt="Bookmark Icon" />
-              <a href={bookmark.url}>{bookmark.name}</a>
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   );
 };
-
 export default BookmarkPage;
