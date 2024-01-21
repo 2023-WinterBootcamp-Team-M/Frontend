@@ -56,14 +56,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handlePopoverClick);
-    return () => {
-      document.removeEventListener('mousedown', handlePopoverClick);
-    };
-  }, []);
-
-  // 유저의 폴더 조회
+  //유저의 폴더 조회
   const handleFolderFetch = async (user_id: number|null) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
