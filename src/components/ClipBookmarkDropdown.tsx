@@ -17,7 +17,7 @@ interface Bookmark {
   short_summary: string;
 }
 
-const ClipBookmarkDropdown = ({ userId }) => {
+const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
   const [bookmarkFolders, setBookmarkFolders] = useState<BookmarkFolder[]>([]);
   const [selectedFolder, setSelectedFolder] = useState<BookmarkFolder | null>(null);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
@@ -47,10 +47,14 @@ const ClipBookmarkDropdown = ({ userId }) => {
     }
   };
 
-  // 선택된 폴더의 북마크들을 표시
+  // 선택된 폴더의 북마크 표시
   const handleFolderSelect = (folder) => {
     setSelectedFolder(folder);
     handleBookmarkFetch(folder.id);
+  };
+
+  const handleBookmarkClick = (bookmark) => {
+    onSelectBookmark(bookmark.url); // 북마크 URL을 상위 컴포넌트로 전달
   };
 
   return (
@@ -65,11 +69,10 @@ const ClipBookmarkDropdown = ({ userId }) => {
       </ul>
       {selectedFolder && (
         <div>
-          <h3>{selectedFolder.name} 내의 북마크</h3>
           <ul>
             {bookmarks.map((bookmark) => (
-              <li key={bookmark.id}>
-                <a href={bookmark.url} target="_blank" rel="noreferrer">
+              <li key={bookmark.id} onClick={() => handleBookmarkClick(bookmark)}>
+                <a target="_blank" rel="noreferrer">
                   {bookmark.name}
                 </a>
               </li>

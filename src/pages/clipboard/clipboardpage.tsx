@@ -16,6 +16,10 @@ export default function ClipBoardPage() {
   const itemsPerPage = 10;
   const containerRef = React.useRef<HTMLUListElement>(null);
 
+  const handleSelectBookmark = (url: string) => {
+    setLink(url);
+  };
+
   //input창에 입력한 텍스트 link로 업데이트
   const handleInputChange = (event) => {
     setLink(event.target.value);
@@ -104,7 +108,7 @@ export default function ClipBoardPage() {
           이미지 클립
         </Button>
       </div>
-      {showBookmarks && <ClipBookmarkDropdown userId={userId} />}
+      {showBookmarks && <ClipBookmarkDropdown userId={userId} onSelectBookmark={handleSelectBookmark} />}
       <p className="text-gray-500 self-start py-2">Clip Board</p>
       <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white border-2 border-cliptab-blue px-1 pt-2 flex flex-col">
         <ul
