@@ -30,9 +30,18 @@ const DndContainer = ({ post, setPost }: any) => {
   };
 
   // 북마크 수정
-  const handleBookmarkEdit = async (bookmarkId: number) => {
-    await axios.patch(`http://localhost:8000/api/v1/folders/{folder_id}`);
-    console.log(`Editing bookmark: ${bookmarkId}`);
+  const handleBookmarkEdit = async (bookmark,folder_id:number ,bookmark_Id: number) => {
+    const jsonData = {
+      "data" : bookmark,
+      "folder_id" : folder_id,
+      "bookmark_id" : bookmark_Id
+    }
+    await axios.patch(`http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_Id}`,jsonData,{
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log(`Editing bookmark: ${bookmark_Id}`);
   };
 
   return (
@@ -58,7 +67,7 @@ const DndContainer = ({ post, setPost }: any) => {
                               <a href={e.url}>{e.name}</a>
                             </ToolTip>
                             <button
-                              onClick={() => handleBookmarkEdit(e.id)}
+                              onClick={() => handleBookmarkEdit(e,e.folder_id,e.id)}
                               className="ml-auto text-blue-700 hover:text-red-700 focus:outline-none"
                             >
                               수정

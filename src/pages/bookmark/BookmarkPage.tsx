@@ -68,6 +68,15 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.error('Error fetching folders:', err);
     }
   };
+  //폴더 내부의 북마크 조회
+  const bookmarkFetch =async (folder_id:number) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
+      console.log(`${folder_id} 폴더의 북마크 조회 성공:`,response.data);
+    } catch(err) {
+      console.error(`${folder_id}북마크 조회 실패 :`,err);
+    }
+  }
 
   useEffect(() => {
     handleFolderFetch(userId);
@@ -285,7 +294,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                 <>
                   <p 
                   className='cursor-pointer'
-                  onClick={() => handleFolderClick(folder)}>
+                  onClick={() => {
+                    handleFolderClick(folder);
+                    bookmarkFetch(folder.id);
+                  }}>
                     {folder.name}
                   </p>
 
@@ -309,7 +321,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         {selectedFolder && (
           <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
             <DndContainer post={bookmarks} setPost={setBookmarks}>
-              <div>삭제</div>
               {bookmarks.map((bookmark) => (
                 <li key={bookmark.id} className="flex items-center">
                   <img className="w-4 h-4 mr-2" src={bookmark.icon} alt={`${bookmark.id}-icon`} />
