@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import DndContainer from '../../components/DragNDrop';
 import axios from 'axios';
 import { favoriteStore, userIdStore } from '../../store/store';
+import ToolTip from '../../components/ToolTip';
 
 interface BookmarkFolder {
   id: number;
@@ -359,9 +360,11 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             {favoriteBookmarks.map((favorite)=>(
               <li key={favorite.name} className="flex items-center">
                 <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
+                <ToolTip title={favorite.short_summary}>
                   <a href={favorite.url} target="_blank" rel="noopener noreferrer">
                     {favorite.name}
                   </a>
+                  </ToolTip>
               </li>
             ))}
           </ul>
