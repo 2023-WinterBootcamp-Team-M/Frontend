@@ -41,8 +41,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [bookmarkUrl, setBookmarkUrl] = useState('');
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
 
-
-  //선택한 폴더 업데이트
   //선택한 폴더 업데이트
   const handleFolderClick = (folder: BookmarkFolder) => {
     if (selectedFolder && selectedFolder.id === folder.id) {
@@ -50,6 +48,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     } else {
       setSelectedFolder(folder);
     }
+    console.log('선택된 폴더:', selectedFolder);
   };
 
   const handlePopoverClick = (event: MouseEvent) => {
@@ -59,7 +58,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   };
 
   //유저의 폴더 조회
-  const handleFolderFetch = async (user_id: number|null) => {
+  const handleFolderFetch = async (user_id: number | null) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
       setBookmarkFolders(response.data);
@@ -74,13 +73,15 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
       console.log(`${folder_id} 폴더의 북마크 조회 성공:`, response.data);
       setBookmarks(response.data);
-      setBookmarks(response.data);
+    } catch (err) {
+      console.error(`${folder_id}북마크 조회 실패 :`, err);
     } catch (err) {
       console.error(`${folder_id}북마크 조회 실패 :`, err);
     }
   };
+  };
 
-  //폴더생성
+  //폴더 생성
   const handleFolderCreateSubmit = async (event: React.FormEvent, user_id: number | null) => {
     event.preventDefault();
     const user_id = 1;
@@ -142,8 +143,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const handleFolderEditSubmit = async (event: React.FormEvent, folder_id: number) => {
     event.preventDefault();
     try {
-      const jsonData = { name: folderName };
-      const response = await axios.patch(`http://localhost:8000/api/v1/folders/${folderId}`, jsonData, {
+      const jsonData = {
+        name: folderName,
+      };
+      const response = await axios.patch(`http://localhost:8000/api/v1/folders/${folder_id}`, jsonData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -218,16 +221,14 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   //북마크 즐겨찾기 조회
   const fetchFavorite = async () => {
     try {
-    const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
-    setFavoriteBookmarks(response.data);
-    console.log('favoritebookmark:',favoriteBookmarks);
-    console.log('북마크 즐겨찾기 조회 성공 :',response.data);
+      const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
+      setFavoriteBookmarks(response.data);
+      console.log('favoritebookmark:', favoriteBookmarks);
+      console.log('북마크 즐겨찾기 조회 성공 :', response.data);
     } catch (err) {
-      console.error('북마크 즐겨찾기 조회 실패 :',err);
+      console.error('북마크 즐겨찾기 조회 실패 :', err);
     }
-  }
-
-  
+  };
 
   const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
     if (selectedFolder) {
@@ -319,7 +320,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
       {isBookmarkFormVisible && (
         <form
-          onSubmit={handleBookmarkCreateSubmit}
+          onSubmit={(event) => createBookmark(event, selectedFolder?.id, bookmarkName, bookmarkUrl)}
           className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
         >
           <label className="text-sm">
@@ -363,7 +364,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
               <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
               {editingFolderId === folder.id ? (
                 <form
-                  onSubmit={(e) => handleFolderEditSubmit(e,folder.id)}
+                  onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
                   className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
                 >
                   <input
@@ -375,7 +376,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                 </form>
               ) : (
                 <>
-<<<<<<< HEAD
                   <p
                     className="cursor-pointer"
                     onClick={() => {
@@ -383,14 +383,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                       bookmarkFetch(folder.id);
                     }}
                   >
-=======
-                  <p 
-                  className='cursor-pointer'
-                  onClick={() => {
-                    handleFolderClick(folder);
-                    bookmarkFetch(folder.id);
-                  }}>
->>>>>>> b9bb6e6 (feat : 북마크 내부의 폴더 조회)
                     {folder.name}
                   </p>
 
@@ -426,11 +418,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </div>
         )}
       </div>
-      <div className='flex flex-col items-start mx-auto w-[90%]'>
+      <div className="flex flex-col items-start mx-auto w-[90%]">
         <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
-        <div
-        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min`}
-        >
+        <div className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min`}>
           <ul className="text-sm leading-10 p-5">
             {favoriteBookmarks.map((favorite)=>(
               <li key={favorite.name} className="flex items-center">
