@@ -39,6 +39,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [showBookmarkInput, setShowBookmarkInput] = useState(false);
   const [bookmarkName, setBookmarkName] = useState('');
   const [bookmarkUrl, setBookmarkUrl] = useState('');
+  const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
+
 
   //선택한 폴더 업데이트
   //선택한 폴더 업데이트
@@ -217,6 +219,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const fetchFavorite = async () => {
     try {
     const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
+    setFavoriteBookmarks(response.data);
+    console.log('favoritebookmark:',favoriteBookmarks);
     console.log('북마크 즐겨찾기 조회 성공 :',response.data);
     } catch (err) {
       console.error('북마크 즐겨찾기 조회 실패 :',err);
@@ -409,11 +413,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         </ul>
         {selectedFolder && (
           <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
-<<<<<<< HEAD
             <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
-=======
-            <DndContainer post={bookmarks} setPost={setBookmarks}>
->>>>>>> b9bb6e6 (feat : 북마크 내부의 폴더 조회)
               {bookmarks.map((bookmark) => (
                 <li key={bookmark.id} className="flex items-center">
                   <img className="w-4 h-4 mr-2" src={bookmark.icon} alt={`${bookmark.id}-icon`} />
@@ -425,6 +425,23 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             </DndContainer>
           </div>
         )}
+      </div>
+      <div className='flex flex-col items-start mx-auto w-[90%]'>
+        <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
+        <div
+        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min`}
+        >
+          <ul className="text-sm leading-10 p-5">
+            {favoriteBookmarks.map((favorite)=>(
+              <li key={favorite.name} className="flex items-center">
+                <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
+                  <a href={favorite.url} target="_blank" rel="noopener noreferrer">
+                    {favorite.name}
+                  </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <div className="flex flex-col items-start mx-auto w-[90%]">
         <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
