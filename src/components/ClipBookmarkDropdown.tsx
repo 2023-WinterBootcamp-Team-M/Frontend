@@ -72,9 +72,7 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
           <ul>
             {bookmarks.map((bookmark) => (
               <li key={bookmark.id} onClick={() => handleBookmarkClick(bookmark)}>
-                <a target="_blank" rel="noreferrer">
-                  {bookmark.name}
-                </a>
+                {bookmark.name}
               </li>
             ))}
           </ul>
