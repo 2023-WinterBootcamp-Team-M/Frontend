@@ -209,7 +209,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       <img className="mt-10 w-28 h-auto mb-2 mx-auto" src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt={name} />
       <div className="text-gray-500 self-start text-xl flex w-[90%] mx-auto">
         <h2 className="">북마크</h2>
@@ -288,10 +288,16 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       )}
 
       <div
-        className={`mx-auto mt-4 w-[90%] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
+        className={`mx-auto mt-4 w-[90%] min-h-60 bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
+        { bookmarkFolders.length === 0 ? (
+          <div className='flex flex-col w-full h-60 justify-evenly items-center'>
+            <img src='https://i.ibb.co/xgbw95k/pngegg.png' alt='empty_img' className=' w-[50%] h-[60%]'/>
+            <p className='text-center text-cliptab-blue font-bold text-lg'>북마크를 추가해보세요!</p>
+          </div>
+        ):(
         <ul className="text-sm p-5 leading-10">
           {bookmarkFolders.map((folder) => (
             <li key={folder.id} className="flex items-center mb-2">
@@ -336,6 +342,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             </li>
           ))}
         </ul>
+        )}
         {selectedFolder && (
           <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
             <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
@@ -351,11 +358,17 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </div>
         )}
       </div>
-      <div className='flex flex-col items-start mx-auto w-[90%]'>
+      <div className='flex flex-col items-start mx-auto w-[90%] h-full'>
         <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
         <div
-        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min`}
-        >
+        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min min-h-60`}
+        > 
+        {favoriteBookmarks.length === 0 ? (
+          <div className='flex flex-col w-full h-60 justify-evenly items-center'>
+          <img src='https://i.ibb.co/LNy0Wnj/pngegg-1.png' alt='empty_img' className='w-[50%] h-[60%]'/>
+          <p className='text-center text-cliptab-blue font-bold text-lg'>즐겨찾기에 북마크를 추가해보세요!</p>
+          </div>
+        ):(
           <ul className="text-sm leading-10 p-5">
             {favoriteBookmarks.map((favorite)=>(
               <li key={favorite.name} className="flex items-center">
@@ -368,6 +381,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
               </li>
             ))}
           </ul>
+          )}
         </div>
       </div>
     </div>
