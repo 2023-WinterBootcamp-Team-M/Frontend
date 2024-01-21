@@ -36,7 +36,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [isBookmarkFormVisible, setIsBookmarkFormVisible] = useState(false);
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
-  const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
+  const [showBookmarkInput, setShowBookmarkInput] = useState(false);
+  const [bookmarkName, setBookmarkName] = useState('');
+  const [bookmarkUrl, setBookmarkUrl] = useState('');
 
   //선택한 폴더 업데이트
   const handleFolderClick = (folder: BookmarkFolder) => {
@@ -45,7 +47,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     } else {
       setSelectedFolder(folder);
     }
-    console.log('선택된 폴더:', selectedFolder);
   };
 
   const handlePopoverClick = (event: MouseEvent) => {
@@ -54,30 +55,17 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  //유저의 폴더 조회
-  const handleFolderFetch = async (user_id: number | null) => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
-      setBookmarkFolders(response.data);
-    } catch (err) {
-      console.error('Error fetching folders:', err);
-    }
-  };
+  useEffect(() => {
+    document.addEventListener('mousedown', handlePopoverClick);
+    return () => {
+      document.removeEventListener('mousedown', handlePopoverClick);
+    };
+  }, []);
 
-  //폴더 내부의 북마크 조회
-  const bookmarkFetch = async (folder_id: number) => {
-    try {
-      const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
-      console.log(`${folder_id} 폴더의 북마크 조회 성공:`, response.data);
-      setBookmarks(response.data);
-    } catch (err) {
-      console.error(`${folder_id}북마크 조회 실패 :`, err);
-    }
-  };
-
-  //폴더생성
-  const handleFolderCreateSubmit = async (event: React.FormEvent, user_id: number | null) => {
+  // 폴더 생성
+  const handleFolderCreateSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const user_id = 1;
 
     try {
       const jsonData = { name: folderName, user_id: user_id };
@@ -87,16 +75,27 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         },
       });
 
-      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
       setBookmarkFolders((prevFolders) => [...prevFolders, response.data]);
-
-      // 폼 입력을 지우고 폼을 숨김
       setFolderName('');
       setIsFormVisible(false);
     } catch (error) {
       console.error('폴더 생성 오류:', error);
     }
   };
+
+  // 유저의 폴더 조회
+  const handleFolderFetch = async (user_id: number | null) => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
+      setBookmarkFolders(response.data);
+    } catch (err) {
+      console.error('Error fetching folders:', err);
+    }
+  };
+
+  useEffect(() => {
+    handleFolderFetch(userId);
+  }, []);
 
   // 폴더 삭제
   const handleFolderDelete = async (folder_id: number) => {
@@ -212,15 +211,28 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     setEditingFolderId(folderId);
     setFolderName(bookmarkFolders.find((folder) => folder.id === folderId)?.name || '');
   };
+  //폴더생성
+  const handleFolderCreateSubmit = async (event: React.FormEvent, user_id: number | null) => {
+    event.preventDefault();
 
-  useEffect(() => {
-    handleFolderFetch(userId);
-    fetchFavorite();
-    document.addEventListener('mousedown', handlePopoverClick);
-    return () => {
-      document.removeEventListener('mousedown', handlePopoverClick);
-    };
-  }, []);
+    try {
+      const jsonData = { name: folderName, user_id: user_id };
+      const response = await axios.post(`http://localhost:8000/api/v1/folders`, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
+      setBookmarkFolders((prevFolders) => [...prevFolders, response.data]);
+
+      // 폼 입력을 지우고 폼을 숨김
+      setFolderName('');
+      setIsFormVisible(false);
+    } catch (error) {
+      console.error('폴더 생성 오류:', error);
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -268,7 +280,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
       {isBookmarkFormVisible && (
         <form
-          onSubmit={(event) => createBookmark(event, selectedFolder?.id, bookmarkName, bookmarkUrl)}
+          onSubmit={handleBookmarkCreateSubmit}
           className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
         >
           <label className="text-sm">
