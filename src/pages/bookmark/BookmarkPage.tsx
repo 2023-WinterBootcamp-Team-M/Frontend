@@ -36,7 +36,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
 
-
+  //선택한 폴더 업데이트
   const handleFolderClick = (folder: BookmarkFolder) => {
     if (selectedFolder && selectedFolder.id === folder.id) {
       setSelectedFolder(null);
@@ -73,6 +73,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
       console.log(`${folder_id} 폴더의 북마크 조회 성공:`,response.data);
+      setBookmarks(response.data);
     } catch(err) {
       console.error(`${folder_id}북마크 조회 실패 :`,err);
     }
@@ -119,7 +120,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  // 폴더 수정
+  // 폴더 수정(아직안됨)
   const handleFolderEditSubmit = async (event: React.FormEvent, folderId: number) => {
     event.preventDefault();
 
