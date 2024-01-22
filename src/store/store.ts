@@ -88,3 +88,28 @@ export const favoriteStore = create<BookmarkState>((set)=> ({
     set({favoriteBookmarks : newState})
   }
 }))
+
+interface clip {
+  id:number;
+  img_url:string;
+}
+
+interface ClipboardState {
+
+  clipboardId: number | undefined;
+  clipImages: clip[]|[];
+  setClipboardId: (newState: number) => Promise<void>;
+  setClipImages: (newState: clip[]|undefined) => void;
+}
+
+//클립보드
+export const clipStore = create<ClipboardState>((set)=> ({
+  clipboardId: undefined,
+  clipImages: [],
+  setClipboardId:async (newState) => {
+    set({clipboardId : newState})
+  },
+  setClipImages: (newState) => {
+    set({clipImages : newState})
+  },
+}))

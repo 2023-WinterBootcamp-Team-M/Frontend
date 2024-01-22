@@ -3,23 +3,24 @@ import { userIdStore } from '../../store/store';
 import ToolTip from '../../components/ToolTip';
 import { DownloadImage, DeleteImage, DeleteAllImages, CreateClipboard, GetClipboardList } from './ClipboardAPI';
 import Button from '@mui/material/Button';
+import { clipStore } from '../../store/store';
 import ClipBookmarkDropdown from '../../components/ClipBookmarkDropdown';
 import { useState } from 'react';
 
-export default function ClipBoardPage() {
-  const { userId } = userIdStore();
-  const [clipImages, setClipImages] = React.useState<string[] | number[]>([]);
-  const [clipboardId, setClipBoardId] = React.useState();
-  const [link, setLink] = React.useState<string>('');
-  const [loadedPage, setLoadedPage] = React.useState(1);
-  const [showBookmarks, setShowBookmarks] = useState(false);
-  const itemsPerPage = 10;
-  const containerRef = React.useRef<HTMLUListElement>(null);
+export default function ClipBoardPage(){
 
-  const handleSelectBookmark = (url: string) => {
-    setLink(url);
-  };
+    const {userId} = userIdStore();
+    const [link,setLink] = React.useState<string>('');
+    const [loadedPage, setLoadedPage] = React.useState(1);
+    const itemsPerPage = 10;
+    const containerRef = React.useRef<HTMLUListElement|null>(null);
+    const [showBookmarks, setShowBookmarks] = useState(false);
+    const { clipboardId, clipImages, setClipboardId, setClipImages } = clipStore();
 
+    const handleSelectBookmark = (url: string) => {
+      setLink(url);
+    };
+  
   //input창에 입력한 텍스트 link로 업데이트
   const handleInputChange = (event) => {
     setLink(event.target.value);
@@ -40,7 +41,7 @@ export default function ClipBoardPage() {
   // userId가 존재할 때 CreateClipboard 실행
   const handleCreateClipboard = (event) => {
     if (userId !== null) {
-      CreateClipboard(event, userId, setClipBoardId, setClipImages, link);
+      CreateClipboard( userId, link, setClipboardId,setClipImages);
     } else {
       console.log('로그인이 필요합니다.');
     }
@@ -62,36 +63,37 @@ export default function ClipBoardPage() {
         observer.unobserve(containerRef.current);
       }
     };
-  }, [containerRef]);
+  }, [containerRef.current]);
+  
   const allItems = clipImages || []; // 모든 이미지를 가져오기
-  const currentItems = allItems.slice(0, loadedPage * itemsPerPage);
 
-  React.useEffect(() => {}, [clipImages]);
-  return (
-    <div className="flex flex-col items-center px-5 h-screen">
-      <img //로고 이미지
-        className="w-[11.75rem] h-[4.8125rem]"
-        src="https://i.ibb.co/d73mffp/clip-tab-3.png"
-        alt="clip_tab_logo"
-      />
-      <p className="text-gray-500 self-start py-2">이미지 추출</p>
-      <div //이미지 추출 창
-        className="w-full h-[10rem] rounded-[20px] shadow-xl mb-4 bg-white border-2 border-cliptab-blue flex flex-col justify-between"
-      >
-        <div className="flex flex-row items-center justify-between">
-          <img //작은 로고
-            className="size-8 ml-4"
-            src="https://i.ibb.co/NLhT9rM/icon4-1-2-1.png"
-          />
-          <ToolTip title="내 북마크 링크 가져오기">
-            <div //내 북마크 링크 가져오기 div
-              className="flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 my-2 cursor-pointer"
-              onClick={handleShowBookmarks}
-            >
-              <img className="size-6" src="https://i.ibb.co/kH4Xjbj/bookmark-4.png" alt="bookmark-4" />
-              <img className="size-3" src="https://i.ibb.co/0rJCLSp/arrow-down-simple.png" alt="arrow-down-simple" />
-            </div>
-          </ToolTip>
+    return (
+    <div className='flex flex-col items-center px-5 h-screen'>
+    <img //로고 이미지
+    className='w-[11.75rem] h-[4.8125rem]'
+    src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
+    alt="clip_tab_logo"/>
+    <p className='text-gray-500 self-start py-2'>이미지 추출</p>
+    <div //이미지 추출 창
+    className='w-full h-[10rem] rounded-[20px] shadow-xl mb-4 bg-white border-2 border-cliptab-blue flex flex-col justify-between'>
+        <div className='flex flex-row items-center justify-between'>
+        <img //작은 로고
+        className='size-8 ml-4'
+        src='https://i.ibb.co/NLhT9rM/icon4-1-2-1.png'/>
+        <ToolTip title='내 북마크 링크 가져오기'>
+        <div //내 북마크 링크 가져오기 div
+        className='flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 my-2 cursor-pointer'
+        onClick={handleShowBookmarks}>
+        <img 
+        className='size-6'
+        src="https://i.ibb.co/kH4Xjbj/bookmark-4.png" 
+        alt="bookmark-4"/>
+        <img
+        className='size-3'
+        src="https://i.ibb.co/0rJCLSp/arrow-down-simple.png"
+        alt="arrow-down-simple"/>
+        </div>
+        </ToolTip>
         </div>
         <input //링크 입력창
           className="w-[90%] h-11 mx-4 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
@@ -116,7 +118,7 @@ export default function ClipBoardPage() {
           style={{ overflowY: 'auto' }}
           className="flex flex-wrap items-center justify-center h-[88%]"
         >
-          {currentItems.map((e) => (
+          {allItems.map((e) => (
             <li key={e.id} className="w-1/2 flex justify-center items-center pb-2">
               <div className="relative">
                 <img className="rounded-md shadow-md size-32 border-2 border-cliptab-blue" src={e.img_url} />
@@ -124,8 +126,7 @@ export default function ClipBoardPage() {
                   <div
                     className="absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer"
                     onClick={(event) => {
-                      DeleteImage(event, clipboardId, e.id, setClipImages);
-                      GetClipboardList(event, clipboardId);
+                      DeleteImage(event,clipboardId,e.id,clipImages,setClipImages);
                     }}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
