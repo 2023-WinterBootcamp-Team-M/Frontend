@@ -2,16 +2,18 @@ import * as React from 'react';
 import ToolTip from '../../components/ToolTip';
 import { DownloadImage, DeleteImage, DeleteAllImages, CreateClipboard, GetClipboardList } from './ClipboardAPI';
 import Button from '@mui/material/Button';
+import { clipStore } from '../../store/store';
 
 export default function ClipBoardPage(){
 
     const [userId,setUserId] = React.useState<number>(1);
-    const [clipImages,setClipImages] = React.useState<string[]|number[]>([]);
-    const [clipboardId,setClipBoardId] = React.useState();
+    // const [clipImages,setClipImages] = React.useState<string[]|number[]>([]);
+    // const [clipboardId,setClipBoardId] = React.useState();
     const [link,setLink] = React.useState<string>('');
     const [loadedPage, setLoadedPage] = React.useState(1);
     const itemsPerPage = 10;
-    const containerRef = React.useRef<HTMLUListElement>(null);
+    const containerRef = React.useRef<HTMLUListElement|null>(null);
+    const { clipboardId, clipImages, setClipboardId, setClipImages } = clipStore();
 
     //input창에 입력한 텍스트 link로 업데이트
     const handleInputChange = (event) => {
@@ -42,13 +44,10 @@ export default function ClipBoardPage(){
             observer.unobserve(containerRef.current);
           }
         };
-      }, [containerRef]);
+      }, [containerRef.current]);
       const allItems = clipImages||[]; // 모든 이미지를 가져오기
       const currentItems = allItems.slice(0, loadedPage * itemsPerPage);
 
-    React.useEffect(()=>{
-
-    },[clipImages]);
     return (
     <div className='flex flex-col items-center px-5 h-screen'>
     <img //로고 이미지
@@ -85,8 +84,8 @@ export default function ClipBoardPage(){
         <Button //이미지 클립 버튼
         variant='contained'
         className='bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-auto my-auto w-[90%] h-11 hover:opacity-90' 
-        onClick={(event)=>{
-            CreateClipboard(event,userId,setClipBoardId,setClipImages,link);
+        onClick={()=>{
+            CreateClipboard(userId,link,setClipboardId,setClipImages);
             setLink('');
         }}>이미지 클립</Button>
     </div>
@@ -104,7 +103,7 @@ export default function ClipBoardPage(){
                 <div className='absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer' 
                 onClick={(event)=>{
                   DeleteImage(event,clipboardId,e.id,setClipImages);
-                  GetClipboardList(event,clipboardId)}}>
+                  GetClipboardList(clipboardId,setClipboardId)}}>
                     <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor'>
                         <path fillRule='evenodd' d='M13.293 6.293a1 1 0 011.414 1.414L11.414 11l3.293 3.293a1 1 0 01-1.414 1.414L10 12.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 11 5.293 7.707a1 1 0 111.414-1.414L10 9.586l3.293-3.293a1 1 0 011.414 0z' clipRule='evenodd' />
                     </svg>

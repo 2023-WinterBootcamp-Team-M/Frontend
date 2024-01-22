@@ -1,9 +1,9 @@
 import axios from "axios";
 import { saveAs } from "file-saver";
-  
+import { clipStore } from "../../store/store";
+
 //클립보드 생성
-export async function CreateClipboard(event,userId:number,setClipboardId,setClipImages,link:string) {
-    event.preventDefault();
+export async function CreateClipboard(userId:number,link:string,setClipboardId,setClipImages) {
     const clipform = {"user_id":userId, "url": link};
     const response = await axios.post(`http://localhost:8000/api/v1/clipboard`,clipform,{
         headers: {
@@ -15,9 +15,9 @@ export async function CreateClipboard(event,userId:number,setClipboardId,setClip
     setClipImages(response.data.images_list);
 }
 //클립보드 리스트 조회
-export async function GetClipboardList(event,clipboardId) {
-    event.preventDefault();
+export async function GetClipboardList(clipboardId,setClipBoardId) {
     const response = await axios.get(`http://localhost:8000/api/v1/clipboard/${clipboardId}`);
+    setClipBoardId(response.data.id);
     console.log(response.data);
 }
 //클립보드 이미지 개별삭제
