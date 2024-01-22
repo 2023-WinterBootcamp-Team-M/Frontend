@@ -3,11 +3,12 @@ import React from 'react';
 import { useRef } from 'react';
 import ToolTip from './ToolTip';
 import axios from 'axios';
-import { favoriteStore } from '../store/store';
+import { favoriteStore, optStore } from '../store/store';
 
 const DndContainer = ({ post, setPost,fetch }: any) => {
   const { setFavoriteBookmarks } = favoriteStore();
   const popoverRef = useRef<HTMLDivElement>(null);
+  const {opt_sum} = optStore();
   //드래그가 끝났을 때 호출되어 드래그가 끝났을때의 결과 저장
   const handleChange = (result: any) => {
     if (!result.destination) return;
@@ -75,7 +76,7 @@ const DndContainer = ({ post, setPost,fetch }: any) => {
                         {
                           <li key={e.id} className="flex items-center">
                             <img className="w-4 h-4 mr-2" src={e.icon} alt="Bookmark Icon" />
-                            <ToolTip title={e.short_summary}>
+                            <ToolTip title={opt_sum ? e.short_summary : e.long_summary}>
                               <a href={e.url}>{e.name}</a>
                             </ToolTip>
                             <button onClick={async ()=> {
