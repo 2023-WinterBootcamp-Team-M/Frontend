@@ -97,9 +97,9 @@ interface clip {
 interface ClipboardState {
 
   clipboardId: number | undefined;
-  clipImages: clip[]|undefined;
+  clipImages: clip[]|[];
   setClipboardId: (newState: number) => Promise<void>;
-  setClipImages: (newState: clip[]|undefined) => Promise<void>;
+  setClipImages: (newState: clip[]|undefined) => void;
 }
 
 //클립보드
@@ -109,7 +109,7 @@ export const clipStore = create<ClipboardState>((set)=> ({
   setClipboardId:async (newState) => {
     set({clipboardId : newState})
   },
-  setClipImages :async (newState) => {
+  setClipImages: (newState) => {
     set({clipImages : newState})
   },
 }))

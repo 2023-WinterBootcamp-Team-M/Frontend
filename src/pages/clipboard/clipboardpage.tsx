@@ -21,7 +21,6 @@ export default function ClipBoardPage(){
       setLink(url);
     };
   
-
   //input창에 입력한 텍스트 link로 업데이트
   const handleInputChange = (event) => {
     setLink(event.target.value);
@@ -64,9 +63,9 @@ export default function ClipBoardPage(){
         observer.unobserve(containerRef.current);
       }
     };
-  }, [containerRef]);
+  }, [containerRef.current]);
+  
   const allItems = clipImages || []; // 모든 이미지를 가져오기
-  const currentItems = allItems.slice(0, loadedPage * itemsPerPage);
 
     return (
     <div className='flex flex-col items-center px-5 h-screen'>
@@ -83,7 +82,8 @@ export default function ClipBoardPage(){
         src='https://i.ibb.co/NLhT9rM/icon4-1-2-1.png'/>
         <ToolTip title='내 북마크 링크 가져오기'>
         <div //내 북마크 링크 가져오기 div
-        className='flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 my-2 cursor-pointer'>
+        className='flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 my-2 cursor-pointer'
+        onClick={handleShowBookmarks}>
         <img 
         className='size-6'
         src="https://i.ibb.co/kH4Xjbj/bookmark-4.png" 
@@ -118,7 +118,7 @@ export default function ClipBoardPage(){
           style={{ overflowY: 'auto' }}
           className="flex flex-wrap items-center justify-center h-[88%]"
         >
-          {currentItems.map((e) => (
+          {allItems.map((e) => (
             <li key={e.id} className="w-1/2 flex justify-center items-center pb-2">
               <div className="relative">
                 <img className="rounded-md shadow-md size-32 border-2 border-cliptab-blue" src={e.img_url} />
@@ -126,8 +126,7 @@ export default function ClipBoardPage(){
                   <div
                     className="absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer"
                     onClick={(event) => {
-                      DeleteImage(event, clipboardId, e.id, setClipImages);
-                      GetClipboardList(event, clipboardId);
+                      DeleteImage(event,clipboardId,e.id,clipImages,setClipImages);
                     }}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
