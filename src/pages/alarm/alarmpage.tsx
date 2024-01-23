@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NotificationItem from './notificationItem';
 import { useInView } from 'react-intersection-observer';
+import axios from 'axios';
 
 type Notification = {
   id: number;
@@ -10,6 +11,16 @@ type Notification = {
   savedDate: string;
   daysSinceLastVisit: number;
 };
+//알림 조회
+export async function getAlarm(user_id){
+  try{
+    const response = await axios.get(`http://localhost:8000/api/v1/reminders/list/${user_id}`);
+    console.log('알림 조회 성공 :',response.data);
+  }
+  catch(err){
+    console.error('알림 조회 실패 :',err);
+  }
+}
 
 export default function alarmpage() {
   const [notificationData, setNotificationData] = useState<Notification[]>([]);
