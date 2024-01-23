@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { userIdStore, pageStore, optStore } from '../store/store';
 import SignInModal from '../components/SigninModal';
+import { getAlarm } from './alarm/alarmpage';
 
 export default function StartPage() {
   const { userId, userName, userEmail, setUserId, setUserName, setUserEmail } = userIdStore();
@@ -16,6 +17,7 @@ export default function StartPage() {
   };
 
   const handleStartClick = () => {
+    getAlarm(userId);
     console.log('현재 pageIndex:', pageStore.getState().pageIndex);
     const optPage = opt_start ? 1 : 2; 
     setPageIndex(optPage); // 북마크 페이지 탭 인덱스
