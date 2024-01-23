@@ -5,6 +5,7 @@ import { favoriteStore, optStore, userIdStore } from '../../store/store';
 import ToolTip from '../../components/ToolTip';
 import NewFolderModal from '../../components/bookmark/NewFolderModal';
 import NewBookmarkModal from '../../components/bookmark/NewBookmarkModal';
+import NewBookmarkModal from '../../components/bookmark/NewBookmarkModal';
 
 interface BookmarkFolder {
   id: number;
