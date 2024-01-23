@@ -29,8 +29,22 @@ export async function isAlarm(user_id,setIsAlarmList){
   }
 }
 
+//해당 알림 삭제
+export async function deleteAlarm(user_id,reminder_id,setAlarmList){
+  try{
+    //알람 삭제 요청
+    await axios.delete(`http://localhost:8000/api/v1/reminders/${reminder_id}`);
+    const response = await axios.get(`http://localhost:8000/api/v1/reminders/list/${user_id}`);
+    setAlarmList(response.data);
+    console.log('알림개별삭제 성공 :',response.data);
+  }
+  catch(err){
+    console.error('알림개별삭제 실패 :',err);
+  }
+}
+
 export default function alarmpage() {
-  const { alarmList } = alarmStoare();
+  const { alarmList,setAlarmList } = alarmStoare();
   const [page, setPage] = useState(1); // 페이지 번호 초기값
   const [ref, inView] = useInView();
   const { userId } = userIdStore();

@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import { deleteAlarm } from './alarmpage';
+import { alarmStoare, userIdStore } from '../../store/store';
 
 const NotificationItem = ({ notification }) => {
   const [buttonImage, setButtonImage] = useState('https://i.ibb.co/c11TV3y/Group-1000002294.png');
+  const { setAlarmList } = alarmStoare();
+  const { userId } = userIdStore()
 
   const handleRedirect = () => {
     window.location.href = notification.bookmark_url;
@@ -39,7 +43,9 @@ const NotificationItem = ({ notification }) => {
         <button onClick={handleRedirect} className="ml-8 w-24 h-7 bg-gray-300 hover:bg-gray-500 rounded-md">
           접속
         </button>
-        <button className="mr-8 w-24 h-7 bg-red-600 hover:bg-red-400 text-white rounded-md">삭제</button>
+        <button 
+        onClick={()=>deleteAlarm(userId,notification.id,setAlarmList)}
+        className="mr-8 w-24 h-7 bg-red-600 hover:bg-red-400 text-white rounded-md">삭제</button>
       </div>
     </div>
   );
