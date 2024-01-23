@@ -113,3 +113,23 @@ export const clipStore = create<ClipboardState>((set)=> ({
     set({clipImages : newState})
   },
 }))
+
+interface alarm {
+  user_id: number;
+  bookmark_name: string;
+  bookmark_url: string;
+  is_checked: boolean;
+  accumulated_days: number;
+}
+
+interface alarmState {
+  alarmList: alarm[]|[];
+  setAlarmList: (newState : alarm[]|undefined) => void;
+}
+
+export const alarmStoare = create<alarmState>((set)=>({
+  alarmList: [],
+  setAlarmList: (newState) => {
+    set({alarmList: newState})
+  }
+}))

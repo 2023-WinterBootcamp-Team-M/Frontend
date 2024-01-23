@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { userIdStore, pageStore, optStore } from '../store/store';
+import { userIdStore, pageStore, optStore, alarmStoare } from '../store/store';
 import SignInModal from '../components/SigninModal';
 import { getAlarm } from './alarm/alarmpage';
 
@@ -9,6 +9,7 @@ export default function StartPage() {
   const setPageIndex = pageStore((state) => state.setPageIndex);
   const [enabled, setEnabled] = useState(false); // 패널 활성화 상태
   const {opt_start} = optStore();
+  const {alarmList, setAlarmList} = alarmStoare();
   const handleLoginSuccess = (userData) => {
     setUserId(userData.id);
     setUserName(userData.name);
@@ -17,7 +18,7 @@ export default function StartPage() {
   };
 
   const handleStartClick = () => {
-    getAlarm(userId);
+    getAlarm(userId,alarmList,setAlarmList);
     console.log('현재 pageIndex:', pageStore.getState().pageIndex);
     const optPage = opt_start ? 1 : 2; 
     setPageIndex(optPage); // 북마크 페이지 탭 인덱스
