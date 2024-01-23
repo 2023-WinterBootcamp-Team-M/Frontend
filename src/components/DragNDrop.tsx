@@ -121,31 +121,32 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                   </a>
                                 </div>
                               </ToolTip>
-                              <div
-                                onClick={async () => {
-                                  await patchFavorite(e.id);
-                                  fetch();
-                                }}
-                              >
-                                즐겨찾기
-                              </div>
-                              <button
-                                onClick={() => {
-                                  setBookmarkName(e.name);
-                                  setBookmarkUrl(e.url);
-                                  setIsEditBookmak(true);
-                                }}
-                                className="ml-auto text-blue-700 hover:text-red-700 focus:outline-none"
-                              >
-                                수정
-                              </button>
-                              <button
-                                onClick={() => handleBookmarkDelete(e.id, e.folder_id)}
-                                className="ml-auto text-red-700 hover:text-red-700 focus:outline-none"
-                              >
-                                삭제
-                              </button>
                             </div>
+
+                            <button
+                              onClick={async () => {
+                                await patchFavorite(e.id);
+                                fetch();
+                              }}
+                            >
+                              즐겨찾기
+                            </button>
+                            <button
+                              onClick={() => {
+                                setBookmarkName(e.name);
+                                setBookmarkUrl(e.url);
+                                setIsEditBookmak(true);
+                              }}
+                              className="ml-auto text-blue-700 hover:text-red-700 focus:outline-none"
+                            >
+                              수정
+                            </button>
+                            <button
+                              onClick={() => handleBookmarkDelete(e.id, e.folder_id)}
+                              className="ml-auto text-red-700 hover:text-red-700 focus:outline-none"
+                            >
+                              삭제
+                            </button>
                           </li>
                         )}
                       </div>
