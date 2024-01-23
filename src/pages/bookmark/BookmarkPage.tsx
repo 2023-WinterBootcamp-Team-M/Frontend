@@ -3,6 +3,7 @@ import DndContainer from '../../components/DragNDrop';
 import axios from 'axios';
 import { favoriteStore, optStore, userIdStore } from '../../store/store';
 import ToolTip from '../../components/ToolTip';
+import NewFolderModal from '../../components/bookmark/NewFolderModal';
 
 interface BookmarkFolder {
   id: number;
@@ -28,8 +29,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [selectedFolder, setSelectedFolder] = useState<BookmarkFolder | null>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
-  const [bookmarkName,setBookmarkName] = useState("");
-  const [bookmarkUrl,setBookmarkUrl] = useState("");
+  const [bookmarkName, setBookmarkName] = useState('');
+  const [bookmarkUrl, setBookmarkUrl] = useState('');
   const [bookmarkFolders, setBookmarkFolders] = useState<BookmarkFolder[]>([]);
   const [folderName, setFolderName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -39,7 +40,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
   const { opt_sum } = optStore();
 
-
   //선택한 폴더 업데이트
   const handleFolderClick = (folder: BookmarkFolder) => {
     if (selectedFolder && selectedFolder.id === folder.id) {
@@ -47,7 +47,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     } else {
       setSelectedFolder(folder);
     }
-    console.log('선택된 폴더:',selectedFolder);
+    console.log('선택된 폴더:', selectedFolder);
   };
 
   const handlePopoverClick = (event: MouseEvent) => {
@@ -57,7 +57,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   };
 
   //유저의 폴더 조회
-  const handleFolderFetch = async (user_id: number|null) => {
+  const handleFolderFetch = async (user_id: number | null) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
       setBookmarkFolders(response.data);
@@ -67,18 +67,18 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   };
 
   //폴더 내부의 북마크 조회
-  const bookmarkFetch =async (folder_id:number) => {
+  const bookmarkFetch = async (folder_id: number) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
-      console.log(`${folder_id} 폴더의 북마크 조회 성공:`,response.data);
+      console.log(`${folder_id} 폴더의 북마크 조회 성공:`, response.data);
       setBookmarks(response.data);
-    } catch(err) {
-      console.error(`${folder_id}북마크 조회 실패 :`,err);
+    } catch (err) {
+      console.error(`${folder_id}북마크 조회 실패 :`, err);
     }
-  }
+  };
 
   //폴더생성
-  const handleFolderCreateSubmit = async (event: React.FormEvent,user_id:number|null) => {
+  const handleFolderCreateSubmit = async (event: React.FormEvent, user_id: number | null) => {
     event.preventDefault();
 
     try {
@@ -118,8 +118,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const handleFolderEditSubmit = async (event: React.FormEvent, folder_id: number) => {
     event.preventDefault();
     try {
-      const jsonData = { 
-        "name" : folderName,
+      const jsonData = {
+        name: folderName,
       };
       const response = await axios.patch(`http://localhost:8000/api/v1/folders/${folder_id}`, jsonData, {
         headers: {
@@ -138,14 +138,14 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   };
 
   //북마크 생성
-  const createBookmark = async (event,folderId,bookmarkName,url) => {
+  const createBookmark = async (event, folderId, bookmarkName, url) => {
     event.preventDefault();
 
     try {
-      const jsonData = { 
-        "folder_id": folderId,
-        "name": bookmarkName,
-        "url": url,
+      const jsonData = {
+        folder_id: folderId,
+        name: bookmarkName,
+        url: url,
       };
       const response = await axios.post(`http://localhost:8000/api/v1/bookmarks`, jsonData, {
         headers: {
@@ -155,33 +155,24 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
       // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
       setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
-      console.log("북마크 생성 성공 :",response.data);
+      console.log('북마크 생성 성공 :', response.data);
       // 폼 입력을 지우고 폼을 숨김
       // setFolderName('');
       // setIsFormVisible(false);
     } catch (error) {
       console.error('북마크 생성 오류:', error);
     }
-  }
+  };
 
   //북마크 즐겨찾기 조회
   const fetchFavorite = async () => {
     try {
-    const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
-    setFavoriteBookmarks(response.data);
-    console.log('favoritebookmark:',favoriteBookmarks);
-    console.log('북마크 즐겨찾기 조회 성공 :',response.data);
+      const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
+      setFavoriteBookmarks(response.data);
+      console.log('favoritebookmark:', favoriteBookmarks);
+      console.log('북마크 즐겨찾기 조회 성공 :', response.data);
     } catch (err) {
-      console.error('북마크 즐겨찾기 조회 실패 :',err);
-    }
-  }
-
-  
-
-  const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
-    if (selectedFolder) {
-      const updatedFolder = { ...selectedFolder, bookmarks: newBookmarks };
-      setSelectedFolder(updatedFolder);
+      console.error('북마크 즐겨찾기 조회 실패 :', err);
     }
   };
 
@@ -200,7 +191,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     setFolderName(bookmarkFolders.find((folder) => folder.id === folderId)?.name || '');
   };
 
-  useEffect( () => {
+  useEffect(() => {
     handleFolderFetch(userId);
     fetchFavorite();
     document.addEventListener('mousedown', handlePopoverClick);
@@ -228,34 +219,17 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         </button>
       </div>
       {/* 북마크 폴더생성 */}
-      {isFormVisible && (
-        <form
-          onSubmit={(event)=>handleFolderCreateSubmit(event,userId)}
-          className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
-        >
-          <label className="text-sm">
-            폴더 이름:
-            <input
-              type="text"
-              value={folderName}
-              onChange={(e) => setFolderName(e.target.value)}
-              placeholder="폴더 이름을 입력하세요"
-              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
-            />
-          </label>
-
-          <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
-            생성
-          </button>
-          <button type="reset" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
-            취소
-          </button>
-        </form>
-      )}
+      <NewFolderModal
+        isVisible={isFormVisible}
+        folderName={folderName}
+        setFolderName={setFolderName}
+        handleFolderCreateSubmit={(event) => handleFolderCreateSubmit(event, userId)}
+        setIsFormVisible={setIsFormVisible}
+      />
 
       {isBookmarkFormVisible && (
         <form
-          onSubmit={(event) => createBookmark(event,selectedFolder?.id,bookmarkName,bookmarkUrl)}
+          onSubmit={(event) => createBookmark(event, selectedFolder?.id, bookmarkName, bookmarkUrl)}
           className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
         >
           <label className="text-sm">
@@ -293,56 +267,57 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
-        { bookmarkFolders.length === 0 ? (
-          <div className='flex flex-col w-full h-60 justify-evenly items-center'>
-            <img src='https://i.ibb.co/xgbw95k/pngegg.png' alt='empty_img' className=' w-[50%] h-[60%]'/>
-            <p className='text-center text-cliptab-blue font-bold text-lg'>북마크를 추가해보세요!</p>
+        {bookmarkFolders.length === 0 ? (
+          <div className="flex flex-col w-full h-60 justify-evenly items-center">
+            <img src="https://i.ibb.co/xgbw95k/pngegg.png" alt="empty_img" className=" w-[30%] h-[40%]" />
+            <p className="text-center text-cliptab-blue font-bold text-lg">북마크를 추가해보세요!</p>
           </div>
-        ):(
-        <ul className="text-sm p-5 leading-10">
-          {bookmarkFolders.map((folder) => (
-            <li key={folder.id} className="flex items-center mb-2">
-              <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
-              {editingFolderId === folder.id ? (
-                <form
-                  onSubmit={(e) => handleFolderEditSubmit(e,folder.id)}
-                  className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
-                >
-                  <input
-                    type="text"
-                    value={folderName}
-                    onChange={(e) => setFolderName(e.target.value)}
-                    onBlur={() => setEditingFolderId(null)}
-                  />
-                </form>
-              ) : (
-                <>
-                  <p 
-                  className='cursor-pointer'
-                  onClick={() => {
-                    handleFolderClick(folder);
-                    bookmarkFetch(folder.id);
-                  }}>
-                    {folder.name}
-                  </p>
+        ) : (
+          <ul className="text-sm p-5 leading-10">
+            {bookmarkFolders.map((folder) => (
+              <li key={folder.id} className="flex items-center mb-2">
+                <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
+                {editingFolderId === folder.id ? (
+                  <form
+                    onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
+                    className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+                  >
+                    <input
+                      type="text"
+                      value={folderName}
+                      onChange={(e) => setFolderName(e.target.value)}
+                      onBlur={() => setEditingFolderId(null)}
+                    />
+                  </form>
+                ) : (
+                  <>
+                    <p
+                      className="cursor-pointer"
+                      onClick={() => {
+                        handleFolderClick(folder);
+                        bookmarkFetch(folder.id);
+                      }}
+                    >
+                      {folder.name}
+                    </p>
 
-                  <button
-                    onClick={() => handleFolderEditClick(folder.id)}
-                    className="ml-5 text-blue-700 hover:text-red-700 focus:outline-none"
-                  >
-                    수정
-                  </button>
-                  <button
-                    onClick={() => handleFolderDelete(folder.id)}
-                    className="ml-5 text-red-700 hover:text-red-700 focus:outline-none"
-                  >
-                    삭제
-                  </button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
+                    <button
+                      onClick={() => handleFolderEditClick(folder.id)}
+                      className="ml-5 text-blue-700 hover:text-red-700 focus:outline-none"
+                    >
+                      수정
+                    </button>
+                    <button
+                      onClick={() => handleFolderDelete(folder.id)}
+                      className="ml-5 text-red-700 hover:text-red-700 focus:outline-none"
+                    >
+                      삭제
+                    </button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
         )}
         {selectedFolder && (
           <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
@@ -359,29 +334,29 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </div>
         )}
       </div>
-      <div className='flex flex-col items-start mx-auto w-[90%] h-full'>
+      <div className="flex flex-col items-start mx-auto w-[90%] h-full">
         <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
         <div
-        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min min-h-60`}
-        > 
-        {favoriteBookmarks.length === 0 ? (
-          <div className='flex flex-col w-full h-60 justify-evenly items-center'>
-          <img src='https://i.ibb.co/LNy0Wnj/pngegg-1.png' alt='empty_img' className='w-[50%] h-[60%]'/>
-          <p className='text-center text-cliptab-blue font-bold text-lg'>즐겨찾기에 북마크를 추가해보세요!</p>
-          </div>
-        ):(
-          <ul className="text-sm leading-10 p-5">
-            {favoriteBookmarks.map((favorite)=>(
-              <li key={favorite.name} className="flex items-center">
-                <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
-                <ToolTip title={opt_sum ? favorite.short_summary : favorite.long_summary}>
-                  <a href={favorite.url} target="_blank" rel="noopener noreferrer">
-                    {favorite.name}
-                  </a>
+          className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min min-h-60`}
+        >
+          {favoriteBookmarks.length === 0 ? (
+            <div className="flex flex-col w-full h-60 justify-evenly items-center">
+              <img src="https://i.ibb.co/LNy0Wnj/pngegg-1.png" alt="empty_img" className="w-[50%] h-[60%]" />
+              <p className="text-center text-cliptab-blue font-bold text-lg">즐겨찾기에 북마크를 추가해보세요!</p>
+            </div>
+          ) : (
+            <ul className="text-sm leading-10 p-5">
+              {favoriteBookmarks.map((favorite) => (
+                <li key={favorite.name} className="flex items-center">
+                  <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
+                  <ToolTip title={opt_sum ? favorite.short_summary : favorite.long_summary}>
+                    <a href={favorite.url} target="_blank" rel="noopener noreferrer">
+                      {favorite.name}
+                    </a>
                   </ToolTip>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
           )}
         </div>
       </div>

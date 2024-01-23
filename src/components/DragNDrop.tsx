@@ -5,12 +5,12 @@ import ToolTip from './ToolTip';
 import axios from 'axios';
 import { favoriteStore, optStore } from '../store/store';
 
-const DndContainer = ({ post, setPost,fetch }: any) => {
+const DndContainer = ({ post, setPost, fetch }: any) => {
   const popoverRef = useRef<HTMLDivElement>(null);
-  const {opt_sum} = optStore();
-  const [bookmarkName,setBookmarkName] = useState("");
-  const [bookmarkUrl,setBookmarkUrl] = useState("");
-  const [isEditBookmark,setIsEditBookmak] = useState(false);
+  const { opt_sum } = optStore();
+  const [bookmarkName, setBookmarkName] = useState('');
+  const [bookmarkUrl, setBookmarkUrl] = useState('');
+  const [isEditBookmark, setIsEditBookmak] = useState(false);
   //드래그가 끝났을 때 호출되어 드래그가 끝났을때의 결과 저장
   const handleChange = (result: any) => {
     if (!result.destination) return;
@@ -21,8 +21,7 @@ const DndContainer = ({ post, setPost,fetch }: any) => {
   };
 
   // 북마크 삭제
-  const handleBookmarkDelete = async (bookmark_id: number, folder_id:number) => {
-
+  const handleBookmarkDelete = async (bookmark_id: number, folder_id: number) => {
     try {
       await axios.delete(`http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_id}`);
       // 성공적으로 삭제된 북마크를 UI에서 즉시 제거합니다.
@@ -33,37 +32,36 @@ const DndContainer = ({ post, setPost,fetch }: any) => {
     } catch (error) {
       console.error('북마크 삭제 중 오류 발생:', error);
     }
-
   };
 
   // 북마크 수정
-  const handleBookmarkEdit = async (bookmarkName,bookmarkUrl,folder_id:number ,bookmark_Id: number) => {
+  const handleBookmarkEdit = async (bookmarkName, bookmarkUrl, folder_id: number, bookmark_Id: number) => {
     const jsonData = {
-      "name" : bookmarkName,
-      "url" : bookmarkUrl,
-    }
-    const response = await axios.patch(`http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_Id}`,jsonData,{
+      name: bookmarkName,
+      url: bookmarkUrl,
+    };
+    const response = await axios.patch(`http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_Id}`, jsonData, {
       headers: {
         'Content-Type': 'application/json',
       },
     });
-    setPost((prevPost: any) => prevPost.map((bookmark: any) => (bookmark.id === bookmark_Id ? response.data : bookmark)));
+    setPost((prevPost: any) =>
+      prevPost.map((bookmark: any) => (bookmark.id === bookmark_Id ? response.data : bookmark))
+    );
     fetch();
     setIsEditBookmak(false);
   };
 
   //북마크 즐겨찾기 추가
-  const patchFavorite = async (bookmark_Id:number) => {
+  const patchFavorite = async (bookmark_Id: number) => {
     try {
-    const response = await axios.patch(`http://localhost:8000/api/v1/favorite/${bookmark_Id}`);
-    console.log('북마크 즐겨찾기 성공 :',response.data);
+      const response = await axios.patch(`http://localhost:8000/api/v1/favorite/${bookmark_Id}`);
+      console.log('북마크 즐겨찾기 성공 :', response.data);
     } catch (err) {
-      console.error('북마크 즐겨찾기 실패 :',err);
+      console.error('북마크 즐겨찾기 실패 :', err);
     }
-  }
-  useEffect(()=>{
-
-  },[isEditBookmark])
+  };
+  useEffect(() => {}, [isEditBookmark]);
   return (
     <DragDropContext onDragEnd={handleChange}>
       <Droppable droppableId="cardlists">
@@ -80,25 +78,37 @@ const DndContainer = ({ post, setPost,fetch }: any) => {
                         className="mx-auto w-[90%] h-fit bg-cliptab-blue rounded-md shadow-xl mb-2 px-2 py-1"
                         role="tooltip"
                       >
-                        {
-                          isEditBookmark ?
-                          (
-                            <div>
-                            <input type="text" value={bookmarkName} onChange={(e) => setBookmarkName(e.target.value)} placeholder={e.title}/>
-                            <input type="text" value={bookmarkUrl} onChange={(e) => setBookmarkUrl(e.target.value)} placeholder={e.url}/>
-                            <button onClick={()=>handleBookmarkEdit(bookmarkName,bookmarkUrl,e.folder_id,e.id)}>수정</button>
-                            <button onClick={()=>setIsEditBookmak(false)}>취소</button>
+                        {isEditBookmark ? (
+                          <div>
+                            <input
+                              type="text"
+                              value={bookmarkName}
+                              onChange={(e) => setBookmarkName(e.target.value)}
+                              placeholder={e.title}
+                            />
+                            <input
+                              type="text"
+                              value={bookmarkUrl}
+                              onChange={(e) => setBookmarkUrl(e.target.value)}
+                              placeholder={e.url}
+                            />
+                            <button onClick={() => handleBookmarkEdit(bookmarkName, bookmarkUrl, e.folder_id, e.id)}>
+                              수정
+                            </button>
+                            <button onClick={() => setIsEditBookmak(false)}>취소</button>
                           </div>
-                          ) : (
+                        ) : (
                           <li key={e.id} className="flex items-center">
                             <img className="w-4 h-4 mr-2" src={e.icon} alt="Bookmark Icon" />
                             <ToolTip title={opt_sum ? e.short_summary : e.long_summary}>
                               <a href={e.url}>{e.name}</a>
                             </ToolTip>
-                            <button onClick={async ()=> {
-                              await patchFavorite(e.id);
-                              fetch();
-                            }}>
+                            <button
+                              onClick={async () => {
+                                await patchFavorite(e.id);
+                                fetch();
+                              }}
+                            >
                               즐겨찾기
                             </button>
                             <button
@@ -110,7 +120,7 @@ const DndContainer = ({ post, setPost,fetch }: any) => {
                               수정
                             </button>
                             <button
-                              onClick={() => handleBookmarkDelete(e.id,e.folder_id)}
+                              onClick={() => handleBookmarkDelete(e.id, e.folder_id)}
                               className="ml-auto text-red-700 hover:text-red-700 focus:outline-none"
                             >
                               삭제
