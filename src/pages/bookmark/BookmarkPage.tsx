@@ -4,6 +4,7 @@ import axios from 'axios';
 import { favoriteStore, optStore, userIdStore } from '../../store/store';
 import ToolTip from '../../components/ToolTip';
 import NewFolderModal from '../../components/bookmark/NewFolderModal';
+import NewBookmarkModal from '../../components/bookmark/NewBookmarkModal';
 
 interface BookmarkFolder {
   id: number;
@@ -227,40 +228,15 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         setIsFormVisible={setIsFormVisible}
       />
 
-      {isBookmarkFormVisible && (
-        <form
-          onSubmit={(event) => createBookmark(event, selectedFolder?.id, bookmarkName, bookmarkUrl)}
-          className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
-        >
-          <label className="text-sm">
-            북마크 이름:
-            <input
-              type="text"
-              value={bookmarkName}
-              onChange={(e) => setBookmarkName(e.target.value)}
-              placeholder="북마크 이름을 입력하세요"
-              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
-            />
-          </label>
-          <label className="text-sm">
-            url:
-            <input
-              type="text"
-              value={bookmarkUrl}
-              onChange={(e) => setBookmarkUrl(e.target.value)}
-              placeholder="url을 입력하세요"
-              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
-            />
-          </label>
-
-          <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
-            생성
-          </button>
-          <button type="reset" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
-            취소
-          </button>
-        </form>
-      )}
+      <NewBookmarkModal
+        isVisible={isBookmarkFormVisible}
+        bookmarkName={bookmarkName}
+        bookmarkUrl={bookmarkUrl}
+        setBookmarkName={setBookmarkName}
+        setBookmarkUrl={setBookmarkUrl}
+        createBookmark={(event) => createBookmark(event, selectedFolder?.id, bookmarkName, bookmarkUrl)}
+        setIsBookmarkFormVisible={setIsBookmarkFormVisible}
+      />
 
       <div
         className={`mx-auto mt-4 w-[90%] min-h-60 bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
