@@ -17,6 +17,17 @@ export async function getAlarm(user_id, alarmList, setAlarmList){
     console.error('알림 조회 실패 :',err);
   }
 }
+//알림 유무 조회
+export async function isAlarm(user_id,setIsAlarmList){
+  try{
+    const response = await axios.get(`http://localhost:8000/api/v1/reminders/list/${user_id}`);
+    console.log('알람 유무 조회 성공 :',response.data);
+    setIsAlarmList(response.data);
+  }
+  catch(err){
+    console.error('알림 조회 실패 :',err);
+  }
+}
 
 export default function alarmpage() {
   const { alarmList } = alarmStoare();
