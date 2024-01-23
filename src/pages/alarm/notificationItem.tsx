@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
 
-type Notification = {
-  id: number;
-  image: string;
-  name: string;
-  url: string;
-  savedDate: string;
-  daysSinceLastVisit: number;
-};
-
 const NotificationItem = ({ notification }) => {
   const [buttonImage, setButtonImage] = useState('https://i.ibb.co/c11TV3y/Group-1000002294.png');
 
   const handleRedirect = () => {
-    window.location.href = notification.url;
+    window.location.href = notification.bookmark_url;
   };
 
   return (
@@ -27,18 +18,18 @@ const NotificationItem = ({ notification }) => {
       </button>
 
       <div className="flex items-center">
-        <img src={notification.image} alt={notification.name} className="w-10 h-10 rounded-xl ml-4 mr-4" />
+        <img src='https://i.ibb.co/Jp8Xkwr/5.jpg' alt={notification.name} className="w-10 h-10 rounded-xl ml-4 mr-4" />
         <div>
           <a
-            href={notification.url}
+            href={notification.bookmark_url}
             target="_blank"
             rel="noreferrer"
             className="text-gray-600 text-sm leading-none underline"
           >
-            {notification.url.length > 30 ? `${notification.url.slice(0, 30)}...` : notification.url}
+            {notification.bookmark_url.length > 30 ? `${notification.bookmark_url.slice(0, 30)}...` : notification.bookmark_url}
           </a>
           <div className="text-xs mt-1 text-gray-950">
-            <div>미접속 {notification.daysSinceLastVisit}일이 경과했습니다.</div>
+            <div>미접속 {notification.accumulated_days}일이 경과했습니다.</div>
             <div>북마크를 삭제하시겠습니까?</div>
           </div>
         </div>
