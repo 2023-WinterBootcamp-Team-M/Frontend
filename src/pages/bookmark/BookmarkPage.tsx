@@ -114,7 +114,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  // 폴더 이름 수정(백엔드 수정필요)
+  // 폴더 이름 수정
   const handleFolderEditSubmit = async (event: React.FormEvent, folder_id: number) => {
     event.preventDefault();
     try {
@@ -126,7 +126,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           'Content-Type': 'application/json',
         },
       });
-
+      console.log(response.data);
       setBookmarkFolders((prevFolders) =>
         prevFolders.map((folder) => (folder.id === folder_id ? { ...folder, name: response.data.name } : folder))
       );
