@@ -20,7 +20,7 @@ export default function Panel({
   const [enabled, setEnabled] = useState(initialEnabled);
   const [sidePanelWidth, setSidePanelWidth] = useState(enabled ? APP_EXTEND_WIDTH : APP_COLLAPSE_WIDTH);
   const [tabIndex, setTabIndex] = useState(0);
-  const { isAlarmList } = isAlarmStoare();
+  const { isAlarm } = isAlarmStoare();
   function handleOnToggle(enabled: boolean) {
     const value = enabled ? APP_EXTEND_WIDTH : APP_COLLAPSE_WIDTH;
     setSidePanelWidth(value);
@@ -34,7 +34,7 @@ export default function Panel({
     onWidthChange(APP_EXTEND_WIDTH);
     // 페이지 인덱스에 따라 적절한 페이지를 렌더링하기 위해 tabIndex 업데이트
     setTabIndex(pageIndex);
-  }, [pageIndex, onWidthChange]);
+  }, [pageIndex, onWidthChange,isAlarm]);
 
   function openPanel(force?: boolean) {
     const newValue = force || !enabled;
@@ -70,7 +70,7 @@ export default function Panel({
             }}
             className="py-2 flex justify-center items-center"
           >
-            {(number === 4) && (isAlarmList.length > 0) ? (
+            {(number === 4) && (isAlarm === 1) ? (
               <Badge variant='dot' color='primary'>
                 <img src={image} alt={`Button ${number}`} className="w-7 h-7 object-cover" />
               </Badge>

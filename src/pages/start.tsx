@@ -10,7 +10,7 @@ export default function StartPage() {
   const [enabled, setEnabled] = useState(false); // 패널 활성화 상태
   const {opt_start} = optStore();
   const {alarmList, setAlarmList} = alarmStoare();
-  const {setIsAlarmList} = isAlarmStoare();
+  const {setIsAlarm} = isAlarmStoare();
 
   const handleLoginSuccess = (userData) => {
     setUserId(userData.id);
@@ -21,7 +21,7 @@ export default function StartPage() {
 
   const handleStartClick = () => {
     getAlarm(userId,alarmList,setAlarmList);
-    isAlarm(userId,setIsAlarmList);
+    isAlarm(userId,setIsAlarm);
     console.log('현재 pageIndex:', pageStore.getState().pageIndex);
     const optPage = opt_start ? 1 : 2; 
     setPageIndex(optPage); // 북마크 페이지 탭 인덱스
