@@ -135,13 +135,13 @@ export const alarmStoare = create<alarmState>((set)=>({
 }))
 
 interface isAlarmState {
-  isAlarmList: alarm[]|[];
-  setIsAlarmList: (newState : alarm[]|undefined) => void;
+  isAlarm: number|undefined;
+  setIsAlarm: (newState : number|undefined) => void;
 }
 
 export const isAlarmStoare = create<isAlarmState>((set)=>({
-  isAlarmList: [],
-  setIsAlarmList: (newState) => {
-    set({isAlarmList: newState})
+  isAlarm: undefined,
+  setIsAlarm: (newState) => {
+    set({isAlarm: newState})
   }
 }))

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NotificationItem from './notificationItem';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
-import { alarmStoare, userIdStore } from '../../store/store';
+import { alarmStoare, isAlarmStoare, userIdStore } from '../../store/store';
 
 
 //알림 조회
@@ -18,11 +18,11 @@ export async function getAlarm(user_id, alarmList, setAlarmList){
   }
 }
 //알림 유무 조회
-export async function isAlarm(user_id,setIsAlarmList){
+export async function isAlarm(user_id,setIsAlarm){
   try{
-    const response = await axios.get(`http://localhost:8000/api/v1/reminders/list/${user_id}`);
+    const response = await axios.get(`http://localhost:8000/api/v1/reminders/status/${user_id}`);
+    setIsAlarm(response.data);
     console.log('알람 유무 조회 성공 :',response.data);
-    setIsAlarmList(response.data);
   }
   catch(err){
     console.error('알림 조회 실패 :',err);
@@ -43,8 +43,23 @@ export async function deleteAlarm(user_id,reminder_id,setAlarmList){
   }
 }
 
+//알림 확인
+export async function checkAlarm(user_id,setIsAlarm){
+  try{
+    //알림확인 요청
+    await axios.delete(`http://localhost:8000/api/v1/reminders/status/${user_id}`);
+    const response = await axios.get(`http://localhost:8000/api/v1/reminders/status/${user_id}`);
+    setIsAlarm(response.data);
+    console.log('알림확인 성공',response.data);
+  }
+  catch(err){
+    console.error('알림확인실패 :',err);
+  }
+}
+
 export default function alarmpage() {
-  const { alarmList,setAlarmList } = alarmStoare();
+  const { alarmList, setAlarmList } = alarmStoare();
+  const { setIsAlarm } = isAlarmStoare();
   const [page, setPage] = useState(1); // 페이지 번호 초기값
   const [ref, inView] = useInView();
   const { userId } = userIdStore();
@@ -55,6 +70,7 @@ export default function alarmpage() {
   };
 
   useEffect(() => {
+    checkAlarm(userId,setIsAlarm);
     loadMoreData();
   }, []);
 

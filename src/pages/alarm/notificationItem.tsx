@@ -17,12 +17,13 @@ const NotificationItem = ({ notification }) => {
         className="absolute -top-2 -right-2"
         onMouseEnter={() => setButtonImage('https://i.ibb.co/rss1tFV/Group-1000002293.png')}
         onMouseLeave={() => setButtonImage('https://i.ibb.co/c11TV3y/Group-1000002294.png')}
+        onClick={()=>deleteAlarm(userId,notification.id,setAlarmList)}
       >
         <img src={buttonImage} alt="close_btn" className="w-7 h-7" />
       </button>
 
       <div className="flex items-center">
-        <img src='https://i.ibb.co/Jp8Xkwr/5.jpg' alt={notification.name} className="w-10 h-10 rounded-xl ml-4 mr-4" />
+        <img src='https://i.ibb.co/Jp8Xkwr/5.jpg' alt={notification.name} className="w-10 h-10 rounded-xl ml-4 mr-4"/>
         <div>
           <a
             href={notification.bookmark_url}
@@ -44,7 +45,7 @@ const NotificationItem = ({ notification }) => {
           접속
         </button>
         <button 
-        onClick={()=>deleteAlarm(userId,notification.id,setAlarmList)}
+        
         className="mr-8 w-24 h-7 bg-red-600 hover:bg-red-400 text-white rounded-md">삭제</button>
       </div>
     </div>
