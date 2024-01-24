@@ -91,7 +91,7 @@ export default function alarmpage() {
       />
       <div>
         {alarmList.map((alarm) => (
-          <NotificationItem key={alarm.name} notification={alarm} />
+          <NotificationItem key={alarm.id} notification={alarm} />
         ))}
         {page > 1 && (
           <div ref={ref} className="flex justify-center">

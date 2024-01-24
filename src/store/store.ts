@@ -44,6 +44,7 @@ interface BookmarkState {
   setFavoriteBookmarks: (newState: []) => Promise<void>;
 }
 
+
 export const userIdStore = create<UserIdState>((set)=>({
     userId: null,
     userName: undefined,
@@ -120,6 +121,7 @@ interface alarm {
   bookmark_url: string;
   is_checked: boolean;
   accumulated_days: number;
+  id:number;
 }
 
 interface alarmState {
