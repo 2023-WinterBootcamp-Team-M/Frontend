@@ -44,6 +44,7 @@ interface BookmarkState {
   setFavoriteBookmarks: (newState: []) => Promise<void>;
 }
 
+
 export const userIdStore = create<UserIdState>((set)=>({
     userId: null,
     userName: undefined,
@@ -112,4 +113,37 @@ export const clipStore = create<ClipboardState>((set)=> ({
   setClipImages: (newState) => {
     set({clipImages : newState})
   },
+}))
+
+interface alarm {
+  user_id: number;
+  bookmark_name: string;
+  bookmark_url: string;
+  is_checked: boolean;
+  accumulated_days: number;
+  id:number;
+}
+
+interface alarmState {
+  alarmList: alarm[]|[];
+  setAlarmList: (newState : alarm[]|undefined) => void;
+}
+
+export const alarmStoare = create<alarmState>((set)=>({
+  alarmList: [],
+  setAlarmList: (newState) => {
+    set({alarmList: newState})
+  }
+}))
+
+interface isAlarmState {
+  isAlarm: number|undefined;
+  setIsAlarm: (newState : number|undefined) => void;
+}
+
+export const isAlarmStoare = create<isAlarmState>((set)=>({
+  isAlarm: undefined,
+  setIsAlarm: (newState) => {
+    set({isAlarm: newState})
+  }
 }))

@@ -1,11 +1,12 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { pageStore } from './store/store';
+import { isAlarmStoare, pageStore } from './store/store';
 import Button from './components/Button';
 import StartPage from './pages/start';
 import SettingPage from './pages/setting/settingpage';
 import AlarmPage from './pages/alarm/alarmpage';
 import BookmarkPage from './pages/bookmark/BookmarkPage';
 import ClipBoardPage from './pages/clipboard/clipboardpage';
+import Badge from '@mui/material/Badge';
 export const APP_EXTEND_WIDTH = 405;
 export const APP_COLLAPSE_WIDTH = 55;
 export default function Panel({
@@ -19,6 +20,7 @@ export default function Panel({
   const [enabled, setEnabled] = useState(initialEnabled);
   const [sidePanelWidth, setSidePanelWidth] = useState(enabled ? APP_EXTEND_WIDTH : APP_COLLAPSE_WIDTH);
   const [tabIndex, setTabIndex] = useState(0);
+  const { isAlarm } = isAlarmStoare();
   function handleOnToggle(enabled: boolean) {
     const value = enabled ? APP_EXTEND_WIDTH : APP_COLLAPSE_WIDTH;
     setSidePanelWidth(value);
@@ -32,7 +34,7 @@ export default function Panel({
     onWidthChange(APP_EXTEND_WIDTH);
     // 페이지 인덱스에 따라 적절한 페이지를 렌더링하기 위해 tabIndex 업데이트
     setTabIndex(pageIndex);
-  }, [pageIndex, onWidthChange]);
+  }, [pageIndex, onWidthChange,isAlarm]);
 
   function openPanel(force?: boolean) {
     const newValue = force || !enabled;
@@ -68,7 +70,13 @@ export default function Panel({
             }}
             className="py-2 flex justify-center items-center"
           >
-            <img src={image} alt={`Button ${number}`} className="w-7 h-7 object-cover" />
+            {(number === 4) && (isAlarm === 1) ? (
+              <Badge variant='dot' color='primary'>
+                <img src={image} alt={`Button ${number}`} className="w-7 h-7 object-cover" />
+              </Badge>
+            ):(
+              <img src={image} alt={`Button ${number}`} className="w-7 h-7 object-cover" />
+            ) }
           </Button>
         ))}
       </div>
