@@ -34,6 +34,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [folderName, setFolderName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isBookmarkFormVisible, setIsBookmarkFormVisible] = useState(false);
+  const [isBookmarkAuto,setIsBookmarkAuto] = useState(false);
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
@@ -61,6 +62,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
       setBookmarkFolders(response.data);
+      console.log('폴더조회 성공:',response.data);
     } catch (err) {
       console.error('Error fetching folders:', err);
     }
@@ -152,13 +154,39 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           'Content-Type': 'application/json',
         },
       });
+      setBookmarkFolders((prevFolders) => [...prevFolders, response.data.folder]);
+      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
+      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data.bookmark]);
+      console.log("북마크 생성 성공 :",response.data);
+      // 폼 입력을 지우고 폼을 숨김
+      setFolderName('');
+      setIsBookmarkFormVisible(false);
+    } catch (error) {
+      console.error('북마크 생성 오류:', error);
+    }
+  }
+
+  //북마크 자동생성
+  const createBookmarkAuto = async (event,bookmarkName,url) => {
+    event.preventDefault();
+
+    try {
+      const jsonData = { 
+        "name": bookmarkName,
+        "url": url,
+      };
+      const response = await axios.post(`http://localhost:8000/api/v1/bookmarks/list/${userId}`, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
       setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
       console.log("북마크 생성 성공 :",response.data);
       // 폼 입력을 지우고 폼을 숨김
-      // setFolderName('');
-      // setIsFormVisible(false);
+      setFolderName('');
+      setIsBookmarkAuto(false);
     } catch (error) {
       console.error('북마크 생성 오류:', error);
     }
@@ -176,25 +204,22 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   }
 
-  
-
-  const updateSelectedFolderBookmarks = (newBookmarks: Bookmark[]) => {
-    if (selectedFolder) {
-      const updatedFolder = { ...selectedFolder, bookmarks: newBookmarks };
-      setSelectedFolder(updatedFolder);
-    }
-  };
-
+  //폴더생성 클릭시
   const handleFolderCreateClick = () => {
     setIsFormVisible((prevIsFormVisible) => !prevIsFormVisible);
     setFolderName('');
   };
-
+  //북마크생성 클릭시
   const handleBookmarkCreateClick = () => {
     setIsBookmarkFormVisible((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
     setFolderName('');
   };
-
+  //폴더자동분류 북마크 생성 클릭시
+  const handleAutoBookmarkCreateClick = () => {
+    setIsBookmarkAuto((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
+    setFolderName('');
+  };
+  //폴더수정 클릭시
   const handleFolderEditClick = (folderId: number) => {
     setEditingFolderId(folderId);
     setFolderName(bookmarkFolders.find((folder) => folder.id === folderId)?.name || '');
@@ -208,6 +233,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       document.removeEventListener('mousedown', handlePopoverClick);
     };
   }, []);
+
 
   return (
     <div className="flex flex-col h-full">
@@ -225,6 +251,12 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
         >
           북마크 생성
+        </button>
+        <button
+          onClick={handleAutoBookmarkCreateClick}
+          className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
+        >
+          자동분류 북마크 생성
         </button>
       </div>
       {/* 북마크 폴더생성 */}
@@ -252,10 +284,45 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </button>
         </form>
       )}
-
+      {/* 북마크 생성 */}
       {isBookmarkFormVisible && (
         <form
           onSubmit={(event) => createBookmark(event,selectedFolder?.id,bookmarkName,bookmarkUrl)}
+          className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
+        >
+          <label className="text-sm">
+            북마크 이름:
+            <input
+              type="text"
+              value={bookmarkName}
+              onChange={(e) => setBookmarkName(e.target.value)}
+              placeholder="북마크 이름을 입력하세요"
+              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+            />
+          </label>
+          <label className="text-sm">
+            url:
+            <input
+              type="text"
+              value={bookmarkUrl}
+              onChange={(e) => setBookmarkUrl(e.target.value)}
+              placeholder="url을 입력하세요"
+              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+            />
+          </label>
+
+          <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
+            생성
+          </button>
+          <button type="reset" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
+            취소
+          </button>
+        </form>
+      )}
+
+      {isBookmarkAuto && (
+        <form
+          onSubmit={(event) => createBookmarkAuto(event,bookmarkName,bookmarkUrl)}
           className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
         >
           <label className="text-sm">
