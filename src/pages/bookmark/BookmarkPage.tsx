@@ -255,60 +255,60 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         ) : (
           <ul className="text-sm p-5 leading-10 ">
             {bookmarkFolders.map((folder) => (
-              <li key={folder.id} className="flex items-center mb-2">
-                <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
-                {editingFolderId === folder.id ? (
-                  <form
-                    onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
-                    className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
-                  >
-                    <input
-                      type="text"
-                      value={folderName}
-                      onChange={(e) => setFolderName(e.target.value)}
-                      onBlur={() => setEditingFolderId(null)}
-                    />
-                  </form>
-                ) : (
-                  <>
-                    <p
-                      className="cursor-pointer"
-                      onClick={() => {
-                        handleFolderClick(folder);
-                        bookmarkFetch(folder.id);
-                      }}
+              <React.Fragment key={folder.id}>
+                <li className="flex items-center mb-2">
+                  <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
+                  {editingFolderId === folder.id ? (
+                    <form
+                      onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
+                      className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
                     >
-                      {folder.name}
-                    </p>
-                    <img
-                      src="https://i.ibb.co/4KDg9K1/edit-02.png"
-                      onClick={() => handleFolderEditClick(folder.id)}
-                      className="ml-5 focus:outline-none w-5 h-5"
-                    />
-                    <img
-                      className="ml-2 focus:outline-none w-5 h-5"
-                      src="https://i.ibb.co/sFMqmQf/delete-2.png"
-                      onClick={() => handleFolderDelete(folder.id)}
-                    />
-                  </>
+                      <input
+                        type="text"
+                        value={folderName}
+                        onChange={(e) => setFolderName(e.target.value)}
+                        onBlur={() => setEditingFolderId(null)}
+                      />
+                    </form>
+                  ) : (
+                    <>
+                      <p
+                        className="cursor-pointer"
+                        onClick={() => {
+                          handleFolderClick(folder);
+                          bookmarkFetch(folder.id);
+                        }}
+                      >
+                        {folder.name}
+                      </p>
+                      <img
+                        src="https://i.ibb.co/4KDg9K1/edit-02.png"
+                        onClick={() => handleFolderEditClick(folder.id)}
+                        className="ml-5 focus:outline-none w-5 h-5"
+                      />
+                      <img
+                        className="ml-2 focus:outline-none w-5 h-5"
+                        src="https://i.ibb.co/sFMqmQf/delete-2.png"
+                        onClick={() => handleFolderDelete(folder.id)}
+                      />
+                    </>
+                  )}
+                </li>
+                {selectedFolder && selectedFolder.id === folder.id && (
+                  <div className="w-[100%] h-[16rem] bg-[#DFEBFF] rounded-[20px] overflow-auto shadow-xl mb-4 mx-auto py-4">
+                    {/* 선택된 폴더의 북마크 목록 */}
+                    <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
+                      {bookmarks.map((bookmark) => (
+                        <li key={bookmark.id} className="flex items-center">
+                          {/* 북마크 항목 */}
+                        </li>
+                      ))}
+                    </DndContainer>
+                  </div>
                 )}
-              </li>
+              </React.Fragment>
             ))}
           </ul>
-        )}
-        {selectedFolder && (
-          <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] overflow-auto shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
-            <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
-              {bookmarks.map((bookmark) => (
-                <li key={bookmark.id} className="flex items-center">
-                  <img className="w-4 h-4 mr-2" src={bookmark.icon} alt={`${bookmark.id}-icon`} />
-                  <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
-                    {bookmark.name}
-                  </a>
-                </li>
-              ))}
-            </DndContainer>
-          </div>
         )}
       </div>
       <div className="flex flex-col items-start mx-auto w-[90%] h-full">
