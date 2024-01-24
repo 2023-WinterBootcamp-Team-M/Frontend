@@ -156,10 +156,12 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
       // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
       setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
-      console.log('북마크 생성 성공 :', response.data);
+      console.log('북마크 생성 성공!!!!!!!!!!!!!! :', response.data);
       // 폼 입력을 지우고 폼을 숨김
-      // setFolderName('');
-      // setIsFormVisible(false);
+      console.log('북마크 모달 닫기');
+      setBookmarkName('');
+      setBookmarkUrl('');
+      setIsBookmarkFormVisible(false);
     } catch (error) {
       console.error('북마크 생성 오류:', error);
     }
