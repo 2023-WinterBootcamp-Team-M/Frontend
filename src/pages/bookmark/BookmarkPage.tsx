@@ -175,6 +175,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         "name": bookmarkName,
         "url": url,
       };
+      console.log(jsonData);
       const response = await axios.post(`http://localhost:8000/api/v1/bookmarks/list/${userId}`, jsonData, {
         headers: {
           'Content-Type': 'application/json',
@@ -182,7 +183,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       });
 
       // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
-      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
+      setBookmarkFolders((prevFolders) => [...prevFolders, response.data.folder]);
+      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
+      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data.bookmark]);
+
       console.log("북마크 생성 성공 :",response.data);
       // 폼 입력을 지우고 폼을 숨김
       setFolderName('');
@@ -194,6 +198,18 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
   //북마크 즐겨찾기 조회
   const fetchFavorite = async () => {
+    try {
+    const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
+    setFavoriteBookmarks(response.data);
+    console.log('favoritebookmark:',favoriteBookmarks);
+    console.log('북마크 즐겨찾기 조회 성공 :',response.data);
+    } catch (err) {
+      console.error('북마크 즐겨찾기 조회 실패 :',err);
+    }
+  }
+
+  //북마크 조회
+  const fetchBookmark = async () => {
     try {
     const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
     setFavoriteBookmarks(response.data);
