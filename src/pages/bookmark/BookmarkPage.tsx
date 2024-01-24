@@ -243,7 +243,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       />
 
       <div
-        className={`mx-auto mt-4 w-[90%] min-h-60 bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
+        className={`mx-auto mt-4 w-[90%] min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
@@ -253,7 +253,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             <p className="text-center text-cliptab-blue font-bold text-lg">북마크를 추가해보세요!</p>
           </div>
         ) : (
-          <ul className="text-sm p-5 leading-10">
+          <ul className="text-sm p-5 leading-10 ">
             {bookmarkFolders.map((folder) => (
               <li key={folder.id} className="flex items-center mb-2">
                 <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
@@ -280,19 +280,16 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                     >
                       {folder.name}
                     </p>
-
-                    <button
+                    <img
+                      src="https://i.ibb.co/4KDg9K1/edit-02.png"
                       onClick={() => handleFolderEditClick(folder.id)}
-                      className="ml-5 text-blue-700 hover:text-red-700 focus:outline-none"
-                    >
-                      수정
-                    </button>
-                    <button
+                      className="ml-5 focus:outline-none w-5 h-5"
+                    />
+                    <img
+                      className="ml-2 focus:outline-none w-5 h-5"
+                      src="https://i.ibb.co/sFMqmQf/delete-2.png"
                       onClick={() => handleFolderDelete(folder.id)}
-                      className="ml-5 text-red-700 hover:text-red-700 focus:outline-none"
-                    >
-                      삭제
-                    </button>
+                    />
                   </>
                 )}
               </li>
@@ -300,7 +297,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </ul>
         )}
         {selectedFolder && (
-          <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
+          <div className=" w-[90%] h-[17rem] bg-[#DFEBFF] rounded-[20px] overflow-auto shadow-xl mb-4 mx-auto mt-[-1rem] py-4">
             <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
               {bookmarks.map((bookmark) => (
                 <li key={bookmark.id} className="flex items-center">
