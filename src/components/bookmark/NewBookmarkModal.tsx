@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface NewBookmarkModalProps {
   isVisible: boolean;
@@ -19,47 +19,74 @@ const NewBookmarkModal: React.FC<NewBookmarkModalProps> = ({
   createBookmark,
   setIsBookmarkFormVisible,
 }) => {
+  const modalRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        setIsBookmarkFormVisible(false);
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isVisible, setIsBookmarkFormVisible]);
+
   if (!isVisible) {
     return null;
   }
 
   return (
-    <form
-      onSubmit={createBookmark}
-      className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
+    <div
+      className="fixed top-0 right-0 h-full z-50 overflow-auto bg-smoke-light flex"
+      style={{ width: '300px', right: '75px', top: '-185px' }}
     >
-      <label className="text-sm">
-        북마크 이름:
-        <input
-          type="text"
-          value={bookmarkName}
-          onChange={(e) => setBookmarkName(e.target.value)}
-          placeholder="북마크 이름을 입력하세요"
-          className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
-        />
-      </label>
-      <label className="text-sm">
-        url:
-        <input
-          type="text"
-          value={bookmarkUrl}
-          onChange={(e) => setBookmarkUrl(e.target.value)}
-          placeholder="url을 입력하세요"
-          className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
-        />
-      </label>
-
-      <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
-        생성
-      </button>
-      <button
-        type="reset"
-        onClick={() => setIsBookmarkFormVisible(false)}
-        className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
+      <form
+        ref={modalRef}
+        onSubmit={createBookmark}
+        className="relative p-4 bg-white rounded-lg m-auto flex-col flex border-gray-400 border-2"
+        style={{ maxWidth: '100%' }}
       >
-        취소
-      </button>
-    </form>
+        <label className="text-sm">
+          북마크 이름:
+          <input
+            type="text"
+            value={bookmarkName}
+            onChange={(e) => setBookmarkName(e.target.value)}
+            placeholder="북마크 이름을 입력하세요"
+            className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+          />
+        </label>
+        <label className="text-sm mt-2">
+          url:
+          <input
+            type="text"
+            value={bookmarkUrl}
+            onChange={(e) => setBookmarkUrl(e.target.value)}
+            placeholder="url을 입력하세요"
+            className="ml-2 border-2 border-blue-400 rounded px-2 py-1 w-[210px]"
+          />
+        </label>
+
+        <div className="flex justify-end mt-4">
+          <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 text-sm">
+            생성
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsBookmarkFormVisible(false)}
+            className="bg-gray-500 text-white rounded px-2 py-0 hover:bg-gray-700 ml-2 text-sm"
+          >
+            취소
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
