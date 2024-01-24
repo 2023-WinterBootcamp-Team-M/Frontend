@@ -15,7 +15,7 @@ const NewFolderModal: React.FC<NewFolderModalProps> = ({
   handleFolderCreateSubmit,
   setIsFormVisible,
 }) => {
-  const modalRef = useRef<HTMLFormElement>(null); // Ref 타입 지정
+  const modalRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
