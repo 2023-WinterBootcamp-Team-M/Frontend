@@ -219,7 +219,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           북마크 생성
         </button>
       </div>
-      {/* 북마크 폴더생성 */}
+
+      {/* 폴더생성 */}
       <NewFolderModal
         isVisible={isFormVisible}
         folderName={folderName}
@@ -228,6 +229,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         setIsFormVisible={setIsFormVisible}
       />
 
+      {/* 북마크 생성 */}
       <NewBookmarkModal
         isVisible={isBookmarkFormVisible}
         bookmarkName={bookmarkName}
