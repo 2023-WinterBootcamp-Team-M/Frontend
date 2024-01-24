@@ -36,6 +36,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [folderName, setFolderName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isBookmarkFormVisible, setIsBookmarkFormVisible] = useState(false);
+  const [isBookmarkAuto, setIsBookmarkAuto] = useState(false);
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
@@ -62,6 +63,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
       setBookmarkFolders(response.data);
+      console.log('폴더조회 성공:', response.data);
     } catch (err) {
       console.error('Error fetching folders:', err);
     }
@@ -153,6 +155,58 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           'Content-Type': 'application/json',
         },
       });
+      setBookmarkFolders((prevFolders) => [...prevFolders, response.data.folder]);
+      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
+      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data.bookmark]);
+      console.log('북마크 생성 성공 :', response.data);
+      // 폼 입력을 지우고 폼을 숨김
+      setFolderName('');
+      setIsBookmarkFormVisible(false);
+    } catch (error) {
+      console.error('북마크 생성 오류:', error);
+    }
+  };
+
+  //북마크 자동생성
+  const createBookmarkAuto = async (event, bookmarkName, url) => {
+    event.preventDefault();
+
+    try {
+      const jsonData = {
+        name: bookmarkName,
+        url: url,
+      };
+      const response = await axios.post(`http://localhost:8000/api/v1/bookmarks/list/${userId}`, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setBookmarkFolders((prevFolders) => [...prevFolders, response.data.folder]);
+      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
+      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data.bookmark]);
+      console.log('북마크 생성 성공 :', response.data);
+      // 폼 입력을 지우고 폼을 숨김
+      setFolderName('');
+      setIsBookmarkFormVisible(false);
+    } catch (error) {
+      console.error('북마크 생성 오류:', error);
+    }
+  };
+
+  //북마크 자동생성
+  const createBookmarkAuto = async (event, bookmarkName, url) => {
+    event.preventDefault();
+
+    try {
+      const jsonData = {
+        name: bookmarkName,
+        url: url,
+      };
+      const response = await axios.post(`http://localhost:8000/api/v1/bookmarks/list/${userId}`, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
       setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
@@ -183,12 +237,17 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     setIsFormVisible((prevIsFormVisible) => !prevIsFormVisible);
     setFolderName('');
   };
-
+  //북마크생성 클릭시
   const handleBookmarkCreateClick = () => {
     setIsBookmarkFormVisible((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
     setFolderName('');
   };
-
+  //폴더자동분류 북마크 생성 클릭시
+  const handleAutoBookmarkCreateClick = () => {
+    setIsBookmarkAuto((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
+    setFolderName('');
+  };
+  //폴더수정 클릭시
   const handleFolderEditClick = (folderId: number) => {
     setEditingFolderId(folderId);
     setFolderName(bookmarkFolders.find((folder) => folder.id === folderId)?.name || '');
@@ -219,6 +278,12 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
         >
           북마크 생성
+        </button>
+        <button
+          onClick={handleAutoBookmarkCreateClick}
+          className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
+        >
+          자동분류 북마크 생성
         </button>
       </div>
 
