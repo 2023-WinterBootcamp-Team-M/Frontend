@@ -109,20 +109,20 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                             <button onClick={() => setIsEditBookmak(false)}>취소</button>
                           </div>
                         ) : (
-                          <li key={e.id} className="flex items-center">
-                            <img className="w-4 h-4 mr-2" src={e.icon} alt="Bookmark Icon" />
+                          <li key={e.id} className="flex items-center ml-2">
                             <div>
                               <ToolTip title={opt_sum ? e.short_summary : e.long_summary}>
                                 <div>
                                   <div className="flex items-center -mb-4">
+                                    <img className="w-4 h-4 mr-2 ml-1" src={e.icon} alt="Bookmark Icon" />
                                     <a href={e.url} className="mr-1">
                                       {e.name}
                                     </a>
                                     <img
                                       src={
                                         e.isFavorite
-                                          ? 'https://i.ibb.co/L0nwsr3/Group-1000002328.png'
-                                          : 'https://i.ibb.co/5LQSpts/star.png'
+                                          ? 'https://i.ibb.co/5LQSpts/star.png'
+                                          : 'https://i.ibb.co/L0nwsr3/Group-1000002328.png'
                                       }
                                       className="ml-1 mb-1 focus:outline-none w-4 h-4"
                                       onClick={async () => {
@@ -135,7 +135,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                     <a href={e.url} className="underline text-gray-700">
                                       {e.url.length > 30 ? `${e.url.slice(0, 30)}...` : e.url}
                                     </a>
-                                    <div className="flex items-center">
+                                    <div className="flex items-center ml-4">
                                       <img
                                         src="https://i.ibb.co/4KDg9K1/edit-02.png"
                                         onClick={() => {
