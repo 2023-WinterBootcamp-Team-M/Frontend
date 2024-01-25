@@ -1,3 +1,5 @@
+//NewFolderModal.tsx
+
 import React, { useEffect, useRef } from 'react';
 
 interface NewFolderModalProps {
@@ -42,7 +44,7 @@ const NewFolderModal: React.FC<NewFolderModalProps> = ({
   return (
     <div
       className="fixed top-0 right-0 h-full z-50 overflow-auto bg-smoke-light flex"
-      style={{ width: '300px', right: '75px', top: '-150px' }}
+      style={{ width: '300px', right: '75px', top: '-195px' }}
     >
       <form
         ref={modalRef}
