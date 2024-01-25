@@ -38,7 +38,6 @@ export default function ClipBoardPage(){
   const handleShowBookmarks = (event) => {
     const { clientX, clientY } = event;
     setButtonPosition({ x: clientX, y: clientY });
-    console.log(buttonPosition.x,buttonPosition.y);
     setShowBookmarks(!showBookmarks);
   };
 
