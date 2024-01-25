@@ -4,48 +4,56 @@ import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
 import { alarmStoare, isAlarmStoare, userIdStore } from '../../store/store';
 
+
+
 //알림 조회
-export async function getAlarm(user_id, alarmList, setAlarmList) {
-  try {
+export async function getAlarm(user_id, alarmList, setAlarmList){
+  try{
     const response = await axios.get(`http://localhost:8000/api/v1/reminders/list/${user_id}`);
-    console.log('알림 조회 성공 :', response.data);
+    console.log('알림 조회 성공 :',response.data);
     setAlarmList(response.data);
-    console.log('알람 리스트:', alarmList);
-  } catch (err) {
-    console.error('알림 조회 실패 :', err);
+    console.log('알람 리스트:',alarmList);
+  }
+  catch(err){
+    console.error('알림 조회 실패 :',err);
   }
 }
 //알림 유무 조회
-export async function isAlarm(user_id, setIsAlarm) {
-  try {
+export async function isAlarm(user_id,setIsAlarm){
+  try{
     const response = await axios.get(`http://localhost:8000/api/v1/reminders/status/${user_id}`);
     setIsAlarm(response.data);
-    console.log('알람 유무 조회 성공 :', response.data);
-  } catch (err) {
-    console.error('알림 조회 실패 :', err);
+    console.log('알람 유무 조회 성공 :',response.data);
+  }
+  catch(err){
+    console.error('알림 조회 실패 :',err);
   }
 }
 
 //해당 알림 삭제
-export async function deleteAlarm(user_id, reminder_id, setAlarmList) {
-  try {
+export async function deleteAlarm(user_id,reminder_id,setAlarmList){
+  try{
     //알람 삭제 요청
     await axios.delete(`http://localhost:8000/api/v1/reminders/${reminder_id}`);
     const response = await axios.get(`http://localhost:8000/api/v1/reminders/list/${user_id}`);
     setAlarmList(response.data);
-    console.log('알림개별삭제 성공 :', response.data);
-  } catch (err) {
-    console.error('알림개별삭제 실패 :', err);
+
+    console.log('알림개별삭제 성공 :',response.data);
+  }
+  catch(err){
+    console.error('알림개별삭제 실패 :',err);
   }
 }
 
 //알림 확인
-export async function checkAlarm(user_id, setIsAlarm) {
-  try {
+export async function checkAlarm(user_id,setIsAlarm){
+  try{
+
     //알림확인 요청
     await axios.delete(`http://localhost:8000/api/v1/reminders/status/${user_id}`);
     const response = await axios.get(`http://localhost:8000/api/v1/reminders/status/${user_id}`);
     setIsAlarm(response.data);
+
     console.log('알림확인 성공', response.data);
   } catch (err) {
     console.error('알림확인실패 :', err);
@@ -65,7 +73,9 @@ export default function alarmpage() {
   };
 
   useEffect(() => {
-    checkAlarm(userId, setIsAlarm);
+
+    checkAlarm(userId,setIsAlarm);
+
     loadMoreData();
   }, []);
 
