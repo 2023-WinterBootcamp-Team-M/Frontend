@@ -112,14 +112,14 @@ export default function ClipBoardPage(){
       </div>
       {showBookmarks && <ClipBookmarkDropdown userId={userId} onSelectBookmark={handleSelectBookmark} />}
       <p className="text-gray-500 self-start py-2">Clip Board</p>
-      <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white border-2 border-cliptab-blue px-1 pt-2 flex flex-col">
+      <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white border-2 border-cliptab-blue px-2 pt-4 flex flex-col">
         <ul
           ref={containerRef}
           style={{ overflowY: 'auto' }}
           className="flex flex-wrap items-center justify-center h-[88%]"
         >
           {allItems.map((e) => (
-            <li key={e.id} className="w-1/2 flex justify-center items-center pb-2">
+            <li key={e.id} className="w-1/2 flex justify-center items-center pb-2 animate-pop">
               <div className="relative">
                 <img className="rounded-md shadow-md size-32 border-2 border-cliptab-blue" src={e.img_url} />
                 <ToolTip title="삭제">
