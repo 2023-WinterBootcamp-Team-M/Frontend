@@ -42,7 +42,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
   const { opt_sum } = optStore();
 
-  //선택한 폴더 업데이트
+  // 선택한 폴더 업데이트
   const handleFolderClick = (folder: BookmarkFolder) => {
     if (selectedFolder && selectedFolder.id === folder.id) {
       setSelectedFolder(null);
@@ -58,7 +58,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  //유저의 폴더 조회
+  // 유저의 폴더 조회
   const handleFolderFetch = async (user_id: number | null) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
@@ -68,7 +68,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  //폴더 내부의 북마크 조회
+  // 폴더 내부의 북마크 조회
   const bookmarkFetch = async (folder_id: number) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
@@ -79,7 +79,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     }
   };
 
-  //폴더생성
+  // 폴더 생성
   const handleFolderCreateSubmit = async (event: React.FormEvent, user_id: number | null) => {
     event.preventDefault();
 

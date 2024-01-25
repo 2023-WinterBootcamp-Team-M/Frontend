@@ -35,8 +35,6 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
     }
   };
 
-  // 북마크 수정 모드 활성화
-
   // 북마크 수정
   const handleBookmarkEdit = async (bookmarkName, bookmarkUrl, folder_id: number, bookmark_Id: number) => {
     const jsonData = {
@@ -64,15 +62,17 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
     }
   };
 
-  //북마크 즐겨찾기 추가
-  const patchFavorite = async (bookmark_Id: number) => {
+  //북마크 즐겨찾기 추가 및 제거 로직
+  const toggleFavorite = async (bookmark: any) => {
     try {
-      const response = await axios.patch(`http://localhost:8000/api/v1/favorite/${bookmark_Id}`);
-      console.log('북마크 즐겨찾기 성공 :', response.data);
+      await axios.patch(`http://localhost:8000/api/v1/favorite/${bookmark.id}`);
+      // 상태 업데이트
+      setPost((prevPost) => prevPost.map((b) => (b.id === bookmark.id ? { ...b, isFavorite: !b.isFavorite } : b)));
     } catch (err) {
-      console.error('북마크 즐겨찾기 실패 :', err);
+      console.error('즐겨찾기 상태 변경 오류:', err);
     }
   };
+
   useEffect(() => {}, [isEditBookmark]);
 
   return (
@@ -81,7 +81,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
         {(provided) => (
           <div className="cardlits" {...provided.droppableProps} ref={provided.innerRef}>
             {post?.map((e: any, i: number) => (
-              <Draggable draggableId={`test-${e.id}`} index={i} key={`test-${e.id}`}>
+              <Draggable draggableId={`bookmark-${e.id}`} index={i} key={e.id}>
                 {(provided, snapshot) => {
                   return (
                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
@@ -115,36 +115,43 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                             <div>
                               <ToolTip title={opt_sum ? e.short_summary : e.long_summary}>
                                 <div>
-                                  <a href={e.url}>{e.name}</a>
-                                  <a href={e.url} className="underline">
-                                    {e.url.length > 30 ? `${e.url.slice(0, 30)}...` : e.url}
-                                  </a>
+                                  <div className="flex items-center -mb-4">
+                                    <a href={e.url} className="mr-1">
+                                      {e.name}
+                                    </a>
+                                    <img
+                                      src={
+                                        e.isFavorite
+                                          ? 'https://i.ibb.co/L0nwsr3/Group-1000002328.png'
+                                          : 'https://i.ibb.co/5LQSpts/star.png'
+                                      }
+                                      className="ml-1 mb-1 focus:outline-none w-4 h-4"
+                                      onClick={() => toggleFavorite(e)}
+                                    />
+                                  </div>
+                                  <div className="flex justify-between items-center">
+                                    <a href={e.url} className="underline text-gray-700">
+                                      {e.url.length > 30 ? `${e.url.slice(0, 30)}...` : e.url}
+                                    </a>
+                                    <div className="flex items-center">
+                                      <img
+                                        src="https://i.ibb.co/4KDg9K1/edit-02.png"
+                                        onClick={() => {
+                                          setBookmarkName(e.name);
+                                          setBookmarkUrl(e.url);
+                                          setIsEditBookmak(true);
+                                        }}
+                                        className="ml-2 focus:outline-none w-5 h-5"
+                                      />
+                                      <img
+                                        className="ml-2 focus:outline-none w-5 h-5"
+                                        src="https://i.ibb.co/sFMqmQf/delete-2.png"
+                                        onClick={() => handleBookmarkDelete(e.id, e.folder_id)}
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                               </ToolTip>
-                              <div
-                                onClick={async () => {
-                                  await patchFavorite(e.id);
-                                  fetch();
-                                }}
-                              >
-                                즐겨찾기
-                              </div>
-                              <button
-                                onClick={() => {
-                                  setBookmarkName(e.name);
-                                  setBookmarkUrl(e.url);
-                                  setIsEditBookmak(true);
-                                }}
-                                className="ml-auto text-blue-700 hover:text-red-700 focus:outline-none"
-                              >
-                                수정
-                              </button>
-                              <button
-                                onClick={() => handleBookmarkDelete(e.id, e.folder_id)}
-                                className="ml-auto text-red-700 hover:text-red-700 focus:outline-none"
-                              >
-                                삭제
-                              </button>
                             </div>
                           </li>
                         )}
