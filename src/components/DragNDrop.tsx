@@ -121,8 +121,8 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                     <img
                                       src={
                                         e.isFavorite
-                                          ? 'https://i.ibb.co/5LQSpts/star.png'
-                                          : 'https://i.ibb.co/L0nwsr3/Group-1000002328.png'
+                                          ? 'https://i.ibb.co/L0nwsr3/Group-1000002328.png'
+                                          : 'https://i.ibb.co/5LQSpts/star.png'
                                       }
                                       className="ml-1 mb-1 focus:outline-none w-4 h-4"
                                       onClick={async () => {
