@@ -11,6 +11,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
   const [bookmarkName, setBookmarkName] = useState('');
   const [bookmarkUrl, setBookmarkUrl] = useState('');
   const [isEditBookmark, setIsEditBookmak] = useState(false);
+
   //드래그가 끝났을 때 호출되어 드래그가 끝났을때의 결과 저장
   const handleChange = (result: any) => {
     if (!result.destination) return;
@@ -34,22 +35,33 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
     }
   };
 
+  // 북마크 수정 모드 활성화
+
   // 북마크 수정
   const handleBookmarkEdit = async (bookmarkName, bookmarkUrl, folder_id: number, bookmark_Id: number) => {
     const jsonData = {
       name: bookmarkName,
       url: bookmarkUrl,
     };
-    const response = await axios.patch(`http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_Id}`, jsonData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    setPost((prevPost: any) =>
-      prevPost.map((bookmark: any) => (bookmark.id === bookmark_Id ? response.data : bookmark))
-    );
-    fetch();
-    setIsEditBookmak(false);
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_Id}`,
+        jsonData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      setPost((prevPost: any) =>
+        prevPost.map((bookmark: any) =>
+          bookmark.id === bookmark_Id ? { ...bookmark, name: response.data.name, url: response.data.url } : bookmark
+        )
+      );
+      setIsEditBookmak(false);
+    } catch (error) {
+      console.error('북마크 수정 중 오류 발생:', error);
+    }
   };
 
   //북마크 즐겨찾기 추가
@@ -62,6 +74,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
     }
   };
   useEffect(() => {}, [isEditBookmark]);
+
   return (
     <DragDropContext onDragEnd={handleChange}>
       <Droppable droppableId="cardlists">
@@ -72,7 +85,6 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                 {(provided, snapshot) => {
                   return (
                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                      {/* 원하는 컴포넌트 */}
                       <div
                         ref={popoverRef}
                         className="mx-auto w-[90%] h-fit bg-cliptab-blue rounded-md shadow-xl mb-2 px-2 py-1"
@@ -84,7 +96,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                               type="text"
                               value={bookmarkName}
                               onChange={(e) => setBookmarkName(e.target.value)}
-                              placeholder={e.title}
+                              placeholder={e.name}
                             />
                             <input
                               type="text"
@@ -113,6 +125,8 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                             </button>
                             <button
                               onClick={() => {
+                                setBookmarkName(e.name);
+                                setBookmarkUrl(e.url);
                                 setIsEditBookmak(true);
                               }}
                               className="ml-auto text-blue-700 hover:text-red-700 focus:outline-none"
@@ -128,7 +142,6 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                           </li>
                         )}
                       </div>
-                      {/* 원하는 컴포넌트 */}
                     </div>
                   );
                 }}
@@ -141,5 +154,4 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
     </DragDropContext>
   );
 };
-
 export default DndContainer;
