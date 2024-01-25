@@ -63,16 +63,15 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
   };
 
   //북마크 즐겨찾기 추가 및 제거 로직
-  const toggleFavorite = async (bookmark: any) => {
+  const patchFavorite = async (bookmark_Id: number) => {
     try {
-      await axios.patch(`http://localhost:8000/api/v1/favorite/${bookmark.id}`);
-      // 상태 업데이트
-      setPost((prevPost) => prevPost.map((b) => (b.id === bookmark.id ? { ...b, isFavorite: !b.isFavorite } : b)));
+      const response = await axios.patch(`http://localhost:8000/api/v1/favorite/${bookmark_Id}`);
+      console.log('북마크 즐겨찾기 성공 :', response.data);
+      setPost((prevPost) => prevPost.map((b) => (b.id === bookmark_Id ? { ...b, isFavorite: !b.isFavorite } : b)));
     } catch (err) {
-      console.error('즐겨찾기 상태 변경 오류:', err);
+      console.error('북마크 즐겨찾기 실패 :', err);
     }
   };
-
   useEffect(() => {}, [isEditBookmark]);
 
   return (
@@ -126,7 +125,10 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                           : 'https://i.ibb.co/5LQSpts/star.png'
                                       }
                                       className="ml-1 mb-1 focus:outline-none w-4 h-4"
-                                      onClick={() => toggleFavorite(e)}
+                                      onClick={async () => {
+                                        await patchFavorite(e.id);
+                                        fetch();
+                                      }}
                                     />
                                   </div>
                                   <div className="flex justify-between items-center">
