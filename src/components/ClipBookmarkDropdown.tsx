@@ -21,6 +21,7 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
   const [bookmarkFolders, setBookmarkFolders] = useState<BookmarkFolder[]>([]);
   const [selectedFolder, setSelectedFolder] = useState<BookmarkFolder | null>(null);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [showBookmark,setShowBookmarks] = useState(false);
 
   useEffect(() => {
     handleFolderFetch(userId);
@@ -49,7 +50,7 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
 
   // 선택된 폴더의 북마크 표시
   const handleFolderSelect = (folder) => {
-    setSelectedFolder(folder);
+    setShowBookmarks(!showBookmark);
     handleBookmarkFetch(folder.id);
   };
 
@@ -59,20 +60,27 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
 
   return (
     <div 
-    className={`border p-2 rounded shadow-md bg-[#f1f1f1] text-sm`}>
-      <div>내 북마크</div>
+    className={`border p-1 rounded shadow-md bg-[#f1f1f1] text-sm`}
+    style={{
+      background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5))',
+    }}>
+      <div className='p-1'>내 북마크</div>
       <ul>
         {bookmarkFolders.map((folder) => (
-          <li key={folder.id} onClick={() => handleFolderSelect(folder)}>
+          <li 
+          className='hover:bg-gray-200 cursor-pointer transition-colors duration-300 rounded-sm p-1'
+          key={folder.id} onClick={() => handleFolderSelect(folder)}>
             {folder.name}
           </li>
         ))}
       </ul>
-      {selectedFolder && (
+      {showBookmark && (
         <div>
           <ul>
             {bookmarks.map((bookmark) => (
-              <li key={bookmark.id} onClick={() => handleBookmarkClick(bookmark)}>
+              <li 
+              className='p-1 hover:bg-gray-200 cursor-pointer transition-colors duration-300 rounded-sm'
+              key={bookmark.id} onClick={() => handleBookmarkClick(bookmark)}>
                 {bookmark.name}
               </li>
             ))}

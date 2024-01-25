@@ -103,6 +103,7 @@ export default function ClipBoardPage(){
           position: 'fixed',
           top: `${buttonPosition.y}px`,
           left: `${buttonPosition.x}px`,
+          zIndex: 9999,
         }}>
         <ClipBookmarkDropdown userId={userId} onSelectBookmark={handleSelectBookmark} />
         </div>}
