@@ -28,7 +28,7 @@ export async function DeleteImage(event,clipboardId, pictureId,clipImages,setCli
     const updatedImages = clipImages.filter((image) => image.id !== pictureId);
     // 새로운 배열을 setClipImages 함수에 전달
     await setClipImages(updatedImages);
-    //await setClipImages((prevImages) => prevImages.filter((image) => image.id !== pictureId));
+    
 }
 //클립보드 이미지 전체 삭제
 export async function DeleteAllImages(event,clipboardId,setClipImages){

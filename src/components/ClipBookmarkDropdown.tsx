@@ -58,8 +58,9 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
   };
 
   return (
-    <div className="border p-2 rounded shadow-md">
-      <div>북마크 폴더</div>
+    <div 
+    className={`border p-2 rounded shadow-md bg-[#f1f1f1] text-sm`}>
+      <div>내 북마크</div>
       <ul>
         {bookmarkFolders.map((folder) => (
           <li key={folder.id} onClick={() => handleFolderSelect(folder)}>

@@ -16,6 +16,7 @@ export default function ClipBoardPage(){
     const containerRef = React.useRef<HTMLUListElement|null>(null);
     const [showBookmarks, setShowBookmarks] = useState(false);
     const { clipboardId, clipImages, setClipboardId, setClipImages } = clipStore();
+    const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
 
     const handleSelectBookmark = (url: string) => {
       setLink(url);
@@ -34,7 +35,10 @@ export default function ClipBoardPage(){
     }
   };
 
-  const handleShowBookmarks = () => {
+  const handleShowBookmarks = (event) => {
+    const { clientX, clientY } = event;
+    setButtonPosition({ x: clientX, y: clientY });
+    console.log(buttonPosition.x,buttonPosition.y);
     setShowBookmarks(!showBookmarks);
   };
 
@@ -68,7 +72,7 @@ export default function ClipBoardPage(){
   const allItems = clipImages || []; // 모든 이미지를 가져오기
 
     return (
-    <div className='flex flex-col items-center px-5 h-screen'>
+    <div className='flex flex-col items-center px-5 h-screen relative'>
     <img //로고 이미지
     className='w-[11.75rem] h-[4.8125rem]'
     src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
@@ -82,8 +86,8 @@ export default function ClipBoardPage(){
         src='https://i.ibb.co/NLhT9rM/icon4-1-2-1.png'/>
         <ToolTip title='내 북마크 링크 가져오기'>
         <div //내 북마크 링크 가져오기 div
-        className='flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 my-2 cursor-pointer'
-        onClick={handleShowBookmarks}>
+        className='flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 my-2 cursor-pointer relative'
+        onClick={(event)=>handleShowBookmarks(event)}>
         <img 
         className='size-6'
         src="https://i.ibb.co/kH4Xjbj/bookmark-4.png" 
@@ -94,6 +98,15 @@ export default function ClipBoardPage(){
         alt="arrow-down-simple"/>
         </div>
         </ToolTip>
+        {showBookmarks && 
+        <div 
+        style={{
+          position: 'fixed',
+          top: `${buttonPosition.y}px`,
+          left: `${buttonPosition.x}px`,
+        }}>
+        <ClipBookmarkDropdown userId={userId} onSelectBookmark={handleSelectBookmark} />
+        </div>}
         </div>
         <input //링크 입력창
           className="w-[90%] h-11 mx-4 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
@@ -110,17 +123,25 @@ export default function ClipBoardPage(){
           이미지 클립
         </Button>
       </div>
-      {showBookmarks && <ClipBookmarkDropdown userId={userId} onSelectBookmark={handleSelectBookmark} />}
       <p className="text-gray-500 self-start py-2">Clip Board</p>
       <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white border-2 border-cliptab-blue px-2 pt-4 flex flex-col">
-        <ul
+        {allItems.length === 0 ? 
+        (
+          <div className='flex flex-col items-center justify-center h-[88%]'>
+            <img 
+            className='h-fit w-[80%]'
+            src="https://i.ibb.co/jVpQp4d/free-icon-photo-gallery-4503742.png" alt="emptyclip_icon"/>
+            <p className='flex h-[20%] text-cliptab-blue text-lg items-center'>클립보드가 비어있습니다!</p>
+          </div>
+        ):(
+          <ul
           ref={containerRef}
           style={{ overflowY: 'auto' }}
           className="flex flex-wrap items-center justify-center h-[88%]"
         >
           {allItems.map((e) => (
-            <li key={e.id} className="w-1/2 flex justify-center items-center pb-2 animate-pop">
-              <div className="relative">
+            <li key={e.id}  className="w-1/2 flex justify-center items-center pb-2 animate-pop">
+              <div id={e.id} className="relative">
                 <img className="rounded-md shadow-md size-32 border-2 border-cliptab-blue" src={e.img_url} />
                 <ToolTip title="삭제">
                   <div
@@ -158,6 +179,8 @@ export default function ClipBoardPage(){
             </li>
           ))}
         </ul>
+        )}
+        
         <Button
           variant="contained"
           onClick={(event) => DeleteAllImages(event, clipboardId, setClipImages)}
