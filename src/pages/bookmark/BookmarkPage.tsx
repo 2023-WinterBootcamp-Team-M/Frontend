@@ -379,7 +379,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       )}
 
       <div
-        className={`mx-auto mt-4 w-[90%] min-h-60 bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
+        className={`mx-auto mt-4 w-[90%] min-h-60 bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 ${
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
@@ -452,7 +452,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       <div className='flex flex-col items-start mx-auto w-[90%] h-full'>
         <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
         <div
-        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min min-h-60`}
+        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 h-min min-h-60`}
         > 
         {favoriteBookmarks.length === 0 ? (
           <div className='flex flex-col w-full h-60 justify-evenly items-center'>
