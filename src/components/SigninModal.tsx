@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import SignUpModal from './SignupModal';
+import { domain } from '../domain/domain';
 
 const SignInModal = ({ onLoginSuccess }) => {
   const [isSignUpOpen, setIsSignUpOpen] = React.useState(false);
@@ -36,7 +37,7 @@ const SignInModal = ({ onLoginSuccess }) => {
   const handleLogin = async () => {
     if (isPasswordValid) {
       try {
-        const response = await axios.post('http://localhost:8000/api/v1/sign-in', {
+        const response = await axios.post(`${domain}/api/v1/sign-in`, {
           email: email,
           password: password,
         });
