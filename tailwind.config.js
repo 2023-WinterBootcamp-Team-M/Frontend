@@ -5,7 +5,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'cliptab-blue': '#7cb3f7',
+        'cliptab-blue': '#62a9ff',
+        'cliptab-text': '#f0f6ff',
       },
       animation: {
         pop: 'pop 1s ease-in-out',
@@ -22,6 +23,9 @@ module.exports = {
           '75%': { transform: 'scale(1.03)', opacity: '1' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
+      },
+      boxShadow: {
+        top: '0 -35px -15px -15px rgba(0, 0, 0, 0.3)',
       },
     },
   },
