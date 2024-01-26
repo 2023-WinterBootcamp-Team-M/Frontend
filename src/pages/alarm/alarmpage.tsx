@@ -83,11 +83,12 @@ export default function alarmpage() {
 
   return (
     <div className="flex flex-col items-center h-screen" style={{ overflowY: 'auto' }}>
-      <img
-        src="https://i.ibb.co/kGjjkfk/Frame-427318914.png"
-        alt="logo_icon"
-        className=" mt-10 mb-5 w-28 h-auto z-10"
-      />
+      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-gradient-to-tl bg-cliptab-blue'/>
+      <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top'/>
+      <img //로고 이미지
+      className='w-[11.75rem] h-[4.8125rem] z-10'
+      src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
+      alt="clip_tab_logo"/>
       <div>
         {alarmList.map((alarm) => (
           <NotificationItem key={alarm.id} notification={alarm} />

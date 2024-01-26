@@ -249,8 +249,13 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
-      <img className="mt-10 w-28 h-auto mb-2 mx-auto" src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt={name} />
+    <div className="flex flex-col h-full items-center">
+      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-gradient-to-tl bg-cliptab-blue'/>
+      <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top'/>
+      <img //로고 이미지
+      className='w-[11.75rem] h-[4.8125rem] z-10'
+      src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
+      alt="clip_tab_logo"/>
       <div className="text-gray-500 self-start text-xl flex w-[90%] mx-auto">
         <h2 className="">북마크</h2>
         <button
