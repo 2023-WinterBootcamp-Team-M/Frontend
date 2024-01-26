@@ -8,9 +8,9 @@ export default function StartPage() {
   const { userId, userName, userEmail, setUserId, setUserName, setUserEmail } = userIdStore();
   const setPageIndex = pageStore((state) => state.setPageIndex);
   const [enabled, setEnabled] = useState(false); // 패널 활성화 상태
-  const {opt_start} = optStore();
-  const {alarmList, setAlarmList} = alarmStoare();
-  const {setIsAlarm} = isAlarmStoare();
+  const { opt_start } = optStore();
+  const { alarmList, setAlarmList } = alarmStoare();
+  const { setIsAlarm } = isAlarmStoare();
 
   const handleLoginSuccess = (userData) => {
     setUserId(userData.id);
@@ -20,10 +20,10 @@ export default function StartPage() {
   };
 
   const handleStartClick = () => {
-    getAlarm(userId,alarmList,setAlarmList);
-    isAlarm(userId,setIsAlarm);
+    getAlarm(userId, alarmList, setAlarmList);
+    isAlarm(userId, setIsAlarm);
     console.log('현재 pageIndex:', pageStore.getState().pageIndex);
-    const optPage = opt_start ? 1 : 2; 
+    const optPage = opt_start ? 1 : 2;
     setPageIndex(optPage); // 북마크 페이지 탭 인덱스
     console.log('1번 페이지로 이동');
     setEnabled(true); // 패널 활성화 상태
@@ -36,7 +36,9 @@ export default function StartPage() {
         <SignInModal onLoginSuccess={handleLoginSuccess} />
       ) : (
         <div className="flex flex-col items-center justify-center h-screen">
-          <div className="text-lg mb-4 -mt-44 text-gray-700 ">{userName}님 접속을 환영합니다!</div>
+          <div className="text-lg mb-4 -mt-44 text-gray-700 ">
+            <span className="font-bold text-xl text-[#68a8f7]">{userName}</span> 님 접속을 환영합니다!
+          </div>
           <button
             onClick={handleStartClick}
             className="animate-bounce bg-[#0096FB] hover:bg-[#0078d4] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11 cursor-pointer"
@@ -44,7 +46,6 @@ export default function StartPage() {
             시작하기
           </button>
         </div>
-
       )}
     </div>
   );
