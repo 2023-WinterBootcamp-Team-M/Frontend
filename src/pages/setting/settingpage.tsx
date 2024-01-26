@@ -87,7 +87,12 @@ export default function SettingPage() {
 
   return (
     <div className={`flex flex-col items-center h-screen px-5 ${isDarkTheme ? 'dark' : ''}`}>
-      <img src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt="logo_icon" className="mt-10 mb-10 w-28 h-auto" />
+      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-gradient-to-tl bg-cliptab-blue'/>
+      <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top'/>
+      <img //로고 이미지
+        className='w-[11.75rem] h-[4.8125rem] z-10'
+        src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
+        alt="clip_tab_logo"/>
       <p className="text-gray-500 self-start py-2">내 계정</p>
       <div className="w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-row itmes-center mb-5 py-4 px-2">
         <div className="flex items-center">
