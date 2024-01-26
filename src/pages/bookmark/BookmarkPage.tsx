@@ -314,7 +314,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         </form>
       )}
       <div
-        className={`mx-auto w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 py-2 ${
+        className={`mx-auto mt-4 w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 ${
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
