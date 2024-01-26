@@ -1,4 +1,3 @@
-//BookmarkPage.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import DndContainer from '../../components/DragNDrop';
 import axios from 'axios';
@@ -6,6 +5,7 @@ import { favoriteStore, optStore, userIdStore } from '../../store/store';
 import ToolTip from '../../components/ToolTip';
 import NewFolderModal from '../../components/bookmark/NewFolderModal';
 import NewBookmarkModal from '../../components/bookmark/NewBookmarkModal';
+import { domain } from '../../domain/domain';
 
 interface BookmarkFolder {
   id: number;
@@ -37,7 +37,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [folderName, setFolderName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isBookmarkFormVisible, setIsBookmarkFormVisible] = useState(false);
-  const [isBookmarkAuto,setIsBookmarkAuto] = useState(false);
+  const [isBookmarkAuto, setIsBookmarkAuto] = useState(false);
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
@@ -62,9 +62,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   // 유저의 폴더 조회
   const handleFolderFetch = async (user_id: number | null) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/folders/list/${user_id}`);
+      const response = await axios.get(`${domain}/api/v1/folders/list/${user_id}`);
       setBookmarkFolders(response.data);
-      console.log('폴더조회 성공:',response.data);
+      console.log('폴더조회 성공:', response.data);
     } catch (err) {
       console.error('Error fetching folders:', err);
     }
@@ -73,7 +73,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   // 폴더 내부의 북마크 조회
   const bookmarkFetch = async (folder_id: number) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/bookmarks/${folder_id}`);
+      const response = await axios.get(`${domain}/api/v1/bookmarks/${folder_id}`);
       console.log(`${folder_id} 폴더의 북마크 조회 성공:`, response.data);
       setBookmarks(response.data);
     } catch (err) {
@@ -87,7 +87,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
     try {
       const jsonData = { name: folderName, user_id: user_id };
-      const response = await axios.post(`http://localhost:8000/api/v1/folders`, jsonData, {
+      const response = await axios.post(`${domain}/api/v1/folders`, jsonData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -95,6 +95,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
       // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
       setBookmarkFolders((prevFolders) => [...prevFolders, response.data]);
+      console.log('폴더 생성 성공 :', response.data);
 
       // 폼 입력을 지우고 폼을 숨김
       setFolderName('');
@@ -107,7 +108,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   // 폴더 삭제
   const handleFolderDelete = async (folder_id: number) => {
     try {
-      await axios.delete(`http://localhost:8000/api/v1/folders/${folder_id}`);
+      await axios.delete(`${domain}/api/v1/folders/${folder_id}`);
       setBookmarkFolders((prevFolders) => prevFolders.filter((folder) => folder.id !== folder_id));
 
       if (selectedFolder && selectedFolder.id === folder_id) {
@@ -125,7 +126,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       const jsonData = {
         name: folderName,
       };
-      const response = await axios.patch(`http://localhost:8000/api/v1/folders/${folder_id}`, jsonData, {
+      const response = await axios.patch(`${domain}/api/v1/folders/${folder_id}`, jsonData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -151,15 +152,15 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         name: bookmarkName,
         url: url,
       };
-      const response = await axios.post(`http://localhost:8000/api/v1/bookmarks`, jsonData, {
+      const response = await axios.post(`${domain}/api/v1/bookmarks`, jsonData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
-      console.log(bookmarkFolders,bookmarks);
-      console.log("북마크 생성 성공 :",response.data);
+      console.log(bookmarkFolders, bookmarks);
+      console.log('북마크 생성 성공 :', response.data);
       // 폼 입력을 지우고 폼을 숨김
       setFolderName('');
       setBookmarkName('');
@@ -168,19 +169,19 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
     } catch (error) {
       console.error('북마크 생성 오류:', error);
     }
-  }
+  };
 
   //북마크 자동생성
-  const createBookmarkAuto = async (event,bookmarkName,url,bookmarkFolders) => {
+  const createBookmarkAuto = async (event, bookmarkName, url, bookmarkFolders) => {
     event.preventDefault();
 
     try {
-      const jsonData = { 
-        "name": bookmarkName,
-        "url": url,
+      const jsonData = {
+        name: bookmarkName,
+        url: url,
       };
       console.log(jsonData);
-      const response = await axios.post(`http://localhost:8000/api/v1/bookmarks/list/${userId}`, jsonData, {
+      const response = await axios.post(`${domain}/api/v1/bookmarks/list/${userId}`, jsonData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -195,7 +196,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
       setBookmarks((prevBookmarks) => [...prevBookmarks, response.data.bookmark]);
 
-      console.log("북마크 생성 성공 :",response.data);
+      console.log('북마크 생성 성공 :', response.data);
       // 폼 입력을 지우고 폼을 숨김
       setBookmarkName('');
       setBookmarkUrl('');
@@ -208,15 +209,14 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   //북마크 즐겨찾기 조회
   const fetchFavorite = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/favorite/bookmarks/${userId}`);
+      const response = await axios.get(`${domain}/api/v1/favorite/bookmarks/${userId}`);
       setFavoriteBookmarks(response.data);
       console.log('favoritebookmark:', favoriteBookmarks);
       console.log('북마크 즐겨찾기 조회 성공 :', response.data);
     } catch (err) {
       console.error('북마크 즐겨찾기 조회 실패 :', err);
-
     }
-  }
+  };
 
   //폴더생성 클릭시
   const handleFolderCreateClick = () => {
@@ -226,7 +226,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   //북마크생성 클릭시
   const handleBookmarkCreateClick = () => {
     setIsBookmarkFormVisible((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
-    setFolderName('');
+    setBookmarkName('');
   };
   //폴더자동분류 북마크 생성 클릭시
   const handleAutoBookmarkCreateClick = () => {
@@ -247,7 +247,6 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       document.removeEventListener('mousedown', handlePopoverClick);
     };
   }, []);
-
 
   return (
     <div className="flex flex-col h-full">
@@ -294,10 +293,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         setIsBookmarkFormVisible={setIsBookmarkFormVisible}
       />
 
-
       {isBookmarkAuto && (
         <form
-          onSubmit={(event) => createBookmarkAuto(event,bookmarkName,bookmarkUrl,bookmarkFolders)}
+          onSubmit={(event) => createBookmarkAuto(event, bookmarkName, bookmarkUrl, bookmarkFolders)}
           className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
         >
           <label className="text-sm">
@@ -402,22 +400,22 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       <div className="flex flex-col items-start mx-auto w-[90%] h-full">
         <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
         <div
-        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 h-min min-h-60`}
-        > 
-        {favoriteBookmarks.length === 0 ? (
-          <div className='flex flex-col w-full h-60 justify-evenly items-center'>
-          <img src='https://i.ibb.co/LNy0Wnj/pngegg-1.png' alt='empty_img' className='w-[50%] h-[60%]'/>
-          <p className='text-center text-cliptab-blue font-bold text-lg'>즐겨찾기에 북마크를 추가해보세요!</p>
-          </div>
-        ):(
-          <ul className="text-sm leading-10 p-5">
-            {favoriteBookmarks.map((favorite)=>(
-              <li key={favorite.name} className="flex items-center">
-                <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
-                <ToolTip title={opt_sum ? favorite.short_summary : favorite.long_summary}>
-                  <a href={favorite.url} target="_blank" rel="noopener noreferrer">
-                    {favorite.name}
-                  </a>
+          className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 h-min min-h-60`}
+        >
+          {favoriteBookmarks.length === 0 ? (
+            <div className="flex flex-col w-full h-60 justify-evenly items-center">
+              <img src="https://i.ibb.co/LNy0Wnj/pngegg-1.png" alt="empty_img" className="w-[50%] h-[60%]" />
+              <p className="text-center text-cliptab-blue font-bold text-lg">즐겨찾기에 북마크를 추가해보세요!</p>
+            </div>
+          ) : (
+            <ul className="text-sm leading-10 p-5">
+              {favoriteBookmarks.map((favorite) => (
+                <li key={favorite.name} className="flex items-center">
+                  <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
+                  <ToolTip title={opt_sum ? favorite.short_summary : favorite.long_summary}>
+                    <a href={favorite.url} target="_blank" rel="noopener noreferrer">
+                      {favorite.name}
+                    </a>
                   </ToolTip>
                 </li>
               ))}
