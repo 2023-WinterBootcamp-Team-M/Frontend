@@ -160,6 +160,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       console.log("북마크 생성 성공 :",response.data);
       // 폼 입력을 지우고 폼을 숨김
       setFolderName('');
+      setBookmarkName('');
+      setBookmarkUrl('');
       setIsBookmarkFormVisible(false);
     } catch (error) {
       console.error('북마크 생성 오류:', error);
@@ -167,7 +169,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   }
 
   //북마크 자동생성
-  const createBookmarkAuto = async (event,bookmarkName,url) => {
+  const createBookmarkAuto = async (event,bookmarkName,url,bookmarkFolders) => {
     event.preventDefault();
 
     try {
@@ -181,15 +183,20 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           'Content-Type': 'application/json',
         },
       });
+      // 새로 생성된 폴더가 이미 상태에 존재하는지 확인
+      const folderExists = bookmarkFolders.some((folder) => folder.id === response.data.folder.id);
 
-      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
-      setBookmarkFolders((prevFolders) => [...prevFolders, response.data.folder]);
+      // 폴더가 존재하지 않으면 상태에 추가
+      if (!folderExists) {
+        setBookmarkFolders((prevFolders) => [...prevFolders, response.data.folder]);
+      }
       // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
       setBookmarks((prevBookmarks) => [...prevBookmarks, response.data.bookmark]);
 
       console.log("북마크 생성 성공 :",response.data);
       // 폼 입력을 지우고 폼을 숨김
-      setFolderName('');
+      setBookmarkName('');
+      setBookmarkUrl('');
       setIsBookmarkAuto(false);
     } catch (error) {
       console.error('북마크 생성 오류:', error);
@@ -338,7 +345,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
       {isBookmarkAuto && (
         <form
-          onSubmit={(event) => createBookmarkAuto(event,bookmarkName,bookmarkUrl)}
+          onSubmit={(event) => createBookmarkAuto(event,bookmarkName,bookmarkUrl,bookmarkFolders)}
           className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
         >
           <label className="text-sm">
