@@ -405,7 +405,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         )}
       </div>
       <div className="flex flex-col items-start mx-auto w-full h-full">
-        <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
+        <p className="text-gray-400 self-start py-2">즐겨찾기한 북마크</p>
         <div
         className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl mb-4 h-min min-h-60`}
         > 
