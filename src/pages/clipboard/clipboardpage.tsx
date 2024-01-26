@@ -72,7 +72,7 @@ export default function ClipBoardPage(){
 
     return (
     <div className='flex flex-col items-center px-5 h-screen relative z-20'>
-      <div className='w-full h-[19%] absolute z-0 rounded-b-md bg-gradient-to-tl bg-cliptab-blue'/>
+      <div className='w-full h-[19%] absolute z-0 rounded-b-md bg-cliptab-blue'/>
       <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute z-10 shadow-top'/>
     <img //로고 이미지
     className='w-[11.75rem] h-[4.8125rem] z-10'

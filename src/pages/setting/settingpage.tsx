@@ -86,8 +86,8 @@ export default function SettingPage() {
   };
 
   return (
-    <div className={`flex flex-col items-center h-screen px-5 ${isDarkTheme ? 'dark' : ''}`}>
-      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-gradient-to-tl bg-cliptab-blue'/>
+    <div className={`flex flex-col items-center h-screen relative px-5 ${isDarkTheme ? 'dark' : ''}`}>
+      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue'/>
       <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top'/>
       <img //로고 이미지
         className='w-[11.75rem] h-[4.8125rem] z-10'

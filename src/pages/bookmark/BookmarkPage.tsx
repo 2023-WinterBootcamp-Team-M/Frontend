@@ -250,30 +250,30 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
 
   return (
-    <div className="flex flex-col h-full items-center">
-      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-gradient-to-tl bg-cliptab-blue'/>
+    <div className="flex flex-col h-screen items-center px-5 relative">
+      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue'/>
       <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top'/>
       <img //로고 이미지
       className='w-[11.75rem] h-[4.8125rem] z-10'
       src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
       alt="clip_tab_logo"/>
-      <div className="text-gray-500 self-start text-xl flex w-[90%] mx-auto">
-        <h2 className="">북마크</h2>
+      <div className=" ">
+        <p className="self-start py-2 text-cliptab-text">북마크</p>
         <button
           onClick={handleFolderCreateClick}
-          className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
+          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 ml-2 text-sm"
         >
           폴더 생성
         </button>
         <button
           onClick={handleBookmarkCreateClick}
-          className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
+          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 ml-2 text-sm"
         >
           북마크 생성
         </button>
         <button
           onClick={handleAutoBookmarkCreateClick}
-          className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
+          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 ml-2 text-sm"
         >
           자동분류 북마크 생성
         </button>
@@ -336,7 +336,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       )}
 
       <div
-        className={`mx-auto mt-4 w-[90%] min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 ${
+        className={`mx-auto mt-4 w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 ${
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
@@ -404,10 +404,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </ul>
         )}
       </div>
-      <div className="flex flex-col items-start mx-auto w-[90%] h-full">
+      <div className="flex flex-col items-start mx-auto w-full h-full">
         <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
         <div
-        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 h-min min-h-60`}
+        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl mb-4 h-min min-h-60`}
         > 
         {favoriteBookmarks.length === 0 ? (
           <div className='flex flex-col w-full h-60 justify-evenly items-center'>
