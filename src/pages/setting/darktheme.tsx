@@ -3,7 +3,7 @@ import { optStore, userIdStore } from '../../store/store';
 import { GetSetting, PutSetting } from './SettingAPI';
 
 const ThemeToggle = () => {
-  const { opt_theme,opt_alarm,opt_start,opt_sum, toggleOptTheme } = optStore();
+  const { opt_theme, opt_alarm, opt_start, opt_sum, toggleOptTheme } = optStore();
   const { userId } = userIdStore();
   useEffect(() => {
     const themeDiv = document.getElementById('themeDiv');
@@ -31,14 +31,14 @@ const ThemeToggle = () => {
 
   return (
     <button
-      onClick={()=>{
+      onClick={() => {
         toggleTheme();
-        PutSetting(userId,opt_sum,opt_start,opt_theme,opt_alarm);
+        PutSetting(userId, opt_sum, opt_start, opt_theme, opt_alarm);
       }}
-      className="w-[48%] flex flex-col justify-evenly items-center cursor-pointer text-[1.2rem] rounded-xl mb-4 shadow-md shadow-[#77A5FF] bg-white text-sm font-semibold text-cliptab-blue"
+      className="w-[48%] flex flex-col justify-evenly items-center cursor-pointer text-[1.2rem] mb-4  bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue text-sm font-semibold text-cliptab-blue"
     >
       <img
-        src={opt_theme? Icons.lightTheme : Icons.darkTheme}
+        src={opt_theme ? Icons.lightTheme : Icons.darkTheme}
         alt="Theme Icon"
         style={{ width: '20px', height: '20px', marginRight: '8px' }}
       />
