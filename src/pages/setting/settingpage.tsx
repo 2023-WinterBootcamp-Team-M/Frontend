@@ -13,7 +13,7 @@ function SettingItem({ children, onClick, iconSrc }: SettingItemProps) {
   return (
     <div
       onClick={onClick}
-      className="w-[48%] justify-evenly flex flex-col mb-4 px-2 items-center text-gray-700 cursor-pointer text-[1.2rem]  bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue hover:bg-cliptab-blue"
+      className="w-[48%] justify-evenly flex flex-col mb-4 px-2 items-center text-gray-700 cursor-pointer text-[1.2rem]  bg-white rounded-[20px] shadow-xl"
     >
       <img src={iconSrc} alt="Icon" className="" style={{ width: '20px', height: '20px' }} />
       <p className="text-sm text-cliptab-blue font-bold">{children}</p>
@@ -86,10 +86,15 @@ export default function SettingPage() {
   };
 
   return (
-    <div className={`flex flex-col items-center h-screen px-5 ${isDarkTheme ? 'dark' : ''}`}>
-      <img src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt="logo_icon" className="mt-10 mb-10 w-28 h-auto" />
-      <p className="text-gray-500 self-start py-2">내 계정</p>
-      <div className="w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-row itmes-center mb-5 py-4 px-2">
+    <div className={`flex flex-col items-center h-screen relative px-5 ${isDarkTheme ? 'dark' : ''}`}>
+      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue'/>
+      <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top'/>
+      <img //로고 이미지
+        className='w-[11.75rem] h-[4.8125rem] z-10'
+        src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
+        alt="clip_tab_logo"/>
+      <p className="self-start py-2 text-cliptab-text ">내 계정</p>
+      <div className="w-full bg-white rounded-[20px] shadow-xl flex flex-row itmes-center mb-5 py-4 px-2">
         <div className="flex items-center">
           <img className="size-11 rounded-full mx-4 my-1 w-7 h-7 mb-2" src="https://i.ibb.co/pK0XHr7/user.png" />
         </div>
@@ -108,7 +113,7 @@ export default function SettingPage() {
           <p className="w-full text-gray-500 text-sm">{userEmail}</p>
         </div>
       </div>
-      <p className="text-gray-500 self-start py-3">설정</p>
+      <p className="text-gray-400 self-start py-2">설정</p>
       <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-gray-800' : 'bg-transparent'}`}>
         <div className="flex flex-row text-center flex-wrap justify-between">
           <SettingItem

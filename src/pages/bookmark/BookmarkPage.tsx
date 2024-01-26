@@ -249,29 +249,15 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   }, []);
 
   return (
-    <div className="flex flex-col h-full">
-      <img className="mt-10 w-28 h-auto mb-2 mx-auto" src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt={name} />
-      <div className="text-gray-500 self-start text-xl flex w-[90%] mx-auto">
-        <h2 className="">북마크</h2>
-        <button
-          onClick={handleFolderCreateClick}
-          className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
-        >
-          폴더 생성
-        </button>
-        <button
-          onClick={handleBookmarkCreateClick}
-          className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
-        >
-          북마크 생성
-        </button>
-        <button
-          onClick={handleAutoBookmarkCreateClick}
-          className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm"
-        >
-          자동분류 북마크 생성
-        </button>
-      </div>
+    <div className="flex flex-col h-screen items-center px-5 relative">
+      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue'/>
+      <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top'/>
+      <img //로고 이미지
+      className='w-[11.75rem] h-[4.8125rem] z-10'
+      src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
+      alt="clip_tab_logo"/>
+      <p className="self-start py-2 text-cliptab-text">북마크</p>
+      
 
       {/* 폴더생성 */}
       <NewFolderModal
@@ -327,12 +313,31 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </button>
         </form>
       )}
-
       <div
-        className={`mx-auto mt-4 w-[90%] min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 ${
+        className={`mx-auto w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 py-2 ${
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
+        <div className="flex w-full px-5">
+        <button
+          onClick={handleFolderCreateClick}
+          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 text-sm"
+        >
+          폴더 생성
+        </button>
+        <button
+          onClick={handleBookmarkCreateClick}
+          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90text-sm"
+        >
+          북마크 생성
+        </button>
+        <button
+          onClick={handleAutoBookmarkCreateClick}
+          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 text-sm"
+        >
+          자동분류 북마크 생성
+        </button>
+      </div>
         {bookmarkFolders.length === 0 ? (
           <div className="flex flex-col w-full h-60 justify-evenly items-center">
             <img src="https://i.ibb.co/xgbw95k/pngegg.png" alt="empty_img" className=" w-[30%] h-[40%]" />
@@ -342,8 +347,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           <ul className="text-sm p-5 leading-10 ">
             {bookmarkFolders.map((folder) => (
               <React.Fragment key={folder.id}>
-                <li className="flex items-center mb-2">
-                  <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
+                <li className="flex items-center w-full justify-between">
                   {editingFolderId === folder.id ? (
                     <form
                       onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
@@ -358,8 +362,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                     </form>
                   ) : (
                     <>
+                    <div className='flex flex-row items-center'>
+                    <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
                       <p
-                        className="cursor-pointer"
+                        className="cursor-pointer ml-3"
                         onClick={() => {
                           handleFolderClick(folder);
                           bookmarkFetch(folder.id);
@@ -367,16 +373,19 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                       >
                         {folder.name}
                       </p>
+                      </div>
+                      <div className='flex flex-row'>
                       <img
                         src="https://i.ibb.co/4KDg9K1/edit-02.png"
                         onClick={() => handleFolderEditClick(folder.id)}
-                        className="ml-5 focus:outline-none w-5 h-5"
+                        className="focus:outline-none w-5 h-5"
                       />
                       <img
-                        className="ml-2 focus:outline-none w-5 h-5"
+                        className="focus:outline-none w-5 h-5 ml-4"
                         src="https://i.ibb.co/sFMqmQf/delete-2.png"
                         onClick={() => handleFolderDelete(folder.id)}
                       />
+                      </div>
                     </>
                   )}
                 </li>
@@ -397,8 +406,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </ul>
         )}
       </div>
-      <div className="flex flex-col items-start mx-auto w-[90%] h-full">
-        <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
+      <div className="flex flex-col items-start mx-auto w-full h-full">
+        <p className="text-gray-400 self-start py-2">즐겨찾기한 북마크</p>
         <div
           className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 h-min min-h-60`}
         >

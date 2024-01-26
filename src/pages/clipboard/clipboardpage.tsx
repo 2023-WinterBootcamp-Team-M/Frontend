@@ -71,21 +71,23 @@ export default function ClipBoardPage(){
   const allItems = clipImages || []; // 모든 이미지를 가져오기
 
     return (
-    <div className='flex flex-col items-center px-5 h-screen relative'>
+    <div className='flex flex-col items-center px-5 h-screen relative z-20'>
+      <div className='w-full h-[19%] absolute z-0 rounded-b-md bg-cliptab-blue'/>
+      <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute z-10 shadow-top'/>
     <img //로고 이미지
-    className='w-[11.75rem] h-[4.8125rem]'
+    className='w-[11.75rem] h-[4.8125rem] z-10'
     src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
     alt="clip_tab_logo"/>
-    <p className='text-gray-500 self-start py-2'>이미지 추출</p>
+    <p className=' self-start py-2 z-20 text-cliptab-text '>Clip Image</p>
     <div //이미지 추출 창
-    className='w-full h-[10rem] rounded-[20px] shadow-xl mb-4 bg-white border-2 border-cliptab-blue flex flex-col justify-between'>
+    className='w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-between z-20'>
         <div className='flex flex-row items-center justify-between'>
         <img //작은 로고
         className='size-8 ml-4'
         src='https://i.ibb.co/NLhT9rM/icon4-1-2-1.png'/>
         <ToolTip title='내 북마크 링크 가져오기'>
         <div //내 북마크 링크 가져오기 div
-        className='flex flex-row items-center mr-4 text-sm bg-[#0096FB] text-white rounded-md py-1 px-2 my-2 cursor-pointer relative'
+        className='flex flex-row items-center mr-4 text-sm bg-cliptab-blue text-white rounded-md py-1 px-2 my-2 cursor-pointer relative'
         onClick={(event)=>handleShowBookmarks(event)}>
         <img 
         className='size-6'
@@ -109,7 +111,7 @@ export default function ClipBoardPage(){
         </div>}
         </div>
         <input //링크 입력창
-          className="w-[90%] h-11 mx-4 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
+          className="w-[90%] h-11 mx-4 px-4 border-2 border-cliptab-blue rounded-lg text-xs shadow-lg focus:outline-[#3e95ff]"
           type="text"
           placeholder="이미지를 추출할 페이지의 url을 입력하세요"
           onChange={handleInputChange}
@@ -117,21 +119,21 @@ export default function ClipBoardPage(){
         />
         <Button //이미지 클립 버튼
           variant="contained"
-          className="bg-[#0096FB] rounded-md shadow-lg text-white px-1 py-1 mx-auto my-auto w-[90%] h-11 hover:opacity-90"
+          className="bg-cliptab-blue rounded-xl shadow-lg text-cliptab-text px-1 py-1 mx-auto my-auto w-[90%] h-11 hover:opacity-90"
           onClick={handleCreateClipboard}
         >
           이미지 클립
         </Button>
       </div>
-      <p className="text-gray-500 self-start py-2">Clip Board</p>
-      <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white border-2 border-cliptab-blue px-2 pt-4 flex flex-col">
+      <p className="text-gray-400 self-start py-2 z-20">Clip Board</p>
+      <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white px-2 pt-4 flex flex-col z-20 border-t">
         {allItems.length === 0 ? 
         (
-          <div className='flex flex-col items-center justify-center h-[88%]'>
+          <div className='flex flex-col items-center justify-evenly h-[88%]'>
             <img 
             className='h-fit w-[80%]'
-            src="https://i.ibb.co/jVpQp4d/free-icon-photo-gallery-4503742.png" alt="emptyclip_icon"/>
-            <p className='flex h-[20%] text-cliptab-blue text-lg items-center'>클립보드가 비어있습니다!</p>
+            src="https://i.ibb.co/8cX39Gs/free-sticker-printing-11932393.png" alt="emptyclip_icon"/>
+            <p className='flex h-[20%] text-cliptab-blue text-lg items-center'>이미지를 추출해보세요!</p>
           </div>
         ):(
           <ul
@@ -184,7 +186,7 @@ export default function ClipBoardPage(){
         <Button
           variant="contained"
           onClick={(event) => DeleteAllImages(event, clipboardId, setClipImages)}
-          className=" bg-[#0096FB] rounded-md shadow-lg text-white my-auto mx-auto w-[90%] h-11 hover:opacity-90"
+          className=" bg-cliptab-blue rounded-xl shadow-lg text-cliptab-text my-auto mx-auto w-[95%] h-11 hover:opacity-80"
         >
           클립보드 비우기
         </Button>
