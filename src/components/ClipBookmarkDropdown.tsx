@@ -21,6 +21,7 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
   const [bookmarkFolders, setBookmarkFolders] = useState<BookmarkFolder[]>([]);
   const [selectedFolder, setSelectedFolder] = useState<BookmarkFolder | null>(null);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+  const [showBookmark,setShowBookmarks] = useState(false);
 
   useEffect(() => {
     handleFolderFetch(userId);
@@ -49,7 +50,7 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
 
   // 선택된 폴더의 북마크 표시
   const handleFolderSelect = (folder) => {
-    setSelectedFolder(folder);
+    setShowBookmarks(!showBookmark);
     handleBookmarkFetch(folder.id);
   };
 
@@ -58,20 +59,29 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
   };
 
   return (
-    <div className="border p-2 rounded shadow-md">
-      <div>북마크 폴더</div>
-      <ul>
+    <div 
+    className={`border p-1 rounded shadow-md text-xs border-cliptab-blue/30`}
+    style={{
+      background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5))',
+    }}>
+      <div className='flex justify-center p-2 text-xs text-gray-700 cursor-default'>폴더</div>
+      <ul className='border-b border-cliptab-blue/30'>
         {bookmarkFolders.map((folder) => (
-          <li key={folder.id} onClick={() => handleFolderSelect(folder)}>
+          <li 
+          className='p-1 hover:bg-[#0096FB]/70 cursor-pointer transition-colors duration-300 rounded-sm'
+          key={folder.id} onClick={() => handleFolderSelect(folder)}>
             {folder.name}
           </li>
         ))}
       </ul>
-      {selectedFolder && (
+      {showBookmark && (
         <div>
+          <p className='flex justify-center p-2 text-xs text-gray-700 cursor-default'>북마크</p>
           <ul>
             {bookmarks.map((bookmark) => (
-              <li key={bookmark.id} onClick={() => handleBookmarkClick(bookmark)}>
+              <li 
+              className='p-1 hover:bg-[#0096FB]/70 cursor-pointer transition-colors duration-300 rounded-sm'
+              key={bookmark.id} onClick={() => handleBookmarkClick(bookmark)}>
                 {bookmark.name}
               </li>
             ))}

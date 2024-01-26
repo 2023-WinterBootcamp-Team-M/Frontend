@@ -156,12 +156,14 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           'Content-Type': 'application/json',
         },
       });
-      setBookmarkFolders((prevFolders) => [...prevFolders, response.data.folder]);
-      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
-      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data.bookmark]);
+
+      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
+      console.log(bookmarkFolders,bookmarks);
       console.log("북마크 생성 성공 :",response.data);
       // 폼 입력을 지우고 폼을 숨김
       setFolderName('');
+      setBookmarkName('');
+      setBookmarkUrl('');
       setIsBookmarkFormVisible(false);
     } catch (error) {
       console.error('북마크 생성 오류:', error);
@@ -169,7 +171,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   }
 
   //북마크 자동생성
-  const createBookmarkAuto = async (event,bookmarkName,url) => {
+  const createBookmarkAuto = async (event,bookmarkName,url,bookmarkFolders) => {
     event.preventDefault();
 
     try {
@@ -183,15 +185,21 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           'Content-Type': 'application/json',
         },
       });
+      // 새로 생성된 폴더가 이미 상태에 존재하는지 확인
+      const folderExists = bookmarkFolders.some((folder) => folder.id === response.data.folder.id);
 
+      // 폴더가 존재하지 않으면 상태에 추가
+      if (!folderExists) {
+        setBookmarkFolders((prevFolders) => [...prevFolders, response.data.folder]);
+      }
       // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
-      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
-      console.log('북마크 생성 성공!!!!!!!!!!!!!! :', response.data);
+      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data.bookmark]);
+
+      console.log("북마크 생성 성공 :",response.data);
       // 폼 입력을 지우고 폼을 숨김
-      console.log('북마크 모달 닫기');
       setBookmarkName('');
       setBookmarkUrl('');
-      setIsBookmarkFormVisible(false);
+      setIsBookmarkAuto(false);
     } catch (error) {
       console.error('북마크 생성 오류:', error);
     }
@@ -289,7 +297,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
       {isBookmarkAuto && (
         <form
-          onSubmit={(event) => createBookmarkAuto(event,bookmarkName,bookmarkUrl)}
+          onSubmit={(event) => createBookmarkAuto(event,bookmarkName,bookmarkUrl,bookmarkFolders)}
           className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
         >
           <label className="text-sm">
@@ -323,7 +331,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       )}
 
       <div
-        className={`mx-auto mt-4 w-[90%] min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 ${
+        className={`mx-auto mt-4 w-[90%] min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 ${
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
@@ -394,22 +402,22 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       <div className="flex flex-col items-start mx-auto w-[90%] h-full">
         <h2 className="text-gray-500 text-xl self-start">즐겨찾기한 북마크</h2>
         <div
-          className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 mb-4 h-min min-h-60`}
-        >
-          {favoriteBookmarks.length === 0 ? (
-            <div className="flex flex-col w-full h-60 justify-evenly items-center">
-              <img src="https://i.ibb.co/LNy0Wnj/pngegg-1.png" alt="empty_img" className="w-[50%] h-[60%]" />
-              <p className="text-center text-cliptab-blue font-bold text-lg">즐겨찾기에 북마크를 추가해보세요!</p>
-            </div>
-          ) : (
-            <ul className="text-sm leading-10 p-5">
-              {favoriteBookmarks.map((favorite) => (
-                <li key={favorite.name} className="flex items-center">
-                  <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
-                  <ToolTip title={opt_sum ? favorite.short_summary : favorite.long_summary}>
-                    <a href={favorite.url} target="_blank" rel="noopener noreferrer">
-                      {favorite.name}
-                    </a>
+        className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 h-min min-h-60`}
+        > 
+        {favoriteBookmarks.length === 0 ? (
+          <div className='flex flex-col w-full h-60 justify-evenly items-center'>
+          <img src='https://i.ibb.co/LNy0Wnj/pngegg-1.png' alt='empty_img' className='w-[50%] h-[60%]'/>
+          <p className='text-center text-cliptab-blue font-bold text-lg'>즐겨찾기에 북마크를 추가해보세요!</p>
+          </div>
+        ):(
+          <ul className="text-sm leading-10 p-5">
+            {favoriteBookmarks.map((favorite)=>(
+              <li key={favorite.name} className="flex items-center">
+                <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
+                <ToolTip title={opt_sum ? favorite.short_summary : favorite.long_summary}>
+                  <a href={favorite.url} target="_blank" rel="noopener noreferrer">
+                    {favorite.name}
+                  </a>
                   </ToolTip>
                 </li>
               ))}
