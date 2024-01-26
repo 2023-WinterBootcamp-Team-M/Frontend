@@ -60,15 +60,15 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
 
   return (
     <div 
-    className={`border p-1 rounded shadow-md bg-[#f1f1f1] text-sm`}
+    className={`border p-1 rounded shadow-md text-xs border-cliptab-blue/30`}
     style={{
       background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5))',
     }}>
-      <div className='p-1'>내 북마크</div>
-      <ul>
+      <div className='flex justify-center p-2 text-xs text-gray-700 cursor-default'>폴더</div>
+      <ul className='border-b border-cliptab-blue/30'>
         {bookmarkFolders.map((folder) => (
           <li 
-          className='hover:bg-gray-200 cursor-pointer transition-colors duration-300 rounded-sm p-1'
+          className='p-1 hover:bg-[#0096FB]/70 cursor-pointer transition-colors duration-300 rounded-sm'
           key={folder.id} onClick={() => handleFolderSelect(folder)}>
             {folder.name}
           </li>
@@ -76,10 +76,11 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
       </ul>
       {showBookmark && (
         <div>
+          <p className='flex justify-center p-2 text-xs text-gray-700 cursor-default'>북마크</p>
           <ul>
             {bookmarks.map((bookmark) => (
               <li 
-              className='p-1 hover:bg-gray-200 cursor-pointer transition-colors duration-300 rounded-sm'
+              className='p-1 hover:bg-[#0096FB]/70 cursor-pointer transition-colors duration-300 rounded-sm'
               key={bookmark.id} onClick={() => handleBookmarkClick(bookmark)}>
                 {bookmark.name}
               </li>
