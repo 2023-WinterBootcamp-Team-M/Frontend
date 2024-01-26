@@ -154,9 +154,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           'Content-Type': 'application/json',
         },
       });
-      setBookmarkFolders((prevFolders) => [...prevFolders, response.data.folder]);
-      // 새롭게 생성된 폴더를 bookmarkFolders 상태에 추가
-      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data.bookmark]);
+
+      setBookmarks((prevBookmarks) => [...prevBookmarks, response.data]);
+      console.log(bookmarkFolders,bookmarks);
       console.log("북마크 생성 성공 :",response.data);
       // 폼 입력을 지우고 폼을 숨김
       setFolderName('');
