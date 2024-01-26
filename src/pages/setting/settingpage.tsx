@@ -13,7 +13,7 @@ function SettingItem({ children, onClick, iconSrc }: SettingItemProps) {
   return (
     <div
       onClick={onClick}
-      className="w-[48%] justify-evenly flex flex-col mb-4 px-2 items-center text-gray-700 cursor-pointer text-[1.2rem] rounded-xl shadow-md shadow-[#77A5FF] bg-white hover:bg-cliptab-blue"
+      className="w-[48%] justify-evenly flex flex-col mb-4 px-2 items-center text-gray-700 cursor-pointer text-[1.2rem]  bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue hover:bg-cliptab-blue"
     >
       <img src={iconSrc} alt="Icon" className="" style={{ width: '20px', height: '20px' }} />
       <p className="text-sm text-cliptab-blue font-bold">{children}</p>
@@ -84,25 +84,31 @@ export default function SettingPage() {
     lightTheme: 'https://i.ibb.co/mGwtxDj/free-icon-sun-5497432.png',
     bookmarkNotif: 'https://i.ibb.co/BNZH1V4/free-icon-notification-bell-9437878.png',
   };
+
   return (
     <div className={`flex flex-col items-center h-screen px-5 ${isDarkTheme ? 'dark' : ''}`}>
       <img src="https://i.ibb.co/kGjjkfk/Frame-427318914.png" alt="logo_icon" className="mt-10 mb-10 w-28 h-auto" />
-      <p className="text-gray-500 self-start py-2">My Account</p>
-      <div className="w-full bg-white rounded-[15px] shadow-md shadow-[#77A5FF] flex flex-row itmes-center mb-12 py-4 px-2">
-        <img className="size-11 rounded-full mx-4 my-1" src="https://i.ibb.co/RpBHbh3/8-2.png" />
+      <p className="text-gray-500 self-start py-2">내 계정</p>
+      <div className="w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-row itmes-center mb-5 py-4 px-2">
+        <div className="flex items-center">
+          <img className="size-11 rounded-full mx-4 my-1 w-7 h-7 mb-2" src="https://i.ibb.co/pK0XHr7/user.png" />
+        </div>
+
         <div className="flex flex-col">
-          <p className="w-full text-gray-950 font-semibold my-1">{userName}</p>
+          <div className="flex flex-row items-center">
+            <div className=" text-gray-950 font-semibold my-1">{userName}</div>
+            <img
+              src="https://i.ibb.co/4KDg9K1/edit-02.png"
+              className="ml-2 h-4 hover:cursor-pointer"
+              onClick={() => {
+                openChangeProfileModal();
+              }}
+            />
+          </div>
           <p className="w-full text-gray-500 text-sm">{userEmail}</p>
         </div>
-        <button
-          onClick={() => {
-            openChangeProfileModal();
-          }}
-        >
-          수정버튼
-        </button>
       </div>
-      <p className="text-gray-500 self-start py-3">Settings</p>
+      <p className="text-gray-500 self-start py-3">설정</p>
       <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-gray-800' : 'bg-transparent'}`}>
         <div className="flex flex-row text-center flex-wrap justify-between">
           <SettingItem

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { alarmStoare, isAlarmStoare, userIdStore } from '../../store/store';
 
 
+
 //알림 조회
 export async function getAlarm(user_id, alarmList, setAlarmList){
   try{
@@ -36,6 +37,7 @@ export async function deleteAlarm(user_id,reminder_id,setAlarmList){
     await axios.delete(`http://localhost:8000/api/v1/reminders/${reminder_id}`);
     const response = await axios.get(`http://localhost:8000/api/v1/reminders/list/${user_id}`);
     setAlarmList(response.data);
+
     console.log('알림개별삭제 성공 :',response.data);
   }
   catch(err){
@@ -46,14 +48,15 @@ export async function deleteAlarm(user_id,reminder_id,setAlarmList){
 //알림 확인
 export async function checkAlarm(user_id,setIsAlarm){
   try{
+
     //알림확인 요청
     await axios.delete(`http://localhost:8000/api/v1/reminders/status/${user_id}`);
     const response = await axios.get(`http://localhost:8000/api/v1/reminders/status/${user_id}`);
     setIsAlarm(response.data);
-    console.log('알림확인 성공',response.data);
-  }
-  catch(err){
-    console.error('알림확인실패 :',err);
+
+    console.log('알림확인 성공', response.data);
+  } catch (err) {
+    console.error('알림확인실패 :', err);
   }
 }
 
@@ -70,7 +73,9 @@ export default function alarmpage() {
   };
 
   useEffect(() => {
+
     checkAlarm(userId,setIsAlarm);
+
     loadMoreData();
   }, []);
 
