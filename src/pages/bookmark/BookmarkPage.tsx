@@ -327,7 +327,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </button>
           <button
             onClick={handleBookmarkCreateClick}
-            className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90text-sm"
+            className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 text-sm"
           >
             북마크 생성
           </button>
