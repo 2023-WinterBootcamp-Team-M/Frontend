@@ -56,10 +56,10 @@ export default function Panel({
         width: sidePanelWidth - 5,
         boxShadow: '0px 0px 5px #0000009e',
       }}
-      className="absolute top-0 right-0 bottom-0 z-max bg-[#ffffff] ease-in-out duration-300 overflow-hidden"
+      className="absolute top-0 right-0 bottom-0 z-max bg-white ease-in-out duration-300 overflow-hidden -z-10"
     >
       {/* 오른쪽에 고정된 메뉴바 섹션 */}
-      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 bg-gray-200">
+      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 bg-white">
         {pages.map(({ number, image }, index) => (
           <Button
             key={index}
