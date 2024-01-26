@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import ToolTip from './ToolTip';
 import axios from 'axios';
 import { favoriteStore, optStore } from '../store/store';
+import { domain } from '../domain/domain';
 
 const DndContainer = ({ post, setPost, fetch }: any) => {
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -24,10 +25,12 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
   // 북마크 삭제
   const handleBookmarkDelete = async (bookmark_id: number, folder_id: number) => {
     try {
-      await axios.delete(`http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_id}`);
+      await axios.delete(`${domain}/api/v1/bookmarks/${folder_id}/${bookmark_id}`);
       // 성공적으로 삭제된 북마크를 UI에서 즉시 제거합니다.
       setPost((prevPost: any) => prevPost.filter((bookmark: any) => bookmark.id !== bookmark_id));
       fetch();
+
+      console.log('북마크 삭제 성공:', bookmark_id);
 
       // 삭제 요청을 보냅니다.
     } catch (error) {
@@ -42,15 +45,11 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
       url: bookmarkUrl,
     };
     try {
-      const response = await axios.patch(
-        `http://localhost:8000/api/v1/bookmarks/${folder_id}/${bookmark_Id}`,
-        jsonData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await axios.patch(`${domain}/api/v1/bookmarks/${folder_id}/${bookmark_Id}`, jsonData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       setPost((prevPost: any) =>
         prevPost.map((bookmark: any) =>
           bookmark.id === bookmark_Id ? { ...bookmark, name: response.data.name, url: response.data.url } : bookmark
@@ -65,7 +64,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
   //북마크 즐겨찾기 추가 및 제거 로직
   const patchFavorite = async (bookmark_Id: number) => {
     try {
-      const response = await axios.patch(`http://localhost:8000/api/v1/favorite/${bookmark_Id}`);
+      const response = await axios.patch(`${domain}/api/v1/favorite/${bookmark_Id}`);
       console.log('북마크 즐겨찾기 성공 :', response.data);
       setPost((prevPost) => prevPost.map((b) => (b.id === bookmark_Id ? { ...b, isFavorite: !b.isFavorite } : b)));
     } catch (err) {
