@@ -3,6 +3,7 @@ import axios from 'axios';
 import { userIdStore, pageStore, optStore, alarmStoare, isAlarmStoare } from '../store/store';
 import SignInModal from '../components/SigninModal';
 import { getAlarm, isAlarm } from './alarm/alarmpage';
+import { Button } from '@mui/material';
 
 export default function StartPage() {
   const { userId, userName, userEmail, setUserId, setUserName, setUserEmail } = userIdStore();
@@ -39,12 +40,12 @@ export default function StartPage() {
           <div className="text-lg mb-4 -mt-44 text-gray-700 ">
             <span className="font-bold text-xl text-[#68a8f7]">{userName}</span> 님 접속을 환영합니다!
           </div>
-          <button
+          <Button
             onClick={handleStartClick}
             className="animate-bounce bg-[#0096FB] hover:bg-[#0078d4] rounded-md shadow-lg text-white px-1 py-1 mx-4 mt-1 w-[90%] h-11 cursor-pointer"
           >
             시작하기
-          </button>
+          </Button>
         </div>
       )}
     </div>

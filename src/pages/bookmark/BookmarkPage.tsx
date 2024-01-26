@@ -257,27 +257,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       className='w-[11.75rem] h-[4.8125rem] z-10'
       src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
       alt="clip_tab_logo"/>
-      <div className=" ">
-        <p className="self-start py-2 text-cliptab-text">북마크</p>
-        <button
-          onClick={handleFolderCreateClick}
-          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 ml-2 text-sm"
-        >
-          폴더 생성
-        </button>
-        <button
-          onClick={handleBookmarkCreateClick}
-          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 ml-2 text-sm"
-        >
-          북마크 생성
-        </button>
-        <button
-          onClick={handleAutoBookmarkCreateClick}
-          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 ml-2 text-sm"
-        >
-          자동분류 북마크 생성
-        </button>
-      </div>
+      <p className="self-start py-2 text-cliptab-text">북마크</p>
+      
 
       {/* 폴더생성 */}
       <NewFolderModal
@@ -334,12 +315,31 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </button>
         </form>
       )}
-
       <div
-        className={`mx-auto mt-4 w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 ${
+        className={`mx-auto w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 py-2 ${
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
+        <div className="flex w-full px-5">
+        <button
+          onClick={handleFolderCreateClick}
+          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 text-sm"
+        >
+          폴더 생성
+        </button>
+        <button
+          onClick={handleBookmarkCreateClick}
+          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90text-sm"
+        >
+          북마크 생성
+        </button>
+        <button
+          onClick={handleAutoBookmarkCreateClick}
+          className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 text-sm"
+        >
+          자동분류 북마크 생성
+        </button>
+      </div>
         {bookmarkFolders.length === 0 ? (
           <div className="flex flex-col w-full h-60 justify-evenly items-center">
             <img src="https://i.ibb.co/xgbw95k/pngegg.png" alt="empty_img" className=" w-[30%] h-[40%]" />
@@ -349,8 +349,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           <ul className="text-sm p-5 leading-10 ">
             {bookmarkFolders.map((folder) => (
               <React.Fragment key={folder.id}>
-                <li className="flex items-center mb-2">
-                  <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
+                <li className="flex items-center w-full justify-between">
                   {editingFolderId === folder.id ? (
                     <form
                       onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
@@ -365,8 +364,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                     </form>
                   ) : (
                     <>
+                    <div className='flex flex-row items-center'>
+                    <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
                       <p
-                        className="cursor-pointer"
+                        className="cursor-pointer ml-3"
                         onClick={() => {
                           handleFolderClick(folder);
                           bookmarkFetch(folder.id);
@@ -374,16 +375,19 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                       >
                         {folder.name}
                       </p>
+                      </div>
+                      <div className='flex flex-row'>
                       <img
                         src="https://i.ibb.co/4KDg9K1/edit-02.png"
                         onClick={() => handleFolderEditClick(folder.id)}
-                        className="ml-5 focus:outline-none w-5 h-5"
+                        className="focus:outline-none w-5 h-5"
                       />
                       <img
-                        className="ml-2 focus:outline-none w-5 h-5"
+                        className="focus:outline-none w-5 h-5 ml-4"
                         src="https://i.ibb.co/sFMqmQf/delete-2.png"
                         onClick={() => handleFolderDelete(folder.id)}
                       />
+                      </div>
                     </>
                   )}
                 </li>
