@@ -101,7 +101,7 @@ export default function alarmpage() {
         { alarmList.length === 0 ? (
         <>
           <p className=' self-start py-2 z-20 text-gray-400 '>Message</p>
-          <div className="w-full h-[65%] rounded-[20px] shadow-xl bg-white px-2 py-4 z-20 border-t flex flex-col justify-evenly items-center">
+          <div className="w-full h-[65%] rounded-[20px] shadow-xl bg-white px-2 py-4 z-20 flex flex-col justify-evenly items-center">
             <img 
             className='h-fit w-[80%]'
             src="https://i.ibb.co/hYCkJTV/free-sticker-reminder-13710879.png" alt="free-sticker-reminder-13710879"/>
