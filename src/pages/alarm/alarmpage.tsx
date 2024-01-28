@@ -82,20 +82,38 @@ export default function alarmpage() {
   }, [inView]);
 
   return (
-    <div className="flex flex-col items-center h-screen relative" style={{ overflowY: 'auto' }}>
+    <div className="flex flex-col items-center h-screen relative px-5" style={{ overflowY: 'auto' }}>
       <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue'/>
       <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top'/>
       <img //로고 이미지
       className='w-[11.75rem] h-[4.8125rem] z-10'
       src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
       alt="clip_tab_logo"/>
-      <div>
-        {alarmList.map((alarm) => (
+      <div className='h-full w-full'>
+        <p className=' self-start py-2 z-20 text-cliptab-text '>Alarm</p>
+          <div //이미지 추출 창
+          className='w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-center items-center z-20'>
+            <img //작은 로고
+        className=' size-24 animate-bounce'
+        src='https://i.ibb.co/TkGRQ90/icon4-8-1-2.png'/>
+        <p className='text-cliptab-blue'>사용하지 않는 북마크를 알려드릴게요!</p>
+          </div>
+        { alarmList.length === 0 ? (
+        <>
+          <p className=' self-start py-2 z-20 text-gray-400 '>Message</p>
+          <div className="w-full h-[65%] rounded-[20px] shadow-xl bg-white px-2 py-4 z-20 border-t flex flex-col justify-evenly items-center">
+            <img 
+            className='h-fit w-[80%]'
+            src="https://i.ibb.co/hYCkJTV/free-sticker-reminder-13710879.png" alt="free-sticker-reminder-13710879"/>
+            <p className='flex h-[20%] text-cliptab-blue text-lg items-center'>미접속 북마크가 없습니다</p>
+          </div>
+          </>
+        ):(
+        alarmList.map((alarm) => (
           <NotificationItem key={alarm.id} notification={alarm} />
-        ))}
+        )))}
         {page > 1 && (
           <div ref={ref} className="flex justify-center">
-            Loading...
           </div>
         )}
       </div>
