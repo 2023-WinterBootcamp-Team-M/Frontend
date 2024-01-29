@@ -221,16 +221,22 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   //폴더생성 클릭시
   const handleFolderCreateClick = () => {
     setIsFormVisible((prevIsFormVisible) => !prevIsFormVisible);
+    setIsBookmarkFormVisible(false);
+    setIsBookmarkAuto(false);
     setFolderName('');
   };
   //북마크생성 클릭시
   const handleBookmarkCreateClick = () => {
     setIsBookmarkFormVisible((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
+    setIsFormVisible(false);
+    setIsBookmarkAuto(false);
     setBookmarkName('');
   };
   //폴더자동분류 북마크 생성 클릭시
   const handleAutoBookmarkCreateClick = () => {
     setIsBookmarkAuto((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
+    setIsBookmarkFormVisible(false);
+    setIsFormVisible(false);
     setFolderName('');
   };
   //폴더수정 클릭시
@@ -258,19 +264,82 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         src="https://i.ibb.co/d73mffp/clip-tab-3.png"
         alt="clip_tab_logo"
       />
-      <p className="self-start py-2 text-cliptab-text">북마크</p>
-
-
-      {/* 폴더생성 */}
-      <NewFolderModal
-        isVisible={isFormVisible}
-        folderName={folderName}
-        setFolderName={setFolderName}
-        handleFolderCreateSubmit={(event) => handleFolderCreateSubmit(event, userId)}
-        setIsFormVisible={setIsFormVisible}
-      />
-
+      <p className="self-start py-2 text-cliptab-text">북마크 생성</p>
+      <div
+        className={`flex flex-col items-center justify-evenly mx-auto w-full h-full bg-white rounded-[20px] shadow-xl mb-4`}
+      >
+        <div className="flex w-full h-[20%] justify-center">
+          <button
+            onClick={handleFolderCreateClick}
+            className="bg-cliptab-blue text-white rounded-l-lg px-2 py-0 hover:opacity-90 text-sm"
+          >
+            폴더 생성
+          </button>
+          <button
+            onClick={handleBookmarkCreateClick}
+            className="bg-cliptab-blue text-white px-2 py-0 hover:opacity-90 text-sm"
+          >
+            북마크 생성
+          </button>
+          <button
+            onClick={handleAutoBookmarkCreateClick}
+            className="bg-cliptab-blue text-white rounded-r-lg px-2 py-0 hover:opacity-90 text-sm"
+          >
+            자동분류 북마크 생성
+          </button>
+        </div>
+        {
+          !isFormVisible && !isBookmarkAuto && !isBookmarkFormVisible && (
+            <div className='text-cliptab-blue h-[60%] flex justify-center items-center'>북마크를 추가해보세요!</div>
+          )
+        }
+        {/* 폴더생성 */}
+        {isFormVisible && !isBookmarkAuto &&!isBookmarkFormVisible && (
+        <NewFolderModal
+          isVisible={isFormVisible}
+          folderName={folderName}
+          setFolderName={setFolderName}
+          handleFolderCreateSubmit={(event) => handleFolderCreateSubmit(event, userId)}
+          setIsFormVisible={setIsFormVisible}
+        />
+        )}
+        {isBookmarkAuto && !isBookmarkFormVisible && !isFormVisible  &&(
+        <form
+          onSubmit={(event) => createBookmarkAuto(event, bookmarkName, bookmarkUrl, bookmarkFolders)}
+          className="flex flex-col justify-center mx-auto w-[90%] h-[60%] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
+        >
+          <label className="text-sm my-auto text-cliptab-blue">
+            북마크 이름
+            <input
+              type="text"
+              value={bookmarkName}
+              onChange={(e) => setBookmarkName(e.target.value)}
+              placeholder="북마크 이름을 입력하세요"
+              className="border-2 border-blue-400 rounded px-2 py-1 text-xs w-full focus:outline-[#3e95ff] text-gray-700"
+            />
+          </label>
+          <label className="text-sm my-auto text-cliptab-blue">
+            URL
+            <input
+              type="text"
+              value={bookmarkUrl}
+              onChange={(e) => setBookmarkUrl(e.target.value)}
+              placeholder="url을 입력하세요"
+              className="border-2 border-blue-400 rounded px-2 py-1 text-xs w-full focus:outline-[#3e95ff] text-gray-700"
+            />
+          </label>
+          <div className='flex flex-row justify-between w-full mt-2'>
+          <button type="submit" className="bg-cliptab-blue text-white rounded-lg py-1 hover:opacity-90 text-sm w-[48%]">
+            생성
+          </button>
+          <button type="reset" className="bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[48%]">
+            취소
+          </button>
+          </div>
+        </form>
+      )}
       {/* 북마크 생성 */}
+      {isBookmarkFormVisible  && !isBookmarkAuto && !isFormVisible && (
       <NewBookmarkModal
         isVisible={isBookmarkFormVisible}
         bookmarkName={bookmarkName}
@@ -279,68 +348,16 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         setBookmarkUrl={setBookmarkUrl}
         createBookmark={(event) => createBookmark(event, selectedFolder?.id, bookmarkName, bookmarkUrl)}
         setIsBookmarkFormVisible={setIsBookmarkFormVisible}
-      />
+      />)}
+      </div>
+      <p className="self-start py-2 text-gray-400">북마크</p>
 
-      {isBookmarkAuto && (
-        <form
-          onSubmit={(event) => createBookmarkAuto(event, bookmarkName, bookmarkUrl, bookmarkFolders)}
-          className="mx-auto w-[70%] h-[rem] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 mb-4"
-        >
-          <label className="text-sm">
-            북마크 이름:
-            <input
-              type="text"
-              value={bookmarkName}
-              onChange={(e) => setBookmarkName(e.target.value)}
-              placeholder="북마크 이름을 입력하세요"
-              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
-            />
-          </label>
-          <label className="text-sm">
-            url:
-            <input
-              type="text"
-              value={bookmarkUrl}
-              onChange={(e) => setBookmarkUrl(e.target.value)}
-              placeholder="url을 입력하세요"
-              className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
-            />
-          </label>
-
-          <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
-            생성
-          </button>
-          <button type="reset" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 ml-2 text-sm">
-            취소
-          </button>
-        </form>
-      )}
       <div
         className={`mx-auto w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 py-2 ${
           selectedFolder ? 'h-max' : 'h-min'
         }`}
       >
-        <div className="flex w-full px-5">
-
-          <button
-            onClick={handleFolderCreateClick}
-            className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 text-sm"
-          >
-            폴더 생성
-          </button>
-          <button
-            onClick={handleBookmarkCreateClick}
-            className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 text-sm"
-          >
-            북마크 생성
-          </button>
-          <button
-            onClick={handleAutoBookmarkCreateClick}
-            className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 text-sm"
-          >
-            자동분류 북마크 생성
-          </button>
-        </div>
+        
 
         {bookmarkFolders.length === 0 ? (
           <div className="flex flex-col w-full h-60 justify-evenly items-center">
@@ -354,15 +371,28 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                 <li className="flex items-center w-full justify-between">
                   {editingFolderId === folder.id ? (
                     <form
-                      onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
-                      className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+                      onSubmit={(e) => {
+                      handleFolderEditSubmit(e, folder.id)
+                      setEditingFolderId(null)}}
+                      className="bg-cliptab-blue rounded-xl px-2 py-2 w-full flex flex-col justify-center shadow-lg"
                     >
+                      <div className='flex justify-evenly items-center w-full'>
+                      <p className='text-xs text-cliptab-text'>북마크 이름</p>
                       <input
                         type="text"
                         value={folderName}
                         onChange={(e) => setFolderName(e.target.value)}
-                        onBlur={() => setEditingFolderId(null)}
+                        className='bg-[#dfebff] border-2 border-blue-400 rounded-md px-2 py-1 text-xs focus:outline-[#3e95ff] text-gray-700 w-[70%] shadow-inner'
                       />
+                      </div>
+                      <div className='flex justify-evenly mt-4'>
+                      <button
+                      type='submit'
+                      className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>수정</button>
+                      <button 
+                      onClick={()=>{setEditingFolderId(null)}}
+                      className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>취소</button>
+                      </div>
                     </form>
                   ) : (
                     <>
@@ -414,7 +444,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       <div className="flex flex-col items-start mx-auto w-full h-full">
         <p className="text-gray-400 self-start py-2">즐겨찾기한 북마크</p>
         <div
-          className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue mb-4 h-min min-h-60`}
+          className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl mb-4 h-min min-h-60`}
         >
           {favoriteBookmarks.length === 0 ? (
             <div className="flex flex-col w-full h-60 justify-evenly items-center">

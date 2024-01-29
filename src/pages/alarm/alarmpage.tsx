@@ -92,7 +92,7 @@ export default function alarmpage() {
         alt="clip_tab_logo"
       />
       <div className="h-full w-full">
-        <p className=" self-start py-2 z-20 text-cliptab-text ">Alarm</p>
+        <p className=" self-start py-2 z-20 text-cliptab-text ">알림</p>
         <div //이미지 추출 창
           className="w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-center items-center z-20"
         >
@@ -104,7 +104,7 @@ export default function alarmpage() {
         </div>
         {alarmList.length === 0 ? (
           <>
-            <p className=" self-start py-2 z-20 text-gray-400 ">Message</p>
+            <p className=" self-start py-2 z-20 text-gray-400 ">매세지</p>
             <div className="w-full h-[65%] rounded-[20px] shadow-xl bg-white px-2 py-4 z-20 flex flex-col justify-evenly items-center">
               <img
                 className="h-fit w-[80%]"
