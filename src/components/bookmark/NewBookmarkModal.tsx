@@ -60,7 +60,7 @@ const NewBookmarkModal: React.FC<NewBookmarkModalProps> = ({
           />
         </label>
         <label className="text-sm my-auto text-cliptab-blue">
-          url
+          URL
           <input
             type="text"
             value={bookmarkUrl}

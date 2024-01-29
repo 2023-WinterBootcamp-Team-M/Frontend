@@ -95,7 +95,7 @@ export default function SettingPage() {
         src="https://i.ibb.co/d73mffp/clip-tab-3.png"
         alt="clip_tab_logo"
       />
-      <p className=" self-start py-2 z-20 text-cliptab-text ">Setting</p>
+      <p className=" self-start py-2 z-20 text-cliptab-text ">설정</p>
       <div //이미지 추출 창
         className="w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-center items-center z-20"
       >
@@ -126,7 +126,7 @@ export default function SettingPage() {
           <p className="w-full text-gray-500 text-sm">{userEmail}</p>
         </div>
       </div>
-      <p className="text-gray-400 self-start py-2">설정</p>
+      <p className="text-gray-400 self-start py-2">옵션</p>
       <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-gray-800' : 'bg-transparent'}`}>
         <div className="flex flex-row text-center flex-wrap justify-between">
           <SettingItem

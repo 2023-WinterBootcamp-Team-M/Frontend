@@ -319,7 +319,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             />
           </label>
           <label className="text-sm my-auto text-cliptab-blue">
-            url
+            URL
             <input
               type="text"
               value={bookmarkUrl}

@@ -78,7 +78,7 @@ export default function ClipBoardPage(){
     className='w-[11.75rem] h-[4.8125rem] z-10'
     src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
     alt="clip_tab_logo"/>
-    <p className=' self-start py-2 z-20 text-cliptab-text '>Clip Image</p>
+    <p className=' self-start py-2 z-20 text-cliptab-text '>이미지 클립</p>
     <div //이미지 추출 창
     className='w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-between z-20'>
         <div className='flex flex-row items-center justify-between'>
@@ -125,7 +125,7 @@ export default function ClipBoardPage(){
           이미지 클립
         </Button>
       </div>
-      <p className="text-gray-400 self-start py-2 z-20">Clip Board</p>
+      <p className="text-gray-400 self-start py-2 z-20">클립보드</p>
       <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white px-2 pt-4 flex flex-col z-20 border-t">
         {allItems.length === 0 ? 
         (
