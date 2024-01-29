@@ -14,16 +14,22 @@ export default function SignUpModal({ isOpen, onClose }) {
 
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
-      onClose(); // 모달 바깥 클릭시 닫기 함수 호출
+      onClose();
     }
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+    const handleOutsideClick = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
     };
-  }, []);
+
+    document.addEventListener('mouseup', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mouseup', handleOutsideClick);
+    };
+  }, [onClose]);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -66,7 +72,6 @@ export default function SignUpModal({ isOpen, onClose }) {
         password: password,
       });
       console.log('회원가입 성공:', response.data);
-      onClose();
     } catch (error) {
       console.error('회원가입 실패:', error.response ? error.response.data : error.message);
     }
@@ -83,10 +88,12 @@ export default function SignUpModal({ isOpen, onClose }) {
 
   return (
     isOpen && (
-      <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-60">
+      <div className="absolute top-0 right-[50px] bottom-0 z-50" style={{ width: '355px' }}>
+        <div className="absolute inset-0 bg-gray-700 bg-opacity-60" onClick={handleClickOutside}></div>
         <div
           ref={modalRef}
-          className="mx-auto w-[25rem] h-max bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
+          className="relative top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[25rem] max-h-full bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
+          style={{ width: '90%' }}
         >
           <img
             src="https://i.ibb.co/VYMtt0B/close.png"
@@ -100,9 +107,9 @@ export default function SignUpModal({ isOpen, onClose }) {
 
           <form>
             <div>
-              <div className="w-full text-gray-500 text-sm mt-1 ml-4">이름</div>
+              <div className="w-full text-gray-500 text-sm mt-1">이름</div>
               <input
-                className="w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
+                className="w-[100%] h-11 mx-4 my-1 px-4 border-2 -ml-[0.01rem] border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
                 type="name"
                 placeholder="이름을 입력하세요"
                 value={name}
@@ -110,9 +117,9 @@ export default function SignUpModal({ isOpen, onClose }) {
               />
             </div>
             <div>
-              <div className="w-full text-gray-500 text-sm mt-1 ml-4">이메일</div>
+              <div className="w-full text-gray-500 text-sm mt-1">이메일</div>
               <input
-                className="w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
+                className="w-[100%] h-11 mx-4 my-1 px-4 border-2 -ml-[0.01rem] border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500"
                 type="email"
                 placeholder="이메일을 입력하세요"
                 value={email}
@@ -120,9 +127,9 @@ export default function SignUpModal({ isOpen, onClose }) {
               />
             </div>
             <div>
-              <div className="w-full text-gray-500 text-sm mt-1 ml-4">비밀번호</div>
+              <div className="w-full text-gray-500 text-sm mt-1">비밀번호</div>
               <input
-                className={`w-[90%] h-11 mx-4 my-2 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500 ${
+                className={`w-[100%] h-11 mx-4 my-2 px-4 border-2 -ml-[0.01rem] border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500 ${
                   !isPasswordValid ? 'border-red-500' : ''
                 }`}
                 type="password"
@@ -137,11 +144,11 @@ export default function SignUpModal({ isOpen, onClose }) {
               </p>
             )}
             <div>
-              <label htmlFor="PasswordAgain" className="w-full text-gray-500 text-sm ml-4">
+              <label htmlFor="PasswordAgain" className="w-full text-gray-500 text-sm">
                 비밀번호 확인
               </label>
               <input
-                className={`w-[90%] h-11 mx-4 my-1 px-4 border-2 border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500 mt-1 ${
+                className={`w-[100%] h-11 mx-4 my-1 px-4 border-2 -ml-[0.01rem] border-blue-400 rounded-lg text-xs shadow-xl focus:outline-blue-500 mt-1 ${
                   !isPasswordMatching ? 'border-red-500' : ''
                 }`}
                 type="password"
@@ -152,7 +159,7 @@ export default function SignUpModal({ isOpen, onClose }) {
               {!isPasswordMatching && <p className="text-red-500 text-xs mx-4 my-1">비밀번호가 일치하지 않습니다.</p>}
             </div>
             <button
-              className="bg-[#0096FB] rounded-md shadow-lg text-white px-4 py-1 mx-4 mt-4 w-[90%] h-11 ${isPasswordValid && isPasswordMatching ? '' : 'cursor-not-allowed'}"
+              className="bg-[#0096FB] rounded-md shadow-lg text-white px-4 py-1 mx-4 mt-4 w-[100%] -ml-[0.01rem] h-11 ${isPasswordValid && isPasswordMatching ? '' : 'cursor-not-allowed'}"
               onClick={handleSubmit}
             >
               회원가입
