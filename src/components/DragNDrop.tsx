@@ -85,27 +85,42 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                       <div
                         ref={popoverRef}
-                        className="mx-auto w-[90%] h-fit bg-cliptab-blue rounded-md shadow-xl mb-2 px-2 py-1"
+                        className="mx-auto w-[90%] h-fit bg-cliptab-blue rounded-xl shadow-xl mb-2 px-2 py-1"
                         role="tooltip"
                       >
                         {isEditBookmark ? (
-                          <div>
+                          <div className='flex flex-col justify-center py-2'>
+                            <div className='flex flex-row items-center w-full'>
+                            <p className='text-cliptab-text text-xs mr-2'>이름</p>
                             <input
                               type="text"
                               value={bookmarkName}
                               onChange={(e) => setBookmarkName(e.target.value)}
                               placeholder={e.name}
+                              className='bg-[#dfebff] border-2 border-blue-400 rounded-md px-2 py-1 text-xs w-[85%] focus:outline-[#3e95ff] text-gray-700'
                             />
+                            </div>
+                            <div className='flex flex-row items-center w-full'>
+                            <p className='text-cliptab-text text-xs mr-2'>URL</p>             
                             <input
                               type="text"
                               value={bookmarkUrl}
                               onChange={(e) => setBookmarkUrl(e.target.value)}
                               placeholder={e.url}
+                              className='bg-[#dfebff] border-2 border-blue-400 rounded-md px-2 py-1 text-xs w-[85%] focus:outline-[#3e95ff] text-gray-700'
                             />
-                            <button onClick={() => handleBookmarkEdit(bookmarkName, bookmarkUrl, e.folder_id, e.id)}>
+                            </div>
+                            <div className="flex w-full items-center justify-evenly mt-2">
+                            <button 
+                            onClick={() => handleBookmarkEdit(bookmarkName, bookmarkUrl, e.folder_id, e.id)}
+                            className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'
+                            >
                               수정
                             </button>
-                            <button onClick={() => setIsEditBookmak(false)}>취소</button>
+                            <button 
+                            onClick={() => setIsEditBookmak(false)}
+                            className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>취소</button>
+                          </div>
                           </div>
                         ) : (
                           <li key={e.id} className="flex items-center ml-2">
