@@ -371,15 +371,28 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                 <li className="flex items-center w-full justify-between">
                   {editingFolderId === folder.id ? (
                     <form
-                      onSubmit={(e) => handleFolderEditSubmit(e, folder.id)}
-                      className="ml-2 border-2 border-blue-400 rounded px-2 py-1"
+                      onSubmit={(e) => {
+                      handleFolderEditSubmit(e, folder.id)
+                      setEditingFolderId(null)}}
+                      className="bg-cliptab-blue rounded-xl px-2 py-2 w-full flex flex-col justify-center shadow-lg"
                     >
+                      <div className='flex justify-evenly items-center w-full'>
+                      <p className='text-xs text-cliptab-text'>북마크 이름</p>
                       <input
                         type="text"
                         value={folderName}
                         onChange={(e) => setFolderName(e.target.value)}
-                        onBlur={() => setEditingFolderId(null)}
+                        className='bg-[#dfebff] border-2 border-blue-400 rounded-md px-2 py-1 text-xs focus:outline-[#3e95ff] text-gray-700 w-[70%] shadow-inner'
                       />
+                      </div>
+                      <div className='flex justify-evenly mt-4'>
+                      <button
+                      type='submit'
+                      className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>수정</button>
+                      <button 
+                      onClick={()=>{setEditingFolderId(null)}}
+                      className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>취소</button>
+                      </div>
                     </form>
                   ) : (
                     <>
