@@ -87,20 +87,25 @@ export default function SettingPage() {
 
   return (
     <div className={`flex flex-col items-center h-screen relative px-5 ${isDarkTheme ? 'dark' : ''}`}>
-      <div className='w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue'/>
-      <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top'/>
+
+      <div className="w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue" />
+      <div className="w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top" />
       <img //로고 이미지
-        className='w-[11.75rem] h-[4.8125rem] z-10'
-        src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
-        alt="clip_tab_logo"/>
-        <p className=' self-start py-2 z-20 text-cliptab-text '>Setting</p>
-        <div //이미지 추출 창
-        className='w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-center items-center z-20'>
-          <img //작은 로고
-          className=' size-24 animate-bounce'
-          src='https://i.ibb.co/TkGRQ90/icon4-8-1-2.png'/>
-          <p className='text-cliptab-blue'>계정을 관리하고 옵션을 선택할 수 있어요!</p>
-        </div>
+        className="w-[11.75rem] h-[4.8125rem] z-10"
+        src="https://i.ibb.co/d73mffp/clip-tab-3.png"
+        alt="clip_tab_logo"
+      />
+      <p className=" self-start py-2 z-20 text-cliptab-text ">Setting</p>
+      <div //이미지 추출 창
+        className="w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-center items-center z-20"
+      >
+        <img //작은 로고
+          className=" size-24 animate-bounce"
+          src="https://i.ibb.co/TkGRQ90/icon4-8-1-2.png"
+        />
+        <p className="text-cliptab-blue">계정을 관리하고 옵션을 선택할 수 있어요!</p>
+      </div>
+
       <p className="self-start py-2 text-gray-400">내 계정</p>
       <div className="w-full bg-white rounded-[20px] shadow-xl flex flex-row itmes-center mb-5 py-4 px-2">
         <div className="flex items-center">
