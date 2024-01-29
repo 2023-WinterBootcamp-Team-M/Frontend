@@ -338,13 +338,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </div>
         </form>
       )}
-      </div>
-      <p className="self-start py-2 text-gray-400">북마크</p>
-
-
-      
-
       {/* 북마크 생성 */}
+      {isBookmarkFormVisible  && !isBookmarkAuto && !isFormVisible && (
       <NewBookmarkModal
         isVisible={isBookmarkFormVisible}
         bookmarkName={bookmarkName}
@@ -353,9 +348,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         setBookmarkUrl={setBookmarkUrl}
         createBookmark={(event) => createBookmark(event, selectedFolder?.id, bookmarkName, bookmarkUrl)}
         setIsBookmarkFormVisible={setIsBookmarkFormVisible}
-      />
+      />)}
+      </div>
+      <p className="self-start py-2 text-gray-400">북마크</p>
 
-      
       <div
         className={`mx-auto w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 py-2 ${
           selectedFolder ? 'h-max' : 'h-min'
