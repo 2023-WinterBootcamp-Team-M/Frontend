@@ -93,7 +93,15 @@ export default function SettingPage() {
         className='w-[11.75rem] h-[4.8125rem] z-10'
         src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
         alt="clip_tab_logo"/>
-      <p className="self-start py-2 text-cliptab-text ">내 계정</p>
+        <p className=' self-start py-2 z-20 text-cliptab-text '>Setting</p>
+        <div //이미지 추출 창
+        className='w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-center items-center z-20'>
+          <img //작은 로고
+          className=' size-24 animate-bounce'
+          src='https://i.ibb.co/TkGRQ90/icon4-8-1-2.png'/>
+          <p className='text-cliptab-blue'>계정을 관리하고 옵션을 선택할 수 있어요!</p>
+        </div>
+      <p className="self-start py-2 text-gray-400">내 계정</p>
       <div className="w-full bg-white rounded-[20px] shadow-xl flex flex-row itmes-center mb-5 py-4 px-2">
         <div className="flex items-center">
           <img className="size-11 rounded-full mx-4 my-1 w-7 h-7 mb-2" src="https://i.ibb.co/pK0XHr7/user.png" />
