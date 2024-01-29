@@ -123,10 +123,10 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                           </div>
                           </div>
                         ) : (
-                          <li key={e.id} className="flex items-center ml-2">
-                            <div>
+                          <li key={e.id} className="flex items-center ml-2 w-full">
+                            <div className='w-full'>
                               <ToolTip title={opt_sum ? e.short_summary : e.long_summary}>
-                                <div>
+                                <div className='w-full'>
                                   <div className="flex items-center -mb-4">
                                     <img className="w-4 h-4 mr-2 ml-1" src={e.icon} alt="Bookmark Icon" />
                                     <a href={e.url} className="mr-1">
@@ -145,11 +145,11 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                       }}
                                     />
                                   </div>
-                                  <div className="flex justify-between items-center">
-                                    <a href={e.url} className="underline text-gray-700">
+                                  <div className="flex justify-between items-center w-[95%]">
+                                    <a href={e.url} className="underline text-gray-700 ml-1">
                                       {e.url.length > 30 ? `${e.url.slice(0, 30)}...` : e.url}
                                     </a>
-                                    <div className="flex items-center ml-4">
+                                    <div className="flex items-center">
                                       <img
                                         src="https://i.ibb.co/4KDg9K1/edit-02.png"
                                         onClick={() => {
@@ -157,7 +157,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                           setBookmarkUrl(e.url);
                                           setIsEditBookmak(true);
                                         }}
-                                        className="ml-2 focus:outline-none w-5 h-5"
+                                        className="focus:outline-none w-5 h-5"
                                       />
                                       <img
                                         className="ml-2 focus:outline-none w-5 h-5"
