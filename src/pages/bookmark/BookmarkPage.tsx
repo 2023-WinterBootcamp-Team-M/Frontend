@@ -221,16 +221,22 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   //폴더생성 클릭시
   const handleFolderCreateClick = () => {
     setIsFormVisible((prevIsFormVisible) => !prevIsFormVisible);
+    setIsBookmarkFormVisible(false);
+    setIsBookmarkAuto(false);
     setFolderName('');
   };
   //북마크생성 클릭시
   const handleBookmarkCreateClick = () => {
     setIsBookmarkFormVisible((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
+    setIsFormVisible(false);
+    setIsBookmarkAuto(false);
     setBookmarkName('');
   };
   //폴더자동분류 북마크 생성 클릭시
   const handleAutoBookmarkCreateClick = () => {
     setIsBookmarkAuto((prevIsBookmarkFormVisible) => !prevIsBookmarkFormVisible);
+    setIsBookmarkFormVisible(false);
+    setIsFormVisible(false);
     setFolderName('');
   };
   //폴더수정 클릭시
