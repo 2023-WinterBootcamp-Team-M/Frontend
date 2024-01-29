@@ -42,41 +42,35 @@ const NewFolderModal: React.FC<NewFolderModalProps> = ({
   }
 
   return (
-    <div
-      className="fixed top-0 right-0 h-full z-50 overflow-auto bg-smoke-light flex"
-      style={{ width: '300px', right: '75px', top: '-195px' }}
-    >
       <form
         ref={modalRef}
         onSubmit={handleFolderCreateSubmit}
-        className="relative p-4 bg-white rounded-lg m-auto flex-col flex border-gray-400 border-2"
-        style={{ maxWidth: '100%' }}
+        className="flex flex-col justify-center mx-auto w-[90%] h-[60%] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
       >
-        <label className="text-sm">
-          폴더 이름:
+        <label className="text-sm my-auto text-cliptab-blue">
+          폴더 이름
           <input
             type="text"
             value={folderName}
             onChange={(e) => setFolderName(e.target.value)}
             placeholder="폴더 이름을 입력하세요"
-            className="ml-2 border-2 border-blue-400 rounded px-2 py-1 w-full"
+            className="border-2 border-blue-400 rounded px-2 py-1 text-xs w-full focus:outline-[#3e95ff] text-gray-700"
           />
         </label>
 
-        <div className="flex justify-end mt-4">
-          <button type="submit" className="bg-blue-600 text-white rounded px-2 py-0 hover:bg-blue-800 text-sm">
+        <div className="flex justify-between mt-4">
+          <button type="submit" className="bg-cliptab-blue text-white rounded-lg py-1 hover:opacity-90 text-sm w-[48%]">
             생성
           </button>
           <button
             type="button"
             onClick={() => setIsFormVisible(false)}
-            className="bg-gray-500 text-white rounded px-2 py-0 hover:bg-gray-700 ml-2 text-sm"
+            className="bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[48%]"
           >
             취소
           </button>
         </div>
       </form>
-    </div>
   );
 };
 

@@ -287,7 +287,17 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             <div className='text-cliptab-blue h-[60%] flex justify-center items-center'>북마크를 추가해보세요!</div>
           )
         }
-        {isBookmarkAuto && (
+        {/* 폴더생성 */}
+        {isFormVisible && !isBookmarkAuto &&!isBookmarkFormVisible && (
+        <NewFolderModal
+          isVisible={isFormVisible}
+          folderName={folderName}
+          setFolderName={setFolderName}
+          handleFolderCreateSubmit={(event) => handleFolderCreateSubmit(event, userId)}
+          setIsFormVisible={setIsFormVisible}
+        />
+        )}
+        {isBookmarkAuto && !isBookmarkFormVisible && !isFormVisible  &&(
         <form
           onSubmit={(event) => createBookmarkAuto(event, bookmarkName, bookmarkUrl, bookmarkFolders)}
           className="flex flex-col justify-center mx-auto w-[90%] h-[60%] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
@@ -326,14 +336,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       <p className="self-start py-2 text-gray-400">북마크</p>
 
 
-      {/* 폴더생성 */}
-      <NewFolderModal
-        isVisible={isFormVisible}
-        folderName={folderName}
-        setFolderName={setFolderName}
-        handleFolderCreateSubmit={(event) => handleFolderCreateSubmit(event, userId)}
-        setIsFormVisible={setIsFormVisible}
-      />
+      
 
       {/* 북마크 생성 */}
       <NewBookmarkModal
