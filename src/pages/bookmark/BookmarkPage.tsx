@@ -290,7 +290,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         </div>
         {
           !isFormVisible && !isBookmarkAuto && !isBookmarkFormVisible && (
-            <div className='text-cliptab-blue h-[60%] flex justify-center items-center'>북마크를 추가해보세요!</div>
+            <div className='text-cliptab-blue h-[60%] flex justify-evenly items-center flex-col'>
+            <img className="size-24" src="https://i.ibb.co/3M1P51n/free-sticker-folders-11384146.png" alt="free-sticker-folders-11384146"/>
+            <p className='text-cliptab-blue flex justify-center items-center'>북마크를 추가해보세요!</p>
+            </div>
           )
         }
         {/* 폴더생성 */}
