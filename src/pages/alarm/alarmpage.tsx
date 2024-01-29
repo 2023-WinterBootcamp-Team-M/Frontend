@@ -83,6 +83,7 @@ export default function alarmpage() {
 
   return (
     <div className="flex flex-col items-center h-screen relative px-5" style={{ overflowY: 'auto' }}>
+
       <div className="w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue" />
       <div className="w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top" />
       <img //로고 이미지
@@ -115,6 +116,7 @@ export default function alarmpage() {
           </>
         ) : (
           alarmList.map((alarm) => <NotificationItem key={alarm.id} notification={alarm} />)
+
         )}
         {page > 1 && <div ref={ref} className="flex justify-center"></div>}
       </div>

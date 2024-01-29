@@ -250,6 +250,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
   return (
     <div className="flex flex-col h-screen items-center px-5 relative">
+
       <div className="w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue" />
       <div className="w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top" />
       <img //로고 이미지
@@ -258,6 +259,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         alt="clip_tab_logo"
       />
       <p className="self-start py-2 text-cliptab-text">북마크</p>
+
 
       {/* 폴더생성 */}
       <NewFolderModal
@@ -319,6 +321,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         }`}
       >
         <div className="flex w-full px-5">
+
           <button
             onClick={handleFolderCreateClick}
             className="bg-cliptab-blue text-white rounded px-2 py-0 hover:opacity-90 text-sm"
@@ -338,6 +341,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             자동분류 북마크 생성
           </button>
         </div>
+
         {bookmarkFolders.length === 0 ? (
           <div className="flex flex-col w-full h-60 justify-evenly items-center">
             <img src="https://i.ibb.co/xgbw95k/pngegg.png" alt="empty_img" className=" w-[30%] h-[40%]" />
@@ -385,6 +389,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                           src="https://i.ibb.co/sFMqmQf/delete-2.png"
                           onClick={() => handleFolderDelete(folder.id)}
                         />
+
                       </div>
                     </>
                   )}

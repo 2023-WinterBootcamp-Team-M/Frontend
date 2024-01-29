@@ -87,6 +87,7 @@ export default function SettingPage() {
 
   return (
     <div className={`flex flex-col items-center h-screen relative px-5 ${isDarkTheme ? 'dark' : ''}`}>
+
       <div className="w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue" />
       <div className="w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top" />
       <img //로고 이미지
@@ -104,6 +105,7 @@ export default function SettingPage() {
         />
         <p className="text-cliptab-blue">계정을 관리하고 옵션을 선택할 수 있어요!</p>
       </div>
+
       <p className="self-start py-2 text-gray-400">내 계정</p>
       <div className="w-full bg-white rounded-[20px] shadow-xl flex flex-row itmes-center mb-5 py-4 px-2">
         <div className="flex items-center">
