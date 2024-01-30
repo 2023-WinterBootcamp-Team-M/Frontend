@@ -25,8 +25,8 @@ export default function StartPage() {
     isAlarm(userId, setIsAlarm);
     console.log('현재 pageIndex:', pageStore.getState().pageIndex);
     const optPage = opt_start ? 1 : 2;
+    // 패널이 열려있지 않은 경우에만 setPageIndex 호출
     setPageIndex(optPage); // 북마크 페이지 탭 인덱스
-    console.log('1번 페이지로 이동');
     setEnabled(true); // 패널 활성화 상태
   };
 
