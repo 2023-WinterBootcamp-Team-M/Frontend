@@ -106,13 +106,13 @@ export default function alarmpage() {
         {alarmList.length === 0 ? (
           <>
             <p className=" self-start py-2 z-20 text-gray-400 ">매세지</p>
-            <div className="w-full h-[65%] rounded-[20px] shadow-xl bg-white px-2 py-4 z-20 flex flex-col justify-evenly items-center">
+            <div className={`w-full h-[65%] rounded-[20px] shadow-xl px-2 py-4 z-20 flex flex-col justify-evenly items-center ${opt_theme ? "bg-dark-component" : "bg-white "}`}>
               <img
                 className="h-fit w-[80%]"
                 src="https://i.ibb.co/hYCkJTV/free-sticker-reminder-13710879.png"
                 alt="free-sticker-reminder-13710879"
               />
-              <p className="flex h-[20%] text-cliptab-blue text-lg items-center">미접속 북마크가 없습니다</p>
+              <p className={`flex h-[20%] text-cliptab-blue text-lg items-center ${opt_theme ? "text-dark-text":"text-cliptab-blue"}`}>미접속 북마크가 없습니다</p>
             </div>
           </>
         ) : (
