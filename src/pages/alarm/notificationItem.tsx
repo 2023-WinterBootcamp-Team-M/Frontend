@@ -15,7 +15,7 @@ const NotificationItem = ({ notification}) => {
   return (
     <div className={`relative w-full h-max mb-4 p-4 rounded-[20px] shadow-xl  flex flex-col justify-between ${opt_theme ? "bg-dark-component" : "border-2 border-cliptab-blue bg-white"}`}>
       <button
-        className="absolute -top-2 -right-2"
+        className={`absolute -top-2 -right-2 ${opt_theme ? "desaturate" : ""}`}
         onMouseEnter={() => setButtonImage('https://i.ibb.co/rss1tFV/Group-1000002293.png')}
         onMouseLeave={() => setButtonImage('https://i.ibb.co/c11TV3y/Group-1000002294.png')}
         onClick={()=>deleteAlarm(userId,notification.id,setAlarmList)}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { userIdStore } from '../../store/store';
+import { optStore, userIdStore } from '../../store/store';
 import ToolTip from '../../components/ToolTip';
 import { DownloadImage, DeleteImage, DeleteAllImages, CreateClipboard, GetClipboardList } from './ClipboardAPI';
 import Button from '@mui/material/Button';
@@ -17,6 +17,7 @@ export default function ClipBoardPage(){
     const [showBookmarks, setShowBookmarks] = useState(false);
     const { clipboardId, clipImages, setClipboardId, setClipImages } = clipStore();
     const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+    const { opt_theme } = optStore();
 
     const handleSelectBookmark = (url: string) => {
       setLink(url);
@@ -72,29 +73,29 @@ export default function ClipBoardPage(){
 
     return (
     <div className='flex flex-col items-center px-5 h-screen relative z-20'>
-      <div className='w-full h-[19%] absolute z-0 rounded-b-md bg-cliptab-blue'/>
-      <div className='w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute z-10 shadow-top'/>
+      <div className={`w-full h-[19%] absolute z-0 rounded-b-md  ${opt_theme ? "bg-[#121319]" : "bg-cliptab-blue"}`}/>
+      <div className={`w-full h-[82%] bottom-0 rounded-t-lg  absolute z-10 shadow-top ${opt_theme ? "bg-[#121319]" : "bg-[#fcfcfc]"} `}/>
     <img //로고 이미지
-    className='w-[11.75rem] h-[4.8125rem] z-10'
+    className={`w-[11.75rem] h-[4.8125rem] z-10 ${opt_theme ? "desaturate" : ""}`}
     src="https://i.ibb.co/d73mffp/clip-tab-3.png" 
     alt="clip_tab_logo"/>
-    <p className=' self-start py-2 z-20 text-cliptab-text '>이미지 클립</p>
+    <p className={`self-start py-2 z-20 ${opt_theme ? "text-dark-text" : "text-cliptab-text"} `}>이미지 클립</p>
     <div //이미지 추출 창
-    className='w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-between z-20'>
+    className={`w-full h-[10rem] rounded-[20px] shadow-lg mb-4  flex flex-col justify-between z-20 ${opt_theme ? " bg-dark-component" : "bg-white"}`}>
         <div className='flex flex-row items-center justify-between'>
         <img //작은 로고
-        className='size-8 ml-4'
+        className={`size-8 ml-4 ${opt_theme ? "desaturate" : ""}`}
         src='https://i.ibb.co/NLhT9rM/icon4-1-2-1.png'/>
         <ToolTip title='내 북마크 링크 가져오기'>
         <div //내 북마크 링크 가져오기 div
-        className='flex flex-row items-center mr-4 text-sm bg-cliptab-blue text-white rounded-md py-1 px-2 my-2 cursor-pointer relative'
+        className={`flex flex-row items-center mr-4 text-sm rounded-md py-1 px-2 my-2 cursor-pointer relative ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
         onClick={(event)=>handleShowBookmarks(event)}>
         <img 
-        className='size-6'
+        className={`size-6 ${opt_theme ? "desaturate" : ""}`}
         src="https://i.ibb.co/kH4Xjbj/bookmark-4.png" 
         alt="bookmark-4"/>
         <img
-        className='size-3'
+        className={`size-3 ${opt_theme ? "desaturate" : ""}`}
         src="https://i.ibb.co/0rJCLSp/arrow-down-simple.png"
         alt="arrow-down-simple"/>
         </div>
@@ -111,7 +112,7 @@ export default function ClipBoardPage(){
         </div>}
         </div>
         <input //링크 입력창
-          className="w-[90%] h-11 mx-4 px-4 border-2 border-cliptab-blue rounded-lg text-xs shadow-lg focus:outline-[#3e95ff]"
+          className={`w-[90%] h-11 mx-4 px-4 rounded-lg text-xs shadow-lg  ${opt_theme ? "bg-dark-btn/50 focus:outline-none" : "border-2 border-cliptab-blue focus:outline-[#3e95ff]"}`}
           type="text"
           placeholder="이미지를 추출할 페이지의 url을 입력하세요"
           onChange={handleInputChange}
@@ -119,21 +120,21 @@ export default function ClipBoardPage(){
         />
         <Button //이미지 클립 버튼
           variant="contained"
-          className="bg-cliptab-blue rounded-xl shadow-lg text-cliptab-text px-1 py-1 mx-auto my-auto w-[90%] h-11 hover:opacity-90"
+          className={` rounded-xl shadow-lg px-1 py-1 mx-auto my-auto w-[90%] h-11 hover:opacity-90 ${opt_theme ? "bg-dark-btn text-dark-text " : "bg-cliptab-blue text-cliptab-text "}`}
           onClick={handleCreateClipboard}
         >
           이미지 클립
         </Button>
       </div>
-      <p className="text-gray-400 self-start py-2 z-20">클립보드</p>
-      <div className="w-full h-[60%] rounded-[20px] shadow-xl bg-white px-2 pt-4 flex flex-col z-20 border-t">
+      <p className={`self-start py-2 z-20 ${opt_theme ? "text-dark-text" : "text-gray-400"}`}>클립보드</p>
+      <div className={`w-full h-[60%] rounded-[20px] shadow-xl px-2 pt-4 flex flex-col z-20 ${opt_theme ? "bg-dark-component" : "bg-white "}`}>
         {allItems.length === 0 ? 
         (
           <div className='flex flex-col items-center justify-evenly h-[88%]'>
             <img 
             className='h-fit w-[80%]'
             src="https://i.ibb.co/8cX39Gs/free-sticker-printing-11932393.png" alt="emptyclip_icon"/>
-            <p className='flex h-[20%] text-cliptab-blue text-lg items-center'>이미지를 추출해보세요!</p>
+            <p className={`flex h-[20%] text-lg items-center ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>이미지를 추출해보세요!</p>
           </div>
         ):(
           <ul
@@ -144,10 +145,10 @@ export default function ClipBoardPage(){
           {allItems.map((e) => (
             <li key={e.id}  className="w-1/2 flex justify-center items-center pb-2 animate-pop">
               <div id={e.id} className="relative">
-                <img className="rounded-md shadow-md size-32 border-2 border-cliptab-blue" src={e.img_url} />
+                <img className={`rounded-md shadow-md size-32 border-2 ${opt_theme ? "border-dark-btn" : "border-cliptab-blue"}`} src={e.img_url} />
                 <ToolTip title="삭제">
                   <div
-                    className="absolute top-1 right-1 bg-white rounded-full p-1 hover:cursor-pointer"
+                    className={`absolute top-1 right-1 rounded-full p-1 hover:cursor-pointer ${opt_theme ? "bg-dark-text": "bg-white"}`}
                     onClick={(event) => {
                       DeleteImage(event,clipboardId,e.id,clipImages,setClipImages);
                     }}
@@ -163,7 +164,7 @@ export default function ClipBoardPage(){
                 </ToolTip>
                 <ToolTip title="저장">
                   <div
-                    className="absolute top-1 left-1 bg-white rounded-full p-1 cursor-pointer hover:bg-gray-200"
+                    className={`absolute top-1 left-1 rounded-full p-1 cursor-pointer hover:bg-gray-200 ${opt_theme ? "bg-dark-text": "bg-white"}`}
                     onClick={(event) => DownloadImage(event, e.img_url)}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 16 16" fill="none">
@@ -186,7 +187,7 @@ export default function ClipBoardPage(){
         <Button
           variant="contained"
           onClick={(event) => DeleteAllImages(event, clipboardId, setClipImages)}
-          className=" bg-cliptab-blue rounded-xl shadow-lg text-cliptab-text my-auto mx-auto w-[95%] h-11 hover:opacity-80"
+          className={`rounded-xl shadow-lg  my-auto mx-auto w-[95%] h-11 hover:opacity-80 ${opt_theme ? "bg-dark-btn text-dark-text " : "bg-cliptab-blue text-cliptab-text "}`}
         >
           클립보드 비우기
         </Button>
