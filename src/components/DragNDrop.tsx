@@ -66,7 +66,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
     try {
       const response = await axios.patch(`${domain}/api/v1/favorite/${bookmark_Id}`);
       console.log('북마크 즐겨찾기 성공 :', response.data);
-      setPost((prevPost) => prevPost.map((b) => (b.id === bookmark_Id ? { ...b, isFavorite: !b.isFavorite } : b)));
+      setPost((prevPost) => prevPost.map((b) => (b.id === bookmark_Id ? { ...b, favorite: !b.favorite } : b)));
     } catch (err) {
       console.error('북마크 즐겨찾기 실패 :', err);
     }
@@ -134,7 +134,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                     </a>
                                     <img
                                       src={
-                                        e.isFavorite
+                                        e.favorite
                                           ? 'https://i.ibb.co/L0nwsr3/Group-1000002328.png'
                                           : 'https://i.ibb.co/5LQSpts/star.png'
                                       }

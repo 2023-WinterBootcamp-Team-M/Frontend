@@ -86,7 +86,7 @@ export default function Panel({
             }}
             className="py-2 flex justify-center items-center"
           >
-            {number === 4 && isAlarm === 1 ? (
+            {index === 3 && isAlarm === 1 ? (
               <Badge variant="dot" color="primary">
                 <img src={image} alt={`Button ${number}`} className="w-7 h-7 object-cover" />
               </Badge>
