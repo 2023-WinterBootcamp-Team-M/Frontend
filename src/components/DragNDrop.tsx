@@ -130,7 +130,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                 <div className='w-full'>
                                   <div className="flex items-center -mb-4">
                                     <img className="w-4 h-4 mr-2 ml-1" src={e.icon} alt="Bookmark Icon" />
-                                    <a href={e.url} className="mr-1">
+                                    <a href={e.url} className={`mr-1 `}>
                                       {e.name}
                                     </a>
                                     <img
@@ -147,8 +147,8 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                     />
                                   </div>
                                   <div className="flex justify-between items-center w-[95%]">
-                                    <a href={e.url} className="underline text-gray-700 ml-1">
-                                      {e.url.length > 30 ? `${e.url.slice(0, 30)}...` : e.url}
+                                    <a href={e.url} className={`underline  ml-1 ${opt_theme ? "text-dark-text" : "text-gray-700"}`}>
+                                      {e.url.length > 23 ? `${e.url.slice(0, 23)}...` : e.url}
                                     </a>
                                     <div className="flex items-center">
                                       <img

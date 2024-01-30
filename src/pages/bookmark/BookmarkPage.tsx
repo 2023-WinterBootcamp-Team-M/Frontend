@@ -376,24 +376,24 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                       onSubmit={(e) => {
                       handleFolderEditSubmit(e, folder.id)
                       setEditingFolderId(null)}}
-                      className="bg-cliptab-blue rounded-xl px-2 py-2 w-full flex flex-col justify-center shadow-lg"
+                      className={`flex flex-col justify-center mx-auto w-full h-[60%]  rounded-[20px] shadow-xl  p-4 ${opt_theme ? " bg-dark-btn": "bg-white border-2 border-blue-400"}`}
                     >
                       <div className='flex justify-evenly items-center w-full'>
-                      <p className='text-xs text-cliptab-text'>북마크 이름</p>
+                      <p className={`text-sm my-auto  ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>북마크 이름</p>
                       <input
                         type="text"
                         value={folderName}
                         onChange={(e) => setFolderName(e.target.value)}
-                        className='bg-[#dfebff] border-2 border-blue-400 rounded-md px-2 py-1 text-xs focus:outline-[#3e95ff] text-gray-700 w-[70%] shadow-inner'
+                        className={`rounded px-2 py-1 text-xs w-[60%] ${opt_theme ? "bg-dark-component focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
                       />
                       </div>
                       <div className='flex justify-evenly mt-4'>
                       <button
                       type='submit'
-                      className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>수정</button>
+                      className={` rounded-lg py-1 hover:opacity-90 text-sm w-[45%] ${opt_theme ? "bg-dark-bg/30 text-white" : "bg-cliptab-blue text-white"}`}>수정</button>
                       <button 
                       onClick={()=>{setEditingFolderId(null)}}
-                      className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>취소</button>
+                      className={` rounded-lg py-1 hover:opacity-90 text-sm w-[45%] ${opt_theme ? "bg-dark-text" : "bg-white text-cliptab-blue border border-cliptab-blue"}`}>취소</button>
                       </div>
                     </form>
                   ) : (
