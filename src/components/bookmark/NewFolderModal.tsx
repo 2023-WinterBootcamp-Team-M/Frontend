@@ -46,9 +46,9 @@ const NewFolderModal: React.FC<NewFolderModalProps> = ({
       <form
         ref={modalRef}
         onSubmit={handleFolderCreateSubmit}
-        className={`flex flex-col justify-center mx-auto w-[90%] h-[60%] rounded-[20px] shadow-xl p-4 ${opt_theme ? " bg-dark-btn": "bg-white border-2 border-blue-400"}`}
+        className={`flex flex-col justify-center mx-auto w-[90%] h-full rounded-[20px] shadow-xl p-4 ${opt_theme ? " bg-dark-btn": "bg-white border-2 border-blue-400"}`}
       >
-        <label className={`text-sm my-auto  ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>
+        <label className={`md:text-xs lg:text-xs my-auto  ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>
           폴더 이름
           <input
             type="text"
