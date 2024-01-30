@@ -1,6 +1,7 @@
 //NewFolderModal.tsx
 
 import React, { useEffect, useRef } from 'react';
+import { optStore } from '../../store/store';
 
 interface NewFolderModalProps {
   isVisible: boolean;
@@ -18,7 +19,7 @@ const NewFolderModal: React.FC<NewFolderModalProps> = ({
   setIsFormVisible,
 }) => {
   const modalRef = useRef<HTMLFormElement>(null);
-
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -40,12 +41,12 @@ const NewFolderModal: React.FC<NewFolderModalProps> = ({
   if (!isVisible) {
     return null;
   }
-
+  const { opt_theme } = optStore();
   return (
       <form
         ref={modalRef}
         onSubmit={handleFolderCreateSubmit}
-        className="flex flex-col justify-center mx-auto w-[90%] h-[60%] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
+        className={`flex flex-col justify-center mx-auto w-[90%] h-[60%] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4 ${opt_theme ? "desaturate": ""}`}
       >
         <label className="text-sm my-auto text-cliptab-blue">
           폴더 이름

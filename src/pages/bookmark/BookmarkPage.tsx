@@ -41,7 +41,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
-  const { opt_sum } = optStore();
+  const { opt_sum,opt_theme } = optStore();
 
   // 선택한 폴더 업데이트
   const handleFolderClick = (folder: BookmarkFolder) => {
@@ -256,43 +256,42 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
   return (
     <div className="flex flex-col h-screen items-center px-5 relative">
-
       <div className="w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue" />
       <div className="w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top" />
       <img //로고 이미지
-        className="w-[11.75rem] h-[4.8125rem] z-10"
+        className={`w-[11.75rem] h-[4.8125rem] z-10 ${opt_theme ? "desaturate" : ""}`}
         src="https://i.ibb.co/d73mffp/clip-tab-3.png"
         alt="clip_tab_logo"
       />
-      <p className="self-start py-2 text-cliptab-text">북마크 생성</p>
+      <p className={`self-start py-2 z-20 ${opt_theme ? "text-dark-text" : "text-cliptab-text"} `}>북마크 생성</p>
       <div
-        className={`flex flex-col items-center justify-evenly mx-auto w-full h-full bg-white rounded-[20px] shadow-xl mb-4`}
+        className={`flex flex-col items-center justify-evenly mx-auto w-full h-full rounded-[20px] shadow-xl mb-4 ${opt_theme ? "bg-dark-component" : "bg-white"}`}
       >
         <div className="flex w-full h-[20%] justify-center">
           <button
             onClick={handleFolderCreateClick}
-            className="bg-cliptab-blue text-white rounded-l-lg px-2 py-0 hover:opacity-90 text-sm"
+            className={`rounded-l-lg px-2 py-0 hover:opacity-90 text-sm ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             폴더 생성
           </button>
           <button
             onClick={handleBookmarkCreateClick}
-            className="bg-cliptab-blue text-white px-2 py-0 hover:opacity-90 text-sm"
+            className={`px-2 py-0 hover:opacity-90 text-sm ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             북마크 생성
           </button>
           <button
             onClick={handleAutoBookmarkCreateClick}
-            className="bg-cliptab-blue text-white rounded-r-lg px-2 py-0 hover:opacity-90 text-sm"
+            className={`rounded-r-lg px-2 py-0 hover:opacity-90 text-sm ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             자동분류 북마크 생성
           </button>
         </div>
         {
           !isFormVisible && !isBookmarkAuto && !isBookmarkFormVisible && (
-            <div className='text-cliptab-blue h-[60%] flex justify-evenly items-center flex-col'>
+            <div className={`text-cliptab-blue h-[60%] flex justify-evenly items-center flex-col `}>
             <img className="size-24" src="https://i.ibb.co/3M1P51n/free-sticker-folders-11384146.png" alt="free-sticker-folders-11384146"/>
-            <p className='text-cliptab-blue flex justify-center items-center'>북마크를 추가해보세요!</p>
+            <p className={` flex justify-center items-center ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>북마크를 추가해보세요!</p>
             </div>
           )
         }
@@ -353,12 +352,12 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         setIsBookmarkFormVisible={setIsBookmarkFormVisible}
       />)}
       </div>
-      <p className="self-start py-2 text-gray-400">북마크</p>
+      <p className={`self-start py-2 ${opt_theme ? "text-dark-text" : "text-gray-400"}`}>북마크</p>
 
       <div
-        className={`mx-auto w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 py-2 ${
+        className={`mx-auto w-full min-h-60 max-h-80 overflow-auto rounded-[20px] shadow-xl mb-4 py-2 ${
           selectedFolder ? 'h-max' : 'h-min'
-        }`}
+        } ${opt_theme ? "bg-dark-component":"bg-white"}`}
       >
         
 
@@ -445,9 +444,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         )}
       </div>
       <div className="flex flex-col items-start mx-auto w-full h-full">
-        <p className="text-gray-400 self-start py-2">즐겨찾기한 북마크</p>
+        <p className={`self-start py-2 ${opt_theme ? "text-dark-text" : "text-gray-400"}`}>즐겨찾기한 북마크</p>
         <div
-          className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl mb-4 h-min min-h-60`}
+          className={`mx-auto mt-4 w-full rounded-[20px] shadow-xl mb-4 h-min min-h-60 ${opt_theme ? "bg-dark-component" : "bg-white"}`}
         >
           {favoriteBookmarks.length === 0 ? (
             <div className="flex flex-col w-full h-60 justify-evenly items-center">
