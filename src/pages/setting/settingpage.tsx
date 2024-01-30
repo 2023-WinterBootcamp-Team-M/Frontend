@@ -91,7 +91,7 @@ export default function SettingPage() {
       <div className={`w-full h-[19%] absolute -z-20 rounded-b-md ${opt_theme ? "bg-[#090a0d]" : "bg-cliptab-blue"}`} />
       <div className={`w-full h-[82%] bottom-0 rounded-t-lg absolute -z-10 shadow-top ${opt_theme ? "bg-dark-btn" : "bg-[#fcfcfc]"}`} />
       <img //로고 이미지
-        className="w-[11.75rem] h-[4.8125rem] z-10 desaturate"
+        className={`w-[11.75rem] h-[4.8125rem] z-10 ${opt_theme ? "desaturate" : ""} `}
         src="https://i.ibb.co/d73mffp/clip-tab-3.png"
         alt="clip_tab_logo"
       />
@@ -100,7 +100,7 @@ export default function SettingPage() {
         className={`w-full h-[10rem] rounded-[20px] shadow-lg mb-4 flex flex-col justify-center items-center z-20 ${opt_theme ? " bg-dark-component" : "bg-white"}`}
       >
         <img //작은 로고
-          className="size-24 animate-bounce desaturate"
+          className={`size-24 animate-bounce ${opt_theme ? "desaturate" : ""}`}
           src="https://i.ibb.co/TkGRQ90/icon4-8-1-2.png"
         />
         <p className={`${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>계정을 관리하고 옵션을 선택할 수 있어요!</p>

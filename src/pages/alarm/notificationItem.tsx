@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { deleteAlarm } from './alarmpage';
-import { alarmStoare, userIdStore } from '../../store/store';
+import { alarmStoare, optStore, userIdStore } from '../../store/store';
 
 const NotificationItem = ({ notification}) => {
   const [buttonImage, setButtonImage] = useState('https://i.ibb.co/c11TV3y/Group-1000002294.png');
   const { setAlarmList } = alarmStoare();
   const { userId } = userIdStore()
+  const { opt_theme } = optStore();
 
   const handleRedirect = () => {
     window.location.href = notification.bookmark_url;
   };
 
   return (
-    <div className="relative w-full h-max mb-4 p-4 bg-white rounded-[20px] shadow-xl border-2 border-cliptab-blue flex flex-col justify-between">
+    <div className={`relative w-full h-max mb-4 p-4 rounded-[20px] shadow-xl  flex flex-col justify-between ${opt_theme ? "bg-dark-component" : "border-2 border-cliptab-blue bg-white"}`}>
       <button
         className="absolute -top-2 -right-2"
         onMouseEnter={() => setButtonImage('https://i.ibb.co/rss1tFV/Group-1000002293.png')}
@@ -33,7 +34,7 @@ const NotificationItem = ({ notification}) => {
           >
             {notification.bookmark_url.length > 30 ? `${notification.bookmark_url.slice(0, 30)}...` : notification.bookmark_url}
           </a>
-          <div className="text-xs mt-1 text-gray-950">
+          <div className={`text-xs mt-1 ${opt_theme ? "text-dark-text" : "text-gray-950"}`}>
             <div>미접속 {notification.accumulated_days}일이 경과했습니다.</div>
             <div>북마크를 삭제하시겠습니까?</div>
           </div>
@@ -41,12 +42,12 @@ const NotificationItem = ({ notification}) => {
       </div>
 
       <div className="flex justify-between mt-3">
-        <button onClick={handleRedirect} className="ml-8 w-24 h-7 bg-gray-300 hover:bg-gray-500 rounded-md">
+        <button onClick={handleRedirect} className={`ml-8 w-24 h-7 rounded-md ${opt_theme ? "bg-cliptab-blue desaturate" : "bg-cliptab-blue text-white"}`}>
           접속
         </button>
         <button 
         onClick={()=>deleteAlarm(userId,notification.id,setAlarmList)}
-        className="mr-8 w-24 h-7 bg-red-600 hover:bg-red-400 text-white rounded-md">삭제</button>
+        className={`mr-8 w-24 h-7 rounded-md ${opt_theme ? "bg-dark-btn text-dark-text" : " bg-gray-400 text-white"}`}>삭제</button>
       </div>
     </div>
   );
