@@ -259,8 +259,8 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       <div className="w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue" />
       <div className="w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top" />
       <img //로고 이미지
-        className={`w-[11.75rem] h-[4.8125rem] z-10 ${opt_theme ? "desaturate" : ""}`}
-        src={` ${opt_theme ? "https://i.ibb.co/0nZP2Gv/Cliptab.png" : "https://i.ibb.co/d73mffp/clip-tab-3.png" }`}
+        className={`w-[11.75rem] h-[4.8125rem] z-10 ${opt_theme ? "desaturate":""}`}
+        src={` ${opt_theme ? "https://i.ibb.co/YhgZ89r/Cliptab-1-4.png" : "https://i.ibb.co/d73mffp/clip-tab-3.png" }`}
         alt="clip_tab_logo"
       />
       <p className={`self-start py-2 z-20 ${opt_theme ? "text-dark-text" : "text-cliptab-text"} `}>북마크 생성</p>

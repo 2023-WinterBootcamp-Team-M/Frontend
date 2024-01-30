@@ -32,7 +32,7 @@ export default function StartPage() {
 
   return (
     <div className="flex flex-col items-center justify-start h-screen">
-      <img src="https://i.ibb.co/mR6vRvf/clip-tab-2-removebg-preview.png" alt="logo_icon" className={`h-auto ${opt_theme ? "desaturate" : ""}`} />
+      <img src={`${opt_theme ? "https://i.ibb.co/0nZP2Gv/Cliptab.png" : "https://i.ibb.co/mR6vRvf/clip-tab-2-removebg-preview.png"}`} alt="logo_icon" className={`h-auto ${opt_theme ? "desaturate":""}`} />
       {!userId ? (
         <SignInModal onLoginSuccess={handleLoginSuccess} />
       ) : (
