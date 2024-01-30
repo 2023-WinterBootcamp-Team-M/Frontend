@@ -362,9 +362,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         
 
         {bookmarkFolders.length === 0 ? (
-          <div className="flex flex-col w-full h-[60%] justify-evenly items-center">
+          <div className="flex flex-col w-full h-full justify-evenly items-center">
             <img src="https://i.ibb.co/xgbw95k/pngegg.png" alt="empty_img" className=" w-[30%] h-[40%]" />
-            <p className="text-center text-cliptab-blue font-bold text-lg">북마크를 추가해보세요!</p>
+            <p className="text-center text-cliptab-blue text-lg">북마크를 추가해보세요!</p>
           </div>
         ) : (
           <ul className="text-sm p-5 leading-10 ">
@@ -451,7 +451,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           {favoriteBookmarks.length === 0 ? (
             <div className="flex flex-col w-full h-60 justify-evenly items-center">
               <img src="https://i.ibb.co/LNy0Wnj/pngegg-1.png" alt="empty_img" className="w-[50%] h-[60%]" />
-              <p className="text-center text-cliptab-blue font-bold text-lg">즐겨찾기에 북마크를 추가해보세요!</p>
+              <p className="text-center text-cliptab-blue text-lg">즐겨찾기에 북마크를 추가해보세요!</p>
             </div>
           ) : (
             <ul className="text-sm leading-10 p-5">
