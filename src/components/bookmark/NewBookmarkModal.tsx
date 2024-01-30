@@ -57,7 +57,7 @@ const NewBookmarkModal: React.FC<NewBookmarkModalProps> = ({
             value={bookmarkName}
             onChange={(e) => setBookmarkName(e.target.value)}
             placeholder="북마크 이름을 입력하세요"
-            className={`rounded px-2 py-1 text-xs w-full text-gray-700 ${opt_theme ? "bg-dark-component focus:outline-none" : "border-2 border-cliptab-blue focus:outline-[#3e95ff]"}`}
+            className={`rounded px-2 py-1 text-xs w-full ${opt_theme ? "bg-dark-component focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
           />
         </label>
         <label className={`text-sm my-auto ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>
@@ -67,7 +67,7 @@ const NewBookmarkModal: React.FC<NewBookmarkModalProps> = ({
             value={bookmarkUrl}
             onChange={(e) => setBookmarkUrl(e.target.value)}
             placeholder="url을 입력하세요"
-            className={`rounded px-2 py-1 text-xs w-full text-gray-700 ${opt_theme ? "bg-dark-component focus:outline-none" : "border-2 border-cliptab-blue focus:outline-[#3e95ff]"}`}
+            className={`rounded px-2 py-1 text-xs w-full  ${opt_theme ? "bg-dark-component focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
           />
         </label>
 
