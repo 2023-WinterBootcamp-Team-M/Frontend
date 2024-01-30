@@ -32,9 +32,8 @@ export default function Panel({
       alert('로그인이 필요합니다.');
       return;
     }
-
-    // 로그인이 되어 있으면 탭 변경
     setTabIndex(index);
+    pageStore.setState({ pageIndex: index });
     openPanel(true);
   };
 
@@ -51,7 +50,7 @@ export default function Panel({
     onWidthChange(APP_EXTEND_WIDTH);
     // 페이지 인덱스에 따라 적절한 페이지를 렌더링하기 위해 tabIndex 업데이트
     setTabIndex(pageIndex);
-  }, [pageIndex, onWidthChange, isAlarm]);
+  }, [onWidthChange, isAlarm]);
 
   function openPanel(force?: boolean) {
     const newValue = force || !enabled;
