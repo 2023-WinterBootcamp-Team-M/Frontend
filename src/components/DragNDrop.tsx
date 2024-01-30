@@ -12,7 +12,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
   const [bookmarkName, setBookmarkName] = useState('');
   const [bookmarkUrl, setBookmarkUrl] = useState('');
   const [isEditBookmark, setIsEditBookmak] = useState(false);
-
+  const [editBookmarkIndex, setEditBookmarkIndex] = useState(-1);
   //드래그가 끝났을 때 호출되어 드래그가 끝났을때의 결과 저장
   const handleChange = (result: any) => {
     if (!result.destination) return;
@@ -85,10 +85,10 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                       <div
                         ref={popoverRef}
-                        className={`mx-auto w-[90%] h-fit rounded-xl shadow-xl mb-2 px-2 py-1 ${opt_theme ? "bg-dark-btn" : "bg-cliptab-blue"}`}
+                        className={`mx-auto w-[90%] h-fit rounded-xl shadow-xl mb-2 px-2 py-1 ${opt_theme ? "bg-[#424755]" : "bg-cliptab-blue"}`}
                         role="tooltip"
                       >
-                        {isEditBookmark ? (
+                        {isEditBookmark && editBookmarkIndex === i ? (
                           <div className='flex flex-col justify-center py-2'>
                             <div className='flex flex-row items-center w-full justify-around mb-2'>
                             <p className={`text-sm my-auto  ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>이름</p>
@@ -97,7 +97,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                               value={bookmarkName}
                               onChange={(e) => setBookmarkName(e.target.value)}
                               placeholder={e.name}
-                              className={`rounded px-2 py-1 text-xs w-[80%]  ${opt_theme ? "bg-dark-component focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
+                              className={`rounded px-2 py-1 text-xs w-[80%]  ${opt_theme ? "bg-dark-btn focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
                             />
                             </div>
                             <div className='flex flex-row items-center w-full justify-around mb-2'>
@@ -107,7 +107,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                               value={bookmarkUrl}
                               onChange={(e) => setBookmarkUrl(e.target.value)}
                               placeholder={e.url}
-                              className={`rounded px-2 py-1 text-xs w-[80%]  ${opt_theme ? "bg-dark-component focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
+                              className={`rounded px-2 py-1 text-xs w-[80%]  ${opt_theme ? "bg-dark-btn focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
                             />
                             </div>
                             <div className="flex w-full items-center justify-evenly mt-2">
@@ -118,7 +118,8 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                               수정
                             </button>
                             <button 
-                            onClick={() => setIsEditBookmak(false)}
+                            onClick={() => {setIsEditBookmak(false)
+                            setEditBookmarkIndex(-1)}}
                             className={` rounded-lg py-1 hover:opacity-90 text-sm w-[45%] ${opt_theme ? "bg-dark-text" : "bg-white text-cliptab-blue border border-cliptab-blue"}`}>취소</button>
                           </div>
                           </div>
@@ -156,6 +157,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                           setBookmarkName(e.name);
                                           setBookmarkUrl(e.url);
                                           setIsEditBookmak(true);
+                                          setEditBookmarkIndex(i);
                                         }}
                                         className="focus:outline-none w-5 h-5"
                                       />
