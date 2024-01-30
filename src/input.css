@@ -9,7 +9,13 @@
 }
 
 #contentDiv.dark {
-  @apply dark:text-white dark:bg-slate-700;
+  @apply dark:text-white dark:bg-[#121319];
+}
+
+@layer utilities {
+  .desaturate {
+    filter: grayscale(70%); /* 적절한 값을 사용하여 채도를 조절합니다. */
+  }
 }
 
 /* 팡파레 애니메이션 키 프레임 */

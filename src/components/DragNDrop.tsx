@@ -8,11 +8,11 @@ import { domain } from '../domain/domain';
 
 const DndContainer = ({ post, setPost, fetch }: any) => {
   const popoverRef = useRef<HTMLDivElement>(null);
-  const { opt_sum } = optStore();
+  const { opt_sum, opt_theme } = optStore();
   const [bookmarkName, setBookmarkName] = useState('');
   const [bookmarkUrl, setBookmarkUrl] = useState('');
   const [isEditBookmark, setIsEditBookmak] = useState(false);
-
+  const [editBookmarkIndex, setEditBookmarkIndex] = useState(-1);
   //드래그가 끝났을 때 호출되어 드래그가 끝났을때의 결과 저장
   const handleChange = (result: any) => {
     if (!result.destination) return;
@@ -85,41 +85,42 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                       <div
                         ref={popoverRef}
-                        className="mx-auto w-[90%] h-fit bg-cliptab-blue rounded-xl shadow-xl mb-2 px-2 py-1"
+                        className={`mx-auto w-[90%] h-fit rounded-xl shadow-xl mb-2 px-2 py-1 ${opt_theme ? "bg-[#424755]" : "bg-cliptab-blue"}`}
                         role="tooltip"
                       >
-                        {isEditBookmark ? (
+                        {isEditBookmark && editBookmarkIndex === i ? (
                           <div className='flex flex-col justify-center py-2'>
-                            <div className='flex flex-row items-center w-full'>
-                            <p className='text-cliptab-text text-xs mr-2'>이름</p>
+                            <div className='flex flex-row items-center w-full justify-around mb-2'>
+                            <p className={`text-sm my-auto  ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>이름</p>
                             <input
                               type="text"
                               value={bookmarkName}
                               onChange={(e) => setBookmarkName(e.target.value)}
                               placeholder={e.name}
-                              className='bg-[#dfebff] border-2 border-blue-400 rounded-md px-2 py-1 text-xs w-[85%] focus:outline-[#3e95ff] text-gray-700'
+                              className={`rounded px-2 py-1 text-xs w-[80%]  ${opt_theme ? "bg-dark-btn focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
                             />
                             </div>
-                            <div className='flex flex-row items-center w-full'>
-                            <p className='text-cliptab-text text-xs mr-2'>URL</p>             
+                            <div className='flex flex-row items-center w-full justify-around mb-2'>
+                            <p className={`text-sm my-auto  ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>URL</p>             
                             <input
                               type="text"
                               value={bookmarkUrl}
                               onChange={(e) => setBookmarkUrl(e.target.value)}
                               placeholder={e.url}
-                              className='bg-[#dfebff] border-2 border-blue-400 rounded-md px-2 py-1 text-xs w-[85%] focus:outline-[#3e95ff] text-gray-700'
+                              className={`rounded px-2 py-1 text-xs w-[80%]  ${opt_theme ? "bg-dark-btn focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
                             />
                             </div>
                             <div className="flex w-full items-center justify-evenly mt-2">
                             <button 
                             onClick={() => handleBookmarkEdit(bookmarkName, bookmarkUrl, e.folder_id, e.id)}
-                            className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'
+                            className={` rounded-lg py-1 hover:opacity-90 text-sm w-[45%] ${opt_theme ? "bg-dark-bg/30 text-white" : "bg-cliptab-blue text-white"}`}
                             >
                               수정
                             </button>
                             <button 
-                            onClick={() => setIsEditBookmak(false)}
-                            className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>취소</button>
+                            onClick={() => {setIsEditBookmak(false)
+                            setEditBookmarkIndex(-1)}}
+                            className={` rounded-lg py-1 hover:opacity-90 text-sm w-[45%] ${opt_theme ? "bg-dark-text" : "bg-white text-cliptab-blue border border-cliptab-blue"}`}>취소</button>
                           </div>
                           </div>
                         ) : (
@@ -129,7 +130,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                 <div className='w-full'>
                                   <div className="flex items-center -mb-4">
                                     <img className="w-4 h-4 mr-2 ml-1" src={e.icon} alt="Bookmark Icon" />
-                                    <a href={e.url} className="mr-1">
+                                    <a href={e.url} className={`mr-1 `}>
                                       {e.name}
                                     </a>
                                     <img
@@ -146,8 +147,8 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                     />
                                   </div>
                                   <div className="flex justify-between items-center w-[95%]">
-                                    <a href={e.url} className="underline text-gray-700 ml-1">
-                                      {e.url.length > 30 ? `${e.url.slice(0, 30)}...` : e.url}
+                                    <a href={e.url} className={`underline  ml-1 ${opt_theme ? "text-dark-text" : "text-gray-700"}`}>
+                                      {e.url.length > 23 ? `${e.url.slice(0, 23)}...` : e.url}
                                     </a>
                                     <div className="flex items-center">
                                       <img
@@ -156,6 +157,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                           setBookmarkName(e.name);
                                           setBookmarkUrl(e.url);
                                           setIsEditBookmak(true);
+                                          setEditBookmarkIndex(i);
                                         }}
                                         className="focus:outline-none w-5 h-5"
                                       />

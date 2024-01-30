@@ -41,7 +41,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const [editingFolderId, setEditingFolderId] = useState<number | null>(null);
   const { userId } = userIdStore();
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
-  const { opt_sum } = optStore();
+  const { opt_sum,opt_theme } = optStore();
 
   // 선택한 폴더 업데이트
   const handleFolderClick = (folder: BookmarkFolder) => {
@@ -256,43 +256,42 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
 
   return (
     <div className="flex flex-col h-screen items-center px-5 relative">
-
       <div className="w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue" />
       <div className="w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top" />
       <img //로고 이미지
-        className="w-[11.75rem] h-[4.8125rem] z-10"
-        src="https://i.ibb.co/d73mffp/clip-tab-3.png"
+        className={`w-[11.75rem] h-[4.8125rem] z-10 ${opt_theme ? "desaturate":""}`}
+        src={` ${opt_theme ? "https://i.ibb.co/YhgZ89r/Cliptab-1-4.png" : "https://i.ibb.co/d73mffp/clip-tab-3.png" }`}
         alt="clip_tab_logo"
       />
-      <p className="self-start py-2 text-cliptab-text">북마크 생성</p>
+      <p className={`self-start py-2 z-20 ${opt_theme ? "text-dark-text" : "text-cliptab-text"} `}>북마크 생성</p>
       <div
-        className={`flex flex-col items-center justify-evenly mx-auto w-full h-full bg-white rounded-[20px] shadow-xl mb-4`}
+        className={`flex flex-col items-center justify-evenly mx-auto w-full h-full rounded-[20px] py-4 shadow-xl mb-4 ${opt_theme ? "bg-dark-component" : "bg-white"}`}
       >
-        <div className="flex w-full h-[20%] justify-center">
+        <div className="flex w-full h-[20%] justify-center mb-2">
           <button
             onClick={handleFolderCreateClick}
-            className="bg-cliptab-blue text-white rounded-l-lg px-2 py-0 hover:opacity-90 text-sm"
+            className={`rounded-l-lg px-2 py-0 hover:opacity-90 text-sm ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             폴더 생성
           </button>
           <button
             onClick={handleBookmarkCreateClick}
-            className="bg-cliptab-blue text-white px-2 py-0 hover:opacity-90 text-sm"
+            className={`px-2 py-0 hover:opacity-90 text-sm ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             북마크 생성
           </button>
           <button
             onClick={handleAutoBookmarkCreateClick}
-            className="bg-cliptab-blue text-white rounded-r-lg px-2 py-0 hover:opacity-90 text-sm"
+            className={`rounded-r-lg px-2 py-0 hover:opacity-90 text-sm ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             자동분류 북마크 생성
           </button>
         </div>
         {
           !isFormVisible && !isBookmarkAuto && !isBookmarkFormVisible && (
-            <div className='text-cliptab-blue h-[60%] flex justify-evenly items-center flex-col'>
-            <img className="size-24" src="https://i.ibb.co/3M1P51n/free-sticker-folders-11384146.png" alt="free-sticker-folders-11384146"/>
-            <p className='text-cliptab-blue flex justify-center items-center'>북마크를 추가해보세요!</p>
+            <div className={`text-cliptab-blue h-[60%] flex justify-evenly items-center flex-col `}>
+            <img className="w-[20%]" src="https://i.ibb.co/3M1P51n/free-sticker-folders-11384146.png" alt="free-sticker-folders-11384146"/>
+            <p className={` flex justify-center items-center lg:text-sm xl:text-lg ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>북마크를 추가해보세요!</p>
             </div>
           )
         }
@@ -309,33 +308,33 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         {isBookmarkAuto && !isBookmarkFormVisible && !isFormVisible  &&(
         <form
           onSubmit={(event) => createBookmarkAuto(event, bookmarkName, bookmarkUrl, bookmarkFolders)}
-          className="flex flex-col justify-center mx-auto w-[90%] h-[60%] bg-white rounded-[20px] shadow-xl border-2 border-blue-400 p-4"
+          className={`flex flex-col justify-center mx-auto w-[90%] h-full rounded-[20px] shadow-xl  p-4 ${opt_theme ? " bg-dark-btn": "bg-white border-2 border-blue-400"}`}
         >
-          <label className="text-sm my-auto text-cliptab-blue">
+          <label className={`md:text-xs lg:text-xs my-auto  ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>
             북마크 이름
             <input
               type="text"
               value={bookmarkName}
               onChange={(e) => setBookmarkName(e.target.value)}
               placeholder="북마크 이름을 입력하세요"
-              className="border-2 border-blue-400 rounded px-2 py-1 text-xs w-full focus:outline-[#3e95ff] text-gray-700"
+              className={`rounded px-2 py-1 text-xs w-full ${opt_theme ? "bg-dark-component focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
             />
           </label>
-          <label className="text-sm my-auto text-cliptab-blue">
+          <label className={`md:text-xs lg:text-xs my-auto  ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>
             URL
             <input
               type="text"
               value={bookmarkUrl}
               onChange={(e) => setBookmarkUrl(e.target.value)}
               placeholder="url을 입력하세요"
-              className="border-2 border-blue-400 rounded px-2 py-1 text-xs w-full focus:outline-[#3e95ff] text-gray-700"
+              className={`rounded px-2 py-1 text-xs w-full ${opt_theme ? "bg-dark-component focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
             />
           </label>
           <div className='flex flex-row justify-between w-full mt-2'>
-          <button type="submit" className="bg-cliptab-blue text-white rounded-lg py-1 hover:opacity-90 text-sm w-[48%]">
+          <button type="submit" className={` rounded-lg py-1 hover:opacity-90 text-sm w-[48%] ${opt_theme ? "bg-dark-bg/30 text-white" : "bg-cliptab-blue text-white"}`}>
             생성
           </button>
-          <button type="reset" className="bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[48%]">
+          <button type="reset" className={` rounded-lg py-1 hover:opacity-90 text-sm w-[48%] ${opt_theme ? "bg-dark-text" : "bg-white text-cliptab-blue border border-cliptab-blue"}`}>
             취소
           </button>
           </div>
@@ -353,17 +352,17 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         setIsBookmarkFormVisible={setIsBookmarkFormVisible}
       />)}
       </div>
-      <p className="self-start py-2 text-gray-400">북마크</p>
+      <p className={`self-start py-2 ${opt_theme ? "text-dark-text" : "text-gray-400"}`}>북마크</p>
 
       <div
-        className={`mx-auto w-full min-h-60 max-h-80 overflow-auto  bg-white rounded-[20px] shadow-xl mb-4 py-2 ${
+        className={`mx-auto w-full min-h-60 max-h-80 overflow-auto rounded-[20px] shadow-xl mb-4 py-2 ${
           selectedFolder ? 'h-max' : 'h-min'
-        }`}
+        } ${opt_theme ? "bg-dark-component":"bg-white"}`}
       >
         
 
         {bookmarkFolders.length === 0 ? (
-          <div className="flex flex-col w-full h-60 justify-evenly items-center">
+          <div className="flex flex-col w-full h-[60%] justify-evenly items-center">
             <img src="https://i.ibb.co/xgbw95k/pngegg.png" alt="empty_img" className=" w-[30%] h-[40%]" />
             <p className="text-center text-cliptab-blue font-bold text-lg">북마크를 추가해보세요!</p>
           </div>
@@ -377,24 +376,24 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                       onSubmit={(e) => {
                       handleFolderEditSubmit(e, folder.id)
                       setEditingFolderId(null)}}
-                      className="bg-cliptab-blue rounded-xl px-2 py-2 w-full flex flex-col justify-center shadow-lg"
+                      className={`flex flex-col justify-center mx-auto w-full h-[60%]  rounded-[20px] shadow-xl  p-4 ${opt_theme ? " bg-dark-btn": "bg-white border-2 border-blue-400"}`}
                     >
                       <div className='flex justify-evenly items-center w-full'>
-                      <p className='text-xs text-cliptab-text'>북마크 이름</p>
+                      <p className={`text-sm my-auto  ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>북마크 이름</p>
                       <input
                         type="text"
                         value={folderName}
                         onChange={(e) => setFolderName(e.target.value)}
-                        className='bg-[#dfebff] border-2 border-blue-400 rounded-md px-2 py-1 text-xs focus:outline-[#3e95ff] text-gray-700 w-[70%] shadow-inner'
+                        className={`rounded px-2 py-1 text-xs w-[60%] ${opt_theme ? "bg-dark-component focus:outline-none text-white" : "border-2 border-cliptab-blue focus:outline-[#3e95ff] text-gray-700"}`}
                       />
                       </div>
                       <div className='flex justify-evenly mt-4'>
                       <button
                       type='submit'
-                      className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>수정</button>
+                      className={` rounded-lg py-1 hover:opacity-90 text-sm w-[45%] ${opt_theme ? "bg-dark-bg/30 text-white" : "bg-cliptab-blue text-white"}`}>수정</button>
                       <button 
                       onClick={()=>{setEditingFolderId(null)}}
-                      className='bg-white text-cliptab-blue border border-cliptab-blue rounded-lg py-1 hover:opacity-90 text-sm w-[45%]'>취소</button>
+                      className={` rounded-lg py-1 hover:opacity-90 text-sm w-[45%] ${opt_theme ? "bg-dark-text" : "bg-white text-cliptab-blue border border-cliptab-blue"}`}>취소</button>
                       </div>
                     </form>
                   ) : (
@@ -428,7 +427,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                   )}
                 </li>
                 {selectedFolder && selectedFolder.id === folder.id && (
-                  <div className="w-[100%] h-[16rem] bg-[#DFEBFF] rounded-[20px] overflow-auto shadow-xl mb-4 mx-auto py-4">
+                  <div className={`w-[100%] h-[16rem] rounded-[20px] overflow-auto shadow-xl mb-4 mx-auto py-4 ${opt_theme ? "bg-dark-btn" : "bg-[#DFEBFF] "}`}>
                     {/* 선택된 폴더의 북마크 목록 */}
                     <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
                       {bookmarks.map((bookmark) => (
@@ -445,9 +444,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         )}
       </div>
       <div className="flex flex-col items-start mx-auto w-full h-full">
-        <p className="text-gray-400 self-start py-2">즐겨찾기한 북마크</p>
+        <p className={`self-start py-2 ${opt_theme ? "text-dark-text" : "text-gray-400"}`}>즐겨찾기한 북마크</p>
         <div
-          className={`mx-auto mt-4 w-full bg-white rounded-[20px] shadow-xl mb-4 h-min min-h-60`}
+          className={`mx-auto mt-4 w-full rounded-[20px] shadow-xl mb-4 h-full ${opt_theme ? "bg-dark-component" : "bg-white"}`}
         >
           {favoriteBookmarks.length === 0 ? (
             <div className="flex flex-col w-full h-60 justify-evenly items-center">

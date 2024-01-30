@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { isAlarmStoare, pageStore } from './store/store';
+import { isAlarmStoare, optStore, pageStore } from './store/store';
 import Button from './components/Button';
 import StartPage from './pages/start';
 import SettingPage from './pages/setting/settingpage';
@@ -24,7 +24,7 @@ export default function Panel({
   const [tabIndex, setTabIndex] = useState(0);
   const { isAlarm } = isAlarmStoare();
   const userId = userIdStore((state) => state.userId);
-
+  const { opt_theme } = optStore();
   const handleTabClick = (index) => {
     // 로그인이 되어 있지 않은 경우
     if (!userId) {
@@ -75,7 +75,7 @@ export default function Panel({
       className="absolute top-0 right-0 bottom-0 z-max bg-white ease-in-out duration-300 overflow-hidden -z-10"
     >
       {/* 오른쪽에 고정된 메뉴바 섹션 */}
-      <div className="absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 bg-white">
+      <div className={`absolute top-0 right-0 bottom-0 flex-none w-[50px] border-none flex flex-col ease-linear space-y-3 p-1 ${opt_theme ? " bg-dark-component  desaturate" : "bg-white"}`}>
         {pages.map(({ number, image }, index) => (
           <Button
             key={index}
@@ -102,7 +102,7 @@ export default function Panel({
           <div style={{ width: '100%', height: '100%' }}>{React.createElement(pages[tabIndex].component)}</div>
         )}
       </div>
-      <div className="absolute bottom-0 right-0 w-[50px] z-10 flex justify-center items-center p-1">
+      <div className={`absolute bottom-0 right-0 w-[50px] z-10 flex justify-center items-center p-1 ${opt_theme ? " bg-dark-component  desaturate" : "bg-white"}`}>
         <button className="mb-1" onClick={() => openPanel()}>
           <span>
             {enabled ? (

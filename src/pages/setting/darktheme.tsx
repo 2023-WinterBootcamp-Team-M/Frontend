@@ -35,7 +35,7 @@ const ThemeToggle = () => {
         toggleTheme();
         PutSetting(userId, opt_sum, opt_start, opt_theme, opt_alarm);
       }}
-      className="w-[48%] flex flex-col justify-evenly items-center cursor-pointer text-[1.2rem] mb-4  bg-white rounded-[20px] shadow-xl text-sm font-semibold text-cliptab-blue"
+      className={`w-[48%] flex flex-col justify-evenly items-center cursor-pointer text-[1.2rem] mb-4 rounded-[20px] shadow-xl text-sm font-semibold text-cliptab-blue ${opt_theme ? "bg-dark-component": "bg-white"}`}
     >
       <img
         src={opt_theme ? Icons.lightTheme : Icons.darkTheme}
@@ -43,8 +43,8 @@ const ThemeToggle = () => {
         style={{ width: '20px', height: '20px', marginRight: '8px' }}
       />
       <div>
-      <p className='text-sm text-cliptab-blue font-bold'>테마 설정</p>
-      <p className={` ${opt_theme ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>
+      <p className={`text-sm font-bold ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>테마 설정</p>
+      <p className={` ${opt_theme ? 'text-[#747ED9]' : ' text-[#747ED9]'} text-lg mt-4 `}>
               {opt_theme ? '어두운 테마' : '밝은 테마'}
       </p>
       </div>

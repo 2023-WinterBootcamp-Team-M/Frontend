@@ -10,13 +10,14 @@ type SettingItemProps = {
 };
 
 function SettingItem({ children, onClick, iconSrc }: SettingItemProps) {
+  const {opt_theme} = optStore();
   return (
     <div
       onClick={onClick}
-      className="w-[48%] justify-evenly flex flex-col mb-4 px-2 items-center text-gray-700 cursor-pointer text-[1.2rem]  bg-white rounded-[20px] shadow-xl"
+      className={`w-[48%] justify-evenly flex flex-col mb-4 px-2 items-center text-gray-700 cursor-pointer text-[1.2rem] rounded-[20px] shadow-xl ${opt_theme ? "bg-dark-component":"bg-white" }`}
     >
       <img src={iconSrc} alt="Icon" className="" style={{ width: '20px', height: '20px' }} />
-      <p className="text-sm text-cliptab-blue font-bold">{children}</p>
+      <p className={`text-sm font-bold ${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>{children}</p>
     </div>
   );
 }
@@ -87,34 +88,33 @@ export default function SettingPage() {
 
   return (
     <div className={`flex flex-col items-center h-screen relative px-5 ${isDarkTheme ? 'dark' : ''}`}>
-
-      <div className="w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue" />
-      <div className="w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top" />
+      <div className={`w-full h-[19%] absolute -z-20 rounded-b-md ${opt_theme ? "bg-[#090a0d]" : "bg-cliptab-blue"}`} />
+      <div className={`w-full h-[82%] bottom-0 rounded-t-lg absolute -z-10 shadow-top ${opt_theme ? "bg-dark-btn" : "bg-[#fcfcfc]"}`} />
       <img //로고 이미지
-        className="w-[11.75rem] h-[4.8125rem] z-10"
-        src="https://i.ibb.co/d73mffp/clip-tab-3.png"
+        className={`w-[11.75rem] h-[4.8125rem] z-10 ${opt_theme ? "desaturate":""} `}
+        src={` ${opt_theme ? "https://i.ibb.co/YhgZ89r/Cliptab-1-4.png" : "https://i.ibb.co/d73mffp/clip-tab-3.png" }`}
         alt="clip_tab_logo"
       />
-      <p className=" self-start py-2 z-20 text-cliptab-text ">설정</p>
+      <p className={`self-start py-2 z-20 ${opt_theme ? "text-dark-text" : "text-cliptab-text"} `}>설정</p>
       <div //이미지 추출 창
-        className="w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-center items-center z-20"
+        className={`w-full h-[10rem] rounded-[20px] shadow-lg mb-4 flex flex-col justify-center items-center z-20 ${opt_theme ? " bg-dark-component" : "bg-white"}`}
       >
         <img //작은 로고
-          className=" size-24 animate-bounce"
+          className={`size-24 animate-bounce ${opt_theme ? "desaturate" : ""}`}
           src="https://i.ibb.co/TkGRQ90/icon4-8-1-2.png"
         />
-        <p className="text-cliptab-blue">계정을 관리하고 옵션을 선택할 수 있어요!</p>
+        <p className={`${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>계정을 관리하고 옵션을 선택할 수 있어요!</p>
       </div>
 
       <p className="self-start py-2 text-gray-400">내 계정</p>
-      <div className="w-full bg-white rounded-[20px] shadow-xl flex flex-row itmes-center mb-5 py-4 px-2">
+      <div className={`w-full rounded-[20px] shadow-xl flex flex-row itmes-center mb-5 py-4 px-2 ${opt_theme ? " bg-dark-component" : "bg-white"}`}>
         <div className="flex items-center">
           <img className="size-11 rounded-full mx-4 my-1 w-7 h-7 mb-2" src="https://i.ibb.co/pK0XHr7/user.png" />
         </div>
 
         <div className="flex flex-col">
           <div className="flex flex-row items-center">
-            <div className=" text-gray-950 font-semibold my-1">{userName}</div>
+            <div className={`font-semibold my-1 ${opt_theme ? "text-[#a1a5b6]" : "text-gray-950"}`}>{userName}</div>
             <img
               src="https://i.ibb.co/4KDg9K1/edit-02.png"
               className="ml-2 h-4 hover:cursor-pointer"
@@ -127,7 +127,7 @@ export default function SettingPage() {
         </div>
       </div>
       <p className="text-gray-400 self-start py-2">옵션</p>
-      <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-gray-800' : 'bg-transparent'}`}>
+      <div className={`flex w-full h-[31rem] ${isDarkTheme ? 'bg-dark-component' : 'bg-transparent'}`}>
         <div className="flex flex-row text-center flex-wrap justify-between">
           <SettingItem
             iconSrc={icons.summary}
@@ -138,7 +138,7 @@ export default function SettingPage() {
             }}
           >
             요약 설정
-            <p className={` ${opt_sum ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>
+            <p className={` ${opt_sum ? 'text-[#9799FF]' : ' text-[#747ED9]'} text-lg mt-4 `}>
               {opt_sum ? '3줄 요약' : '6줄 요약'}
             </p>
           </SettingItem>
@@ -154,7 +154,7 @@ export default function SettingPage() {
             }}
           >
             시작 페이지 변경
-            <p className={` ${opt_start ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>
+            <p className={` ${opt_start ? 'text-[#9799FF]' : ' text-[#747ED9]'} text-lg mt-4 `}>
               {opt_start ? '북마크' : '이미지 클립'}
             </p>
           </SettingItem>
@@ -171,7 +171,7 @@ export default function SettingPage() {
             }}
           >
             북마크 알림 주기
-            <p className={` ${opt_alarm ? '클래스1' : ' text-[#747ED9]'} text-lg mt-4 `}>
+            <p className={` ${opt_alarm ? 'text-[#9799FF]' : ' text-[#747ED9]'} text-lg mt-4 `}>
               {opt_alarm ? '15일' : '30일'}
             </p>
           </SettingItem>

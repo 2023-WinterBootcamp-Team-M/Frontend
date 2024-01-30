@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NotificationItem from './notificationItem';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
-import { alarmStoare, isAlarmStoare, userIdStore } from '../../store/store';
+import { alarmStoare, isAlarmStoare, optStore, userIdStore } from '../../store/store';
 import { domain } from '../../domain/domain';
 
 //알림 조회
@@ -61,6 +61,7 @@ export default function alarmpage() {
   const [page, setPage] = useState(1); // 페이지 번호 초기값
   const [ref, inView] = useInView();
   const { userId } = userIdStore();
+  const { opt_theme } = optStore();
 
   const loadMoreData = () => {
     //setNotificationData((prev) => [...prev, ...newData]);
@@ -87,20 +88,20 @@ export default function alarmpage() {
       <div className="w-full h-[19%] absolute -z-20 rounded-b-md bg-cliptab-blue" />
       <div className="w-full h-[82%] bottom-0 rounded-t-lg bg-[#fcfcfc] absolute -z-10 shadow-top" />
       <img //로고 이미지
-        className="w-[11.75rem] h-[4.8125rem] z-10"
-        src="https://i.ibb.co/d73mffp/clip-tab-3.png"
+        className={`w-[11.75rem] h-[4.8125rem] z-10 ${opt_theme ? "desaturate":""} `}
+        src={` ${opt_theme ? "https://i.ibb.co/YhgZ89r/Cliptab-1-4.png" : "https://i.ibb.co/d73mffp/clip-tab-3.png" }`}
         alt="clip_tab_logo"
       />
       <div className="h-full w-full">
-        <p className=" self-start py-2 z-20 text-cliptab-text ">알림</p>
+        <p className={`self-start py-2 z-20 ${opt_theme ? "text-dark-text" : "text-cliptab-text"} `}>알림</p>
         <div //이미지 추출 창
-          className="w-full h-[10rem] rounded-[20px] shadow-lg mb-4 bg-white flex flex-col justify-center items-center z-20"
+          className={`w-full h-[10rem] rounded-[20px] shadow-lg mb-4 flex flex-col justify-center items-center z-20 ${opt_theme ? " bg-dark-component" : "bg-white"}`}
         >
           <img //작은 로고
-            className=" size-24 animate-bounce"
+            className={`size-24 animate-bounce ${opt_theme ? "desaturate" : ""}`}
             src="https://i.ibb.co/TkGRQ90/icon4-8-1-2.png"
           />
-          <p className="text-cliptab-blue">사용하지 않는 북마크를 알려드릴게요!</p>
+          <p className={`${opt_theme ? "text-dark-text" : "text-cliptab-blue"}`}>사용하지 않는 북마크를 알려드릴게요!</p>
         </div>
         {alarmList.length === 0 ? (
           <>

@@ -7,6 +7,10 @@ module.exports = {
       colors: {
         'cliptab-blue': '#62a9ff',
         'cliptab-text': '#f0f6ff',
+        'dark-bg': '#121319',
+        'dark-component':'#1b1d25',
+        'dark-btn':'#2e313d',
+        'dark-text' : '#878c9e'
       },
       animation: {
         pop: 'pop 1s ease-in-out',
