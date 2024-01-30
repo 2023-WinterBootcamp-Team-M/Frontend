@@ -427,7 +427,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                   )}
                 </li>
                 {selectedFolder && selectedFolder.id === folder.id && (
-                  <div className="w-[100%] h-[16rem] bg-[#DFEBFF] rounded-[20px] overflow-auto shadow-xl mb-4 mx-auto py-4">
+                  <div className={`w-[100%] h-[16rem] rounded-[20px] overflow-auto shadow-xl mb-4 mx-auto py-4 ${opt_theme ? "bg-dark-btn" : "bg-[#DFEBFF] "}`}>
                     {/* 선택된 폴더의 북마크 목록 */}
                     <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
                       {bookmarks.map((bookmark) => (

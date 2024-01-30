@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { domain } from '../domain/domain';
+import { optStore } from '../store/store';
 
 interface BookmarkFolder {
   id: number;
@@ -23,7 +24,8 @@ const ClipBookmarkDropdown = ({ userId, onSelectBookmark }) => {
   const [selectedFolder, setSelectedFolder] = useState<BookmarkFolder | null>(null);
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [showBookmark, setShowBookmarks] = useState(false);
-
+  const { opt_theme } = optStore();
+  
   useEffect(() => {
     handleFolderFetch(userId);
   }, [userId]);
