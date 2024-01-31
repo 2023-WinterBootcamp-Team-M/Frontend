@@ -139,7 +139,7 @@ export default function SettingPage() {
           >
             요약 설정
             <p className={` ${opt_sum ? 'text-[#9799FF]' : ' text-[#747ED9]'} text-lg mt-4 `}>
-              {opt_sum ? '3줄 요약' : '6줄 요약'}
+              {opt_sum ? '짧은 요약' : '긴 요약'}
             </p>
           </SettingItem>
           {currentDropdown === 'summary' && (
