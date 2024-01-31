@@ -265,24 +265,24 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
       />
       <p className={`self-start py-2 z-20 ${opt_theme ? "text-dark-text" : "text-cliptab-text"} `}>북마크 생성</p>
       <div
-        className={`flex flex-col items-center justify-evenly mx-auto w-full h-full rounded-[20px] py-4 shadow-xl mb-4 ${opt_theme ? "bg-dark-component" : "bg-white"}`}
+        className={`flex flex-col items-center justify-evenly mx-auto w-full h-full rounded-[20px] py-2 shadow-xl mb-4 ${opt_theme ? "bg-dark-component" : "bg-white"}`}
       >
-        <div className="flex w-full h-[20%] justify-center mb-2">
+        <div className="flex w-[95%] h-[20%] justify-center mb-2 mx-auto">
           <button
             onClick={handleFolderCreateClick}
-            className={`rounded-l-lg px-2 py-0 hover:opacity-90 text-sm ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
+            className={`rounded-l-lg px-2 py-0 hover:opacity-90 text-xs ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             폴더 생성
           </button>
           <button
             onClick={handleBookmarkCreateClick}
-            className={`px-2 py-0 hover:opacity-90 text-sm ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
+            className={`px-2 py-0 hover:opacity-90 text-xs ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             북마크 생성
           </button>
           <button
             onClick={handleAutoBookmarkCreateClick}
-            className={`rounded-r-lg px-2 py-0 hover:opacity-90 text-sm ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
+            className={`rounded-r-lg px-2 py-0 hover:opacity-90 text-xs ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             자동분류 북마크 생성
           </button>
@@ -364,10 +364,10 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
         {bookmarkFolders.length === 0 ? (
           <div className="flex flex-col w-full h-full justify-evenly items-center">
             <img src="https://i.ibb.co/xgbw95k/pngegg.png" alt="empty_img" className=" w-[30%] h-[40%]" />
-            <p className="text-center text-cliptab-blue text-lg">북마크를 추가해보세요!</p>
+            <p className="text-center text-cliptab-blue lg:text-sm xl:text-lg">북마크를 추가해보세요!</p>
           </div>
         ) : (
-          <ul className="text-sm p-5 leading-10 ">
+          <ul className="text-sm leading-10 h-full w-[80%] mx-auto">
             {bookmarkFolders.map((folder) => (
               <React.Fragment key={folder.id}>
                 <li className="flex items-center w-full justify-between">
@@ -399,7 +399,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                   ) : (
                     <>
                       <div className="flex flex-row items-center">
-                        <img className="w-4 h-4 mr-2" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
+                        <img className="w-4 h-4 mr-2 flex items-end" src="https://i.ibb.co/nsvNYV1/folder.png" alt="Folder Icon" />
                         <p
                           className="cursor-pointer ml-3"
                           onClick={() => {
@@ -417,7 +417,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                           className="focus:outline-none w-5 h-5"
                         />
                         <img
-                          className="focus:outline-none w-5 h-5 ml-4"
+                          className="focus:outline-none w-5 h-5 ml-2"
                           src="https://i.ibb.co/sFMqmQf/delete-2.png"
                           onClick={() => handleFolderDelete(folder.id)}
                         />
@@ -427,7 +427,7 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
                   )}
                 </li>
                 {selectedFolder && selectedFolder.id === folder.id && (
-                  <div className={`w-[100%] h-[16rem] rounded-[20px] overflow-auto shadow-xl mb-4 mx-auto py-4 ${opt_theme ? "bg-dark-btn" : "bg-[#DFEBFF] "}`}>
+                  <div className={`w-full h-60 rounded-[20px] overflow-auto shadow-xl mb-4 mx-auto py-2 ${opt_theme ? "bg-dark-btn" : "bg-[#DFEBFF] "}`}>
                     {/* 선택된 폴더의 북마크 목록 */}
                     <DndContainer post={bookmarks} setPost={setBookmarks} fetch={fetchFavorite}>
                       {bookmarks.map((bookmark) => (
@@ -443,18 +443,18 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
           </ul>
         )}
       </div>
-      <div className="flex flex-col items-start mx-auto w-full h-full">
+      <div className="flex flex-col items-start mx-auto w-full h-full my-auto pb-2">
         <p className={`self-start py-2 ${opt_theme ? "text-dark-text" : "text-gray-400"}`}>즐겨찾기한 북마크</p>
         <div
-          className={`mx-auto mt-4 w-full rounded-[20px] shadow-xl mb-4 h-full ${opt_theme ? "bg-dark-component" : "bg-white"}`}
+          className={`mx-auto my-auto w-full rounded-[20px] shadow-xl h-full flex justify-center ${opt_theme ? "bg-dark-component" : "bg-white"}`}
         >
           {favoriteBookmarks.length === 0 ? (
-            <div className="flex flex-col w-full h-60 justify-evenly items-center">
+            <div className="flex flex-col w-full h-full justify-evenly items-center">
               <img src="https://i.ibb.co/LNy0Wnj/pngegg-1.png" alt="empty_img" className="w-[50%] h-[60%]" />
-              <p className="text-center text-cliptab-blue text-lg">즐겨찾기에 북마크를 추가해보세요!</p>
+              <p className="text-center text-cliptab-blue lg:text-sm xl:text-lg">즐겨찾기에 북마크를 추가해보세요!</p>
             </div>
           ) : (
-            <ul className="text-sm leading-10 p-5">
+            <ul className="text-sm leading-10 w-[80%] h-[80%] mx-auto my-auto">
               {favoriteBookmarks.map((favorite) => (
                 <li key={favorite.name} className="flex items-center">
                   <img className="w-4 h-4 mr-2" src={favorite.icon} alt={`${favorite.name}-icon`} />
