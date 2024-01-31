@@ -112,7 +112,7 @@ export default function ClipBoardPage(){
         </div>}
         </div>
         <input //링크 입력창
-          className={`w-[90%] h-11 mx-4 px-4 rounded-lg text-xs shadow-lg  ${opt_theme ? "bg-dark-btn/50 focus:outline-none" : "border-2 border-cliptab-blue focus:outline-[#3e95ff]"}`}
+          className={`w-[90%] h-11 mx-auto px-4 rounded-lg text-xs shadow-lg  ${opt_theme ? "bg-dark-btn/50 focus:outline-none" : "border-2 border-cliptab-blue focus:outline-[#3e95ff]"}`}
           type="text"
           placeholder="이미지를 추출할 페이지의 url을 입력하세요"
           onChange={handleInputChange}
@@ -183,7 +183,6 @@ export default function ClipBoardPage(){
           ))}
         </ul>
         )}
-        
         <Button
           variant="contained"
           onClick={(event) => DeleteAllImages(event, clipboardId, setClipImages)}
