@@ -85,7 +85,7 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                     <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
                       <div
                         ref={popoverRef}
-                        className={`mx-auto w-[90%] h-fit rounded-xl shadow-xl mb-2 px-2 py-1 ${opt_theme ? "bg-[#424755]" : "bg-cliptab-blue"}`}
+                        className={`mx-auto w-[90%] h-fit rounded-2xl shadow-xl my-auto mb-2 px-2 pt-1 pb-2 ${opt_theme ? "bg-[#424755]" : "bg-cliptab-blue"}`}
                         role="tooltip"
                       >
                         {isEditBookmark && editBookmarkIndex === i ? (
@@ -124,32 +124,38 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                           </div>
                           </div>
                         ) : (
-                          <li key={e.id} className="flex items-center ml-2 w-full">
+                          <li key={e.id} className="flex items-center w-full justify-around">
                             <div className='w-full'>
                               <ToolTip title={opt_sum ? e.short_summary : e.long_summary}>
-                                <div className='w-full'>
-                                  <div className="flex items-center -mb-4">
-                                    <img className="w-4 h-4 mr-2 ml-1" src={e.icon} alt="Bookmark Icon" />
+                                <div className='w-full p-1'>
+                                  <div className="flex items-center justify-between w-full">
+                                    <div className='flex items-center'>
+                                    <img className="w-4 h-4 mr-2" src={e.icon} alt="Bookmark Icon" />
                                     <a href={e.url} className={`mr-1 `}>
                                       {e.name}
                                     </a>
+                                    </div>
+                                    <div className='flex items-center'>
                                     <img
                                       src={
                                         e.favorite
                                           ? 'https://i.ibb.co/L0nwsr3/Group-1000002328.png'
                                           : 'https://i.ibb.co/5LQSpts/star.png'
                                       }
-                                      className="ml-1 mb-1 focus:outline-none w-4 h-4"
+                                      className="focus:outline-none w-4 h-4"
                                       onClick={async () => {
                                         await patchFavorite(e.id);
                                         fetch();
                                       }}
                                     />
+                                    </div>
                                   </div>
-                                  <div className="flex justify-between items-center w-[95%]">
-                                    <a href={e.url} className={`underline  ml-1 ${opt_theme ? "text-dark-text" : "text-gray-700"}`}>
+                                  <div className="flex justify-between items-center w-full">
+                                    <div className='flex'>
+                                    <a href={e.url} className={`underline text-xs  ${opt_theme ? "text-dark-text" : "text-gray-700"}`}>
                                       {e.url.length > 23 ? `${e.url.slice(0, 23)}...` : e.url}
                                     </a>
+                                    </div>
                                     <div className="flex items-center">
                                       <img
                                         src="https://i.ibb.co/4KDg9K1/edit-02.png"
@@ -159,10 +165,10 @@ const DndContainer = ({ post, setPost, fetch }: any) => {
                                           setIsEditBookmak(true);
                                           setEditBookmarkIndex(i);
                                         }}
-                                        className="focus:outline-none w-5 h-5"
+                                        className="focus:outline-none w-4 h-4"
                                       />
                                       <img
-                                        className="ml-2 focus:outline-none w-5 h-5"
+                                        className="focus:outline-none w-4 h-4"
                                         src="https://i.ibb.co/sFMqmQf/delete-2.png"
                                         onClick={() => handleBookmarkDelete(e.id, e.folder_id)}
                                       />
