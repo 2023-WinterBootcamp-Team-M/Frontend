@@ -1,6 +1,7 @@
 {
-  "short_name": "react-chrome-extension-template-side-panel",
-  "name": "React Chrome Extension Template: Side Panel",
+  "short_name": "ClipTab",
+  "name": "ClipTab",
+  "description": "클립탭을 사용해서 북마크를 편리하게 관리하고, 이미지를 사용하세요!",
   "version": "0.2.0",
   "manifest_version": 3,
   "background": {
@@ -17,6 +18,11 @@
       "js": ["dist/index.6099912e.js"]
     }
   ],
-  "permissions": ["bookmarks", "storage", "scripting", "tabs", "activeTab"],
-  "icons": {}
+  "permissions": ["tabs"],
+  "icons": {
+    "16": "icons/cliptab16.png",
+    "48": "icons/cliptab48.png",
+    "64": "icons/cliptab64.png",
+    "128": "icons/cliptab128.png"
+  }
 }
