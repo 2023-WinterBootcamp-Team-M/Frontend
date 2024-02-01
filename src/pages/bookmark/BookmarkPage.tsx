@@ -43,6 +43,9 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
   const { favoriteBookmarks, setFavoriteBookmarks } = favoriteStore();
   const { opt_sum,opt_theme } = optStore();
 
+  const getURL =  () => {
+    setBookmarkUrl(window.location.href);
+  }
   // 선택한 폴더 업데이트
   const handleFolderClick = (folder: BookmarkFolder) => {
     if (selectedFolder && selectedFolder.id === folder.id) {
@@ -275,13 +278,18 @@ const BookmarkPage: React.FC<BookmarkPageProps> = ({ name }) => {
             폴더 생성
           </button>
           <button
-            onClick={handleBookmarkCreateClick}
+            onClick={()=>
+              {handleBookmarkCreateClick()
+              getURL()
+            }}
             className={`px-2 py-0 hover:opacity-90 text-xs ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             북마크 생성
           </button>
           <button
-            onClick={handleAutoBookmarkCreateClick}
+            onClick={()=>{
+            handleAutoBookmarkCreateClick()
+            getURL()}}
             className={`rounded-r-lg px-2 py-0 hover:opacity-90 text-xs ${opt_theme ? "bg-dark-btn text-dark-text" : "bg-cliptab-blue text-white"}`}
           >
             자동분류 북마크 생성
